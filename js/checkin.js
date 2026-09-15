@@ -1670,13 +1670,14 @@ function setupChatbotChannel() {
       const data = await res.json();
       const botText = data.reply || data.bot_reply || data.bot_response || "I hear you, and I am right here with you.";
 
-      // Record to history
+      // Record to in-memory multi-turn history for conversational continuity
+      chatHistory.push({ role: 'user', content: message, distress_score: data.dynamic_distress_indicator || 20 });
+      chatHistory.push({ role: 'bot', content: botText.replace(/<[^>]*>?/gm, '') });
+      if (chatHistory.length > 20) chatHistory.splice(0, chatHistory.length - 20);
+
+      // Persist to local turns storage if helper is present
       if (typeof saveTurnToHistory === 'function') {
         saveTurnToHistory(message, botText, data.severity_level || 'low', activeLang);
-      } else {
-        chatHistory.push({ role: 'user', content: message, distress_score: data.dynamic_distress_indicator || 20 });
-        chatHistory.push({ role: 'bot', content: botText.replace(/<[^>]*>?/gm, '') });
-        if (chatHistory.length > 20) chatHistory.splice(0, chatHistory.length - 20);
       }
       // Auto Check-In Enablement: ONLY when High Priority Distress / Crisis is detected (Audio Request)
       if (data.severity_level === 'high' || data.is_crisis_flag === true) {
@@ -1888,7 +1889,7 @@ function setupChatbotChannel() {
     // 1. Suggestion / Quick chips
     const chip = e.target.closest('.chat-action-chip');
     if (chip) {
-      const quick = chip.getAttribute('data-quick');
+      const quick = chip.getAttribute('data-quick') || chip.getAttribute('data-action') || chip.textContent.trim();
       if (quick) handleSendMessage(quick);
       return;
     }
@@ -2158,8 +2159,7 @@ function setupChatbotChannel() {
   async function triggerProactiveCheckin() {
     if (!isProactiveCrisisMonitoringActive || hasProactiveCheckinFiredForCurrentCrisis) return;
 
-    // Disarm IMMEDIATELY so it fires ONLY ONCE as requested by user
-    hasProactiveCheckinFiredForCurrentCrisis = true;
+    // Disarm timer & countdown intervals
     isProactiveCrisisMonitoringActive = false;
     if (proactiveTimer) {
       clearTimeout(proactiveTimer);
@@ -2169,10 +2169,17 @@ function setupChatbotChannel() {
       clearInterval(proactiveCountdownInterval);
       proactiveCountdownInterval = null;
     }
-    updateProactiveBadgeUI();
+
+    const activeLang = (langSelect ? langSelect.value : 'EN').toUpperCase();
+    const defaultCrisisCheckin = {
+      "EN": "Gentle Check-In: I am still thinking about you and want to make sure you are safe. How are you holding up right now? Remember, Counsellor Dr. Priya Nair and I are right here with you.",
+      "HI": "सहानुभूतिपूर्ण संपर्क: मैं अभी भी आपके बारे में सोच रहा हूँ और सुनिश्चित करना चाहता हूँ कि आप सुरक्षित हैं। इस समय आपकी स्थिति कैसी है? परामर्शदाता डॉ. प्रिया नायर और मैं आपके साथ हैं।",
+      "TA": "அன்பான கவனிப்பு: நான் உங்களைப் பற்றியே சிந்தித்துக் கொண்டிருக்கிறேன், நீங்கள் பாதுகாப்பாக இருப்பதை உறுதி செய்ய விரும்புகிறேன். இப்போது நீங்கள் எப்படி இருக்கிறீர்கள்? ஆலோசகர் டாக்டர் பிரியா நாயர் மற்றும் நான் உங்களுடன் இருக்கிறோம்."
+    };
+    const fallbackMsg = defaultCrisisCheckin[activeLang] || defaultCrisisCheckin["EN"];
+    let proactiveMsg = fallbackMsg;
 
     try {
-      const activeLang = (langSelect ? langSelect.value : 'EN').toUpperCase();
       const token = getAuthToken();
       const headers = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -2187,31 +2194,77 @@ function setupChatbotChannel() {
         })
       });
 
-      if (!res.ok) return;
-      const data = await res.json();
-      const proactiveMsg = data.proactive_message || "Gentle Check-In: I'm still thinking about you and want to make sure you are safe. How are you holding up right now?";
-
-      // Render proactive bot bubble
-      const bubble = document.createElement('div');
-      bubble.className = 'chat-bubble chat-bubble-bot proactive-checkin-bubble';
-      bubble.innerHTML = `
-        <div><span class="proactive-checkin-badge"><i class="fa-solid fa-triangle-exclamation"></i> High Priority Continuous Monitoring Check-In</span></div>
-        <div>${escapeHtml(proactiveMsg)}</div>
-      `;
-      thread.appendChild(bubble);
-      thread.scrollTop = thread.scrollHeight;
-
-      // Save turn to chat history
-      chatHistory.push({ role: 'bot', content: proactiveMsg });
-
-      if (voiceOutputEnabled && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utt = new SpeechSynthesisUtterance(proactiveMsg);
-        utt.lang = langCodeMap[activeLang] || 'en-IN';
-        window.speechSynthesis.speak(utt);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.proactive_message) {
+          proactiveMsg = data.proactive_message;
+        }
+      } else {
+        console.warn('Proactive check-in server response status:', res.status, '- displaying safe local check-in');
       }
     } catch (err) {
-      console.error('Proactive check-in error:', err);
+      console.warn('Proactive check-in fetch error:', err, '- displaying safe local check-in');
+    }
+
+    // Deliver proactive bot bubble to conversation thread
+    if (thread) {
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble chat-bubble-bot proactive-checkin-bubble';
+      bubble.style.borderLeft = '4px solid #EF4444';
+      bubble.innerHTML = `
+        <div style="margin-bottom: 6px;">
+          <span class="proactive-checkin-badge" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> High Priority Continuous Monitoring Check-In
+          </span>
+        </div>
+        <div style="line-height: 1.55; color: #1F2937; font-size: 0.95rem;">${escapeHtml(proactiveMsg)}</div>
+      `;
+
+      // Interactive quick response chips
+      const chipsWrapper = document.createElement('div');
+      chipsWrapper.className = 'chat-suggested-actions';
+      chipsWrapper.style.marginTop = '10px';
+      chipsWrapper.style.display = 'flex';
+      chipsWrapper.style.flexWrap = 'wrap';
+      chipsWrapper.style.gap = '8px';
+
+      let chip1Text = "I am feeling a bit better now";
+      let chip2Text = "Connect with Dr. Priya Nair";
+      let chip3Text = "Call Helpline 14566";
+      if (activeLang === 'HI') {
+        chip1Text = "मैं अब थोड़ा बेहतर महसूस कर रहा हूँ";
+        chip2Text = "परामर्शदाता डॉ. प्रिया नायर से जुड़ें";
+        chip3Text = "हेल्पलाइन 14566 पर कॉल करें";
+      } else if (activeLang === 'TA') {
+        chip1Text = "நான் இப்போது சற்று நலமாக உணர்கிறேன்";
+        chip2Text = "ஆலோசகர் டாக்டர் பிரியா நாயருடன் பேசுக";
+        chip3Text = "உதவி எண் 14566-ஐ அழைக்கவும்";
+      }
+
+      chipsWrapper.innerHTML = `
+        <button type="button" class="chat-action-chip" data-action="${chip1Text}" style="background: #F3F4F6; border: 1px solid #D1D5DB; border-radius: 999px; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; color: #374151; font-weight: 600;">${chip1Text}</button>
+        <button type="button" class="chat-action-chip" data-action="Connect to Counsellor" style="background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 999px; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; color: #4338CA; font-weight: 600;">${chip2Text}</button>
+        <button type="button" class="chat-action-chip" data-action="Call Helpline 14566" style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 999px; padding: 5px 12px; font-size: 0.8rem; cursor: pointer; color: #DC2626; font-weight: 600;">${chip3Text}</button>
+      `;
+
+      bubble.appendChild(chipsWrapper);
+      thread.appendChild(bubble);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    // Save turn to chat history
+    chatHistory.push({ role: 'bot', content: proactiveMsg });
+
+    // Mark as delivered in UI
+    hasProactiveCheckinFiredForCurrentCrisis = true;
+    updateProactiveBadgeUI();
+
+    // Voice synthesis if enabled
+    if (voiceOutputEnabled && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(proactiveMsg);
+      utt.lang = langCodeMap[activeLang] || 'en-IN';
+      window.speechSynthesis.speak(utt);
     }
   }
 

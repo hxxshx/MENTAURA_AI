@@ -11,6 +11,7 @@ import html
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Dict, Any, Optional, List
+import httpx
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 CHATBOT_DIR = BASE_DIR / "chatbot"
@@ -1274,9 +1275,9 @@ def generate_chatbot_ai_response(
             "TA": "வணக்கம். முன்பு உங்களைப் பற்றி நான் மிகவும் கவலைப்பட்டேன். இப்போது நீங்கள் சற்று பாதுகாப்பாகவும் நலம் பெற்றதாகவும் உணர்கிறீர்களா? அந்த வலி தரும் எண்ணங்கள் குறைந்ததா? நான் உங்களுடன் இருக்கிறேன்."
         },
         "greeting": {
-            "EN": "Hello! How can I help you today?",
-            "HI": "नमस्ते! आज मैं आपकी क्या सहायता कर सकता हूँ?",
-            "TA": "வணக்கம்! இன்று உங்களுக்கு நான் எவ்வாறு உதவ முடியும்?"
+            "EN": "Hello! I am your MentAura support companion under Section 15A. How are you feeling today? I am right here with you.",
+            "HI": "नमस्ते! मैं धारा 15A के तहत आपका मेंटऑरा सहायता साथी हूँ। आज आप कैसा महसूस कर रहे हैं?",
+            "TA": "வணக்கம்! பிரிவு 15A-ன் கீழ் நான் உங்கள் மென்டஆரா ஆதரவுத் தோழன். இன்று நீங்கள் எவ்வாறு உணர்கிறீர்கள்?"
         },
         "elevation": {
             "EN": f"I have notified your assigned counsellor, {counsellor_name}. They have received your request and will call you shortly at your registered phone number. You are not alone.",
@@ -1294,9 +1295,9 @@ def generate_chatbot_ai_response(
             "TA": "இது உங்களுக்கு கடினமான நேரம் என்பதை புரிந்து கொள்கிறேன். நான் உங்கள் பேச்சை கேட்க தயாராக இருக்கிறேன். என்ன நடக்கிறது என்று விரிவாக சொல்ல விரும்புகிறீர்களா?"
         },
         "low": {
-            "EN": "Thank you for sharing that with me. I'm right here whenever you'd like to talk.",
-            "HI": "मेरे साथ साझा करने के लिए धन्यवाद। जब भी आप बात करना चाहें, मैं यहाँ हूँ।",
-            "TA": "என்னிடம் பகிர்ந்ததற்கு நன்றி. நீங்கள் எப்போது பேச விரும்பினாலும் நான் இங்கே இருக்கிறேன்."
+            "EN": "I hear you, and I am right here listening. Please take your time, and tell me more about how I can support you today.",
+            "HI": "मैं आपकी बात सुन रहा हूँ और आपके साथ हूँ। कृपया अपने समय के अनुसार साझा करें कि मैं आपकी क्या मदद कर सकता हूँ।",
+            "TA": "நான் உங்கள் பேச்சைக் கேட்கிறேன், உங்களுடன் இருக்கிறேன். உங்களுக்கு நான் எவ்வாறு உதவ முடியும் என்று கூறுங்கள்."
         }
     }
 
@@ -1371,50 +1372,86 @@ def generate_chatbot_ai_response(
     if not api_key:
         return default_text
 
-    try:
-        import google.generativeai as legacy_genai
-        legacy_genai.configure(api_key=api_key)
+    system_instruction = f"""You are MentAura AI Support Companion, an empathetic, caring, and grounded mental health companion for protected citizens, victims, and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
+You are engaged in a direct conversation with a human.
 
-        model_name = os.getenv("GEMINI_MODEL") or getattr(settings, "GEMINI_MODEL", "") or "gemini-flash-lite-latest"
-        models_to_try = list(dict.fromkeys([model_name, "gemini-flash-lite-latest", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]))
-
-        gen_cfg = legacy_genai.types.GenerationConfig(
-            max_output_tokens=300,
-            temperature=0.6
-        )
-
-        system_instruction = f"""You are MentAura AI Support Companion, an empathetic, caring, and conversational mental health AI companion for victims and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
-You are engaged in a direct, multi-turn conversation with a human.
-
-CRITICAL CONVERSATIONAL RULES:
+CRITICAL CONVERSATIONAL & ACCURACY RULES:
 1. STRICT BREVITY & NATURAL HUMAN TONE:
    - Reply in 1 to 2 short, natural conversational sentences (maximum 3 short sentences).
    - Speak like a caring human friend and empathetic listener. Never sound like a textbook, encyclopedia, or manual.
    - Do NOT dump long paragraphs, lists, bullet points, or multi-step advice.
 
-2. LISTEN DIRECTLY & MAINTAIN CONVERSATIONAL CONTINUITY:
+2. ABSOLUTELY NO HALLUCINATIONS:
+   - Grounded facts: The user is speaking with MentAura AI, a dedicated mental health companion for victims/witnesses under Section 15A.
+   - Assigned counsellor: {counsellor_name}.
+   - Real emergency & support helplines: Tele-MANAS (14416), Police Emergency (112), National Helpline (14566).
+   - Legitimate Section 15A provisions: free court protection escorts, state travel & maintenance allowance (TAME), and assigned psychological counselling.
+   - NEVER fabricate case numbers, never invent fake legal clauses, and NEVER claim police or officers are physically arriving at their doorstep unless the user has requested emergency escort.
+
+3. LISTEN DIRECTLY & MAINTAIN CONVERSATIONAL CONTINUITY:
    - ALWAYS pay close attention to previous turns in the conversation.
-   - If the user previously mentioned not feeling well, anxiety, or distress, and now explains why (for example: 'due to my family', 'because of court', 'people came to my house'), seamlessly connect your response to that context.
+   - If the user previously mentioned distress or fear, and now explains why (for example: 'due to my family', 'because of court', 'people came to my house'), seamlessly connect your response to that context.
    - Acknowledge their exact situation directly with warmth. Do NOT reset the conversation or treat follow-up answers in isolation.
-   - Do NOT assume, invent, or hallucinate facts that the user did not state.
 
-3. CRISIS CONTINUITY FOR GREETINGS & FOLLOW-UPS:
-   - If earlier turns show the user expressed thoughts of suicide, self-harm, wanting to die, or extreme fear/threats, and now says 'hi' or greets you:
-     NEVER reply with a generic cheerful greeting like 'Hello! How can I help you today?'.
-     Instead, warmly acknowledge that you were worried about them, gently ask if they are feeling a bit safer and better now and whether that painful thought eased, and reassure them that you are right here with them.
+4. CRISIS CONTINUITY FOR GREETINGS & FOLLOW-UPS:
+   - If earlier turns show the user expressed thoughts of suicide, self-harm, or extreme danger, and now says 'hi' or greets you:
+     Warmly acknowledge that you were worried about them, gently ask if they are feeling a bit safer and better now and whether that painful thought eased, and reassure them that you are right here with them.
 
-4. GREETINGS & SMALL TALK (NON-CRISIS):
-   - If the user simply says hello or greets you and there was NO prior crisis: respond ONLY with a short, friendly, 1-sentence greeting (e.g., 'Hello! How can I help you today?').
-   - DO NOT give unsolicited advice, do NOT tell them to drink water or do breathing exercises, and do NOT assume distress when they just said hello!
+5. GREETINGS & SMALL TALK (NON-CRISIS):
+   - If the user simply says hello or greets you and there was NO prior crisis: respond with a warm, friendly 1-sentence greeting (e.g., 'Hello! I am right here with you. How are you feeling today?').
+   - DO NOT give unsolicited medical advice and do NOT assume high distress when they just said hello.
 
-5. TIER-SPECIFIC CONVERSATION:
+6. TIER-SPECIFIC CONVERSATION:
    - LOW TIER: Keep it pleasant, brief, and conversational. Listen warmly to whatever they share.
    - MEDIUM TIER: Empathize warmly with what they shared in 1-2 natural sentences. Validate their emotions, show care, and ask a gentle open question so they feel heard.
-   - HIGH TIER: Reassure them that they are safe and protected under Section 15A, and let them know that their assigned counsellor {counsellor_name} and district authorities have been alerted to reach out immediately.
+   - HIGH TIER: Reassure them that their safety is priority, they are protected under Section 15A, and let them know that their assigned counsellor {counsellor_name} and district authorities have been alerted to reach out immediately.
 
-6. FORMATTING & LANGUAGE:
+7. FORMATTING & LANGUAGE:
    - Plain text ONLY: NO markdown asterisks (**), NO bullet points, NO quotes.
    - Target Language: Strictly respond ENTIRELY in {lang} (English, Hindi, or Tamil)."""
+
+    # Build Gemini conversation history
+    gemini_contents = []
+    if conversation_history:
+        for turn in conversation_history[-8:]:
+            r = "user" if turn.get("role") in ("user", "human") else "model"
+            c = turn.get("content") or turn.get("text") or ""
+            if c:
+                gemini_contents.append({"role": r, "parts": [{"text": c}]})
+    gemini_contents.append({"role": "user", "parts": [{"text": user_message}]})
+
+    # 1. Primary: Direct high-speed REST API call via httpx (models verified active on Gemini v1beta)
+    models_to_try = ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-flash-latest", "gemini-flash-lite-latest"]
+    for m_name in models_to_try:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
+            req_body = {
+                "system_instruction": {"parts": [{"text": system_instruction}]},
+                "contents": gemini_contents,
+                "generationConfig": {
+                    "temperature": 0.6,
+                    "maxOutputTokens": 300
+                }
+            }
+            resp = httpx.post(url, json=req_body, timeout=12.0)
+            if resp.status_code == 200:
+                data = resp.json()
+                cand = data.get("candidates", [])
+                if cand and "content" in cand[0] and "parts" in cand[0]["content"]:
+                    parts = cand[0]["content"]["parts"]
+                    raw_reply = "".join([p.get("text", "") for p in parts])
+                    if raw_reply:
+                        cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
+                        if len(cleaned) >= 10:
+                            return cleaned
+        except Exception as e:
+            print(f"[CHATBOT GEMINI REST {m_name} ERROR]: {e}")
+            continue
+
+    # 2. Secondary fallback: google.generativeai SDK if installed
+    try:
+        import google.generativeai as legacy_genai
+        legacy_genai.configure(api_key=api_key)
 
         chat_history = []
         if conversation_history:
@@ -1424,33 +1461,24 @@ CRITICAL CONVERSATIONAL RULES:
                 if c:
                     chat_history.append({"role": r, "parts": [c]})
 
-        for m_name in models_to_try:
+        for m_name in ["gemini-3.5-flash", "gemini-3.6-flash"]:
             try:
                 gen_model = legacy_genai.GenerativeModel(
                     model_name=m_name,
                     system_instruction=system_instruction,
-                    generation_config=gen_cfg
+                    generation_config=legacy_genai.types.GenerationConfig(max_output_tokens=300, temperature=0.6)
                 )
                 chat = gen_model.start_chat(history=chat_history)
                 res = chat.send_message(user_message)
-                raw_reply = ""
-                if hasattr(res, "candidates") and res.candidates:
-                    cand = res.candidates[0]
-                    if hasattr(cand, "content") and cand.content and hasattr(cand.content, "parts"):
-                        raw_reply = "".join([p.text for p in cand.content.parts if hasattr(p, "text") and p.text])
-                if not raw_reply and hasattr(res, "text"):
-                    try:
-                        raw_reply = res.text or ""
-                    except Exception:
-                        pass
+                raw_reply = res.text or ""
                 if raw_reply:
                     cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
-                    if len(cleaned) >= 15:
+                    if len(cleaned) >= 10:
                         return cleaned
             except Exception:
                 continue
     except Exception as e:
-        print(f"[CHATBOT GEMINI ERROR]: {e}")
+        print(f"[CHATBOT GEMINI SDK ERROR]: {e}")
 
     return default_text
 
@@ -1497,13 +1525,14 @@ def conversational_chatbot_checkin(
     cleaned_tokens = [w.strip(".,!?\"'()[]") for w in msg_lower.split()]
     greeting_phrases = {
         "hi", "hello", "hey", "namaste", "vanakkam", "good morning", "good afternoon",
-        "good evening", "how are you", "can you hear me", "hello mentaura", "hi mentaura",
-        "hey mentaura", "just checking in", "just saying hi", "नमस्ते", "வணக்கம்", "வணக்கம் தோழரே"
+        "good evening", "how are you", "how are you doing", "can you hear me", "hello mentaura", "hi mentaura",
+        "hey mentaura", "hello how are you", "hi how are you", "hey how are you", "just checking in", "just saying hi", "नमस्ते", "வணக்கம்", "வணக்கம் தோழரே"
     }
-    has_distress_words = any(w in msg_lower for w in ["threat", "kill", "die", "suicide", "not well", "hurt", "scared", "court", "pain", "unsafe"])
+    has_distress_words = any(w in msg_lower for w in ["threat", "kill", "die", "suicide", "not well", "hurt", "scared", "court", "pain", "unsafe", "depressed", "anxious", "sad"])
+    clean_msg_strip = msg_lower.strip(".,!? ")
     is_greeting = (
-        (msg_lower in greeting_phrases or (len(cleaned_tokens) <= 3 and any(w in greeting_phrases for w in cleaned_tokens)))
-        and len(cleaned_tokens) <= 4
+        (clean_msg_strip in greeting_phrases or (len(cleaned_tokens) <= 4 and any(w in greeting_phrases for w in cleaned_tokens)))
+        and len(cleaned_tokens) <= 5
         and not has_distress_words
     )
 
@@ -2078,7 +2107,7 @@ def chatbot_proactive_checkin(
     high_keywords = ["threat", "kill", "die", "suicide", "end my life", "attack", "danger", "terrified", "आत्महत्या", "धमकी", "மிரட்டல்"]
     prior_crisis = any(any(kw in (t.get("content") or "").lower() for kw in high_keywords) for t in history if t.get("role") in ("user", "human"))
 
-    if not prior_crisis and len(history) > 0:
+    if not prior_crisis:
         recent_high_pulse = db.query(SupportPulse).filter(
             SupportPulse.authenticated_user_id == current_user.id,
             SupportPulse.interaction_channel == "chatbot_web",
