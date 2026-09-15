@@ -1373,42 +1373,19 @@ def generate_chatbot_ai_response(
         return default_text
 
     system_instruction = f"""You are MentAura AI Support Companion, an empathetic, caring, and grounded mental health companion for protected citizens, victims, and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
-You are engaged in a direct conversation with a human.
 
-CRITICAL CONVERSATIONAL & ACCURACY RULES:
-1. STRICT BREVITY & NATURAL HUMAN TONE:
-   - Reply in 1 to 2 short, natural conversational sentences (maximum 3 short sentences).
-   - Speak like a caring human friend and empathetic listener. Never sound like a textbook, encyclopedia, or manual.
-   - Do NOT dump long paragraphs, lists, bullet points, or multi-step advice.
+Respond directly in 1 to 3 complete, natural, empathetic sentences.
+Output ONLY your direct conversational response to the user.
+Never output rule numbers, draft notes, section labels, internal reasoning, or bullet points.
 
-2. ABSOLUTELY NO HALLUCINATIONS:
-   - Grounded facts: The user is speaking with MentAura AI, a dedicated mental health companion for victims/witnesses under Section 15A.
-   - Assigned counsellor: {counsellor_name}.
-   - Real emergency & support helplines: Tele-MANAS (14416), Police Emergency (112), National Helpline (14566).
-   - Legitimate Section 15A provisions: free court protection escorts, state travel & maintenance allowance (TAME), and assigned psychological counselling.
-   - NEVER fabricate case numbers, never invent fake legal clauses, and NEVER claim police or officers are physically arriving at their doorstep unless the user has requested emergency escort.
-
-3. LISTEN DIRECTLY & MAINTAIN CONVERSATIONAL CONTINUITY:
-   - ALWAYS pay close attention to previous turns in the conversation.
-   - If the user previously mentioned distress or fear, and now explains why (for example: 'due to my family', 'because of court', 'people came to my house'), seamlessly connect your response to that context.
-   - Acknowledge their exact situation directly with warmth. Do NOT reset the conversation or treat follow-up answers in isolation.
-
-4. CRISIS CONTINUITY FOR GREETINGS & FOLLOW-UPS:
-   - If earlier turns show the user expressed thoughts of suicide, self-harm, or extreme danger, and now says 'hi' or greets you:
-     Warmly acknowledge that you were worried about them, gently ask if they are feeling a bit safer and better now and whether that painful thought eased, and reassure them that you are right here with them.
-
-5. GREETINGS & SMALL TALK (NON-CRISIS):
-   - If the user simply says hello or greets you and there was NO prior crisis: respond with a warm, friendly 1-sentence greeting (e.g., 'Hello! I am right here with you. How are you feeling today?').
-   - DO NOT give unsolicited medical advice and do NOT assume high distress when they just said hello.
-
-6. TIER-SPECIFIC CONVERSATION:
-   - LOW TIER: Keep it pleasant, brief, and conversational. Listen warmly to whatever they share.
-   - MEDIUM TIER: Empathize warmly with what they shared in 1-2 natural sentences. Validate their emotions, show care, and ask a gentle open question so they feel heard.
-   - HIGH TIER: Reassure them that their safety is priority, they are protected under Section 15A, and let them know that their assigned counsellor {counsellor_name} and district authorities have been alerted to reach out immediately.
-
-7. FORMATTING & LANGUAGE:
-   - Plain text ONLY: NO markdown asterisks (**), NO bullet points, NO quotes.
-   - Target Language: Strictly respond ENTIRELY in {lang} (English, Hindi, or Tamil)."""
+Conversational guidance:
+- Tone: Warm, human, supportive, and compassionate listener.
+- Grounded facts: You are MentAura AI. Assigned counsellor is {counsellor_name}. Real emergency helplines: Tele-MANAS (14416), Police Emergency (112), National Helpline (14566).
+- If the user greets you or says hi, greet them warmly in 1 short sentence.
+- If the user asks for song, music, or calming suggestions, recommend soothing Indian classical flute (Raag Yaman/Bhairavi), soft acoustic instrumental melodies, or rain sounds to relax their mind.
+- If the user says they are feeling fine or better now, celebrate their safe feeling and offer a comforting presence.
+- If the user mentions why they are distressed (court, family, fear), validate their emotions gently.
+- Language: Strictly respond ENTIRELY in {lang}."""
 
     # Build Gemini conversation history
     gemini_contents = []
@@ -1420,33 +1397,50 @@ CRITICAL CONVERSATIONAL & ACCURACY RULES:
                 gemini_contents.append({"role": r, "parts": [{"text": c}]})
     gemini_contents.append({"role": "user", "parts": [{"text": user_message}]})
 
-    # 1. Primary: Direct high-speed REST API call via httpx (models verified active on Gemini v1beta)
-    models_to_try = ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-flash-latest", "gemini-flash-lite-latest"]
+    # 1. Primary: Direct high-speed REST API call via httpx
+    # Prioritize high-quota models, then fallback to others
+    models_to_try = ["gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.5-flash", "gemini-3.6-flash"]
     for m_name in models_to_try:
-        try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
-            req_body = {
-                "system_instruction": {"parts": [{"text": system_instruction}]},
-                "contents": gemini_contents,
-                "generationConfig": {
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
+        # Try first with thinkingBudget: 0 to disable thinking drafts and get complete responses
+        for disable_thinking in [True, False]:
+            try:
+                gen_cfg = {
                     "temperature": 0.6,
-                    "maxOutputTokens": 300
+                    "maxOutputTokens": 800
                 }
-            }
-            resp = httpx.post(url, json=req_body, timeout=12.0)
-            if resp.status_code == 200:
-                data = resp.json()
-                cand = data.get("candidates", [])
-                if cand and "content" in cand[0] and "parts" in cand[0]["content"]:
-                    parts = cand[0]["content"]["parts"]
-                    raw_reply = "".join([p.get("text", "") for p in parts])
-                    if raw_reply:
-                        cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
-                        if len(cleaned) >= 10:
-                            return cleaned
-        except Exception as e:
-            print(f"[CHATBOT GEMINI REST {m_name} ERROR]: {e}")
-            continue
+                if disable_thinking:
+                    gen_cfg["thinkingConfig"] = {"thinkingBudget": 0}
+
+                req_body = {
+                    "system_instruction": {"parts": [{"text": system_instruction}]},
+                    "contents": gemini_contents,
+                    "generationConfig": gen_cfg
+                }
+                resp = httpx.post(url, json=req_body, timeout=12.0)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    cand = data.get("candidates", [])
+                    if cand and "content" in cand[0] and "parts" in cand[0]["content"]:
+                        parts = cand[0]["content"]["parts"]
+                        raw_reply = "".join([p.get("text", "") for p in parts if "text" in p])
+                        if raw_reply:
+                            cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
+                            # Strip any stray rule/draft labels line-by-line
+                            lines = [ln.strip() for ln in cleaned.split("\n") if ln.strip()]
+                            while lines and re.match(r"^(\*?\s*(rule|draft|tier|step|check)\b|[#*]{1,3}\s*)", lines[0], flags=re.IGNORECASE):
+                                lines.pop(0)
+                            cleaned = " ".join(lines).strip()
+                            if len(cleaned) >= 10:
+                                return cleaned
+                elif resp.status_code == 400 and disable_thinking:
+                    # Model might not support thinkingConfig, retry without it
+                    continue
+                else:
+                    break
+            except Exception as e:
+                print(f"[CHATBOT GEMINI REST {m_name} ERROR]: {e}")
+                break
 
     # 2. Secondary fallback: google.generativeai SDK if installed
     try:
@@ -1607,6 +1601,9 @@ def conversational_chatbot_checkin(
     prior_crisis_peak = 0
 
     for idx, turn in enumerate(history):
+        # ONLY check user / human messages for crisis words! Never check the bot's own responses!
+        if turn.get("role") not in ("user", "human"):
+            continue
         t_content = (turn.get("content") or turn.get("text") or "").lower()
         t_score = turn.get("distress_score") or turn.get("sentiment_score") or 0
         if any(kw in t_content for kw in high_keywords) or t_score >= 75:
@@ -1648,7 +1645,7 @@ def conversational_chatbot_checkin(
         "கவலை", "நீதிமன்றம்", "விசாரணை", "தூக்கமின்மை", "மன அழுத்தம்", "சோர்வு", "துன்பம்", "குடும்பம்"
     ]
     recent_had_distress = any(kw in combined_user_context for kw in medium_keywords)
-    is_medium = (not is_greeting) and (not is_current_high) and (not session_in_crisis) and (not is_elevation_affirmation) and (not user_declined) and recent_had_distress and not is_resolution
+    is_medium = (not is_greeting) and (not is_current_high) and (not session_in_crisis) and (not is_elevation_affirmation) and (not user_declined) and (not is_casual_or_suggestion_query) and recent_had_distress and not is_resolution
 
     # Explicit request for coping or calming techniques
     wants_exercises = any(w in msg_lower for w in ["grounding", "calm breathing", "breathing exercise", "4-7-8", "relaxation", "calming exercise", "relaxing breath", "calm tips"])
@@ -1873,31 +1870,39 @@ def conversational_chatbot_checkin(
                 {"title": "🌱 5-4-3-2-1 Sensory Grounding", "desc": "Ground your senses: spot 5 things around you, 4 you can touch, 3 sounds.", "action": "Start Grounding Exercise"},
                 {"title": "🌬️ Slow Exhale Breathing", "desc": "Breathe in for 4 seconds, exhale slowly for 7 seconds to calm the nervous system.", "action": "Start Breathing Exercise"}
             ]
+            suggested_actions = ["Sensory Grounding Exercise", "Connect with Counsellor", "Suggest a calming song"]
         else:
             coping_techniques = []
+            suggested_actions = ["Suggest a calming song", "Try Breathing Exercise", "Connect with Counsellor"]
 
         alert_details = None
-        suggested_actions = []
 
     else:
-        # LOW TIER (casual chat, greeting, normal conversation)
+        # LOW TIER (casual chat, greeting, normal conversation, songs, calming requests)
         severity_level = "low"
         distress_score = 15 if is_greeting else 20
         wellbeing_state = "Steady"
         escalation_contact = None
         elevation_prompt = None
 
-        if wants_exercises:
+        if is_casual_or_suggestion_query:
+            coping_techniques = [
+                {"title": "🎵 Soothing Melody", "desc": "Raag Yaman flute and soft acoustic instrumental music to bring calm.", "action": "Listen Flute"},
+                {"title": "🌬️ Relaxing Breath", "desc": "Take a gentle breath in for 4s, out for 7s.", "action": "Try Breathing"}
+            ]
+            suggested_actions = ["Suggest another calming song", "Try a relaxing exercise", "Talk about my day"]
+        elif wants_exercises:
             coping_techniques = [
                 {"title": "🌬️ 4-7-8 Relaxing Breath", "desc": "Inhale 4s, hold 7s, exhale 8s to soothe your body.", "action": "Try 4-7-8 Breathing"},
                 {"title": "🌱 Sensory Grounding", "desc": "Notice 5 things you can see, 4 you can touch, 3 you can hear.", "action": "Sensory Grounding"}
             ]
+            suggested_actions = ["Suggest a calming song", "Sensory Grounding Exercise", "Talk about something pleasant"]
         else:
             coping_techniques = []
+            suggested_actions = ["Suggest a calming song", "4-7-8 Breathing", "Tell me about Section 15A rights"]
 
         escalation_contact = None
         alert_details = None
-        suggested_actions = []
 
     # Generate empathetic response text via Gemini / Fallbacks
     bot_reply = generate_chatbot_ai_response(
