@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Dashboard — MENTAURA</title>
+  <meta name="description" content="District & State Command and Coordination Dashboard for multi-agency support monitoring, priority case escalations, and aggregate metrics." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Core & Page Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/command.css" />
+</head>
+<body class="command-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED OFFICIAL HEADER & NAVBAR
+       ======================================================= -->
+  <header class="site-header" role="banner">
+    <div class="header-container">
+      
+      <!-- Logo / Institutional Brand -->
+      <a href="command-dashboard.html" class="brand-logo" aria-label="Mentaura Command Dashboard Home">
+        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+        <span>MENTAURA</span>
+      </a>
+
+      <!-- Official Navigation Bar -->
+      <nav class="main-nav" role="navigation" aria-label="Official Navigation">
+        <ul class="nav-links">
+          <li>
+            <a href="command-dashboard.html" class="nav-link active" aria-current="page">
+              <i class="fa-solid fa-chart-line"></i> Command Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="pending-approvals.html" class="nav-link">
+              <i class="fa-solid fa-user-check"></i> Pending Approvals
+            </a>
+          </li>
+          <li>
+            <a href="counsellor-workspace.html" class="nav-link">
+              <i class="fa-solid fa-clipboard-check"></i> Review Workspace
+            </a>
+          </li>
+          <li>
+            <a href="resources.html" class="nav-link">
+              <i class="fa-solid fa-book-bookmark"></i> Resources
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (Language, User Chip & Popover, Logout) -->
+      <div class="header-actions">
+        
+        <!-- In-App Notification Bell -->
+        <div class="nav-notification-wrapper">
+          <button 
+            type="button" 
+            class="btn-notification-bell" 
+            id="notificationBellBtn" 
+            aria-haspopup="true" 
+            aria-expanded="false" 
+            aria-label="View In-App Notifications"
+          >
+            <i class="fa-solid fa-bell" aria-hidden="true"></i>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          </button>
+          
+          <div class="notification-dropdown-panel" id="notificationDropdown" role="region" aria-label="Notifications" style="display: none;">
+            <div class="notification-header">
+              <div class="notification-header-left">
+                <i class="fa-solid fa-bell" style="color: #7E57C2;" aria-hidden="true"></i>
+                <h3 class="notification-title">Notifications</h3>
+                <span class="notification-count-pill" id="notificationHeaderCount">0 new</span>
+              </div>
+              <button type="button" class="btn-mark-all-read" id="markAllReadBtn" title="Mark all as read">
+                <i class="fa-solid fa-check-double" aria-hidden="true"></i> Mark all as read
+              </button>
+            </div>
+            <div class="notification-list" id="notificationList">
+              <div class="notification-empty-state">
+                <i class="fa-regular fa-bell-slash" style="color: #94A3B8; font-size: 1.5rem;" aria-hidden="true"></i>
+                <p style="margin-top: 0.5rem; font-weight: 500; color: #64748B;">No recent notifications</p>
+                <span style="font-size: 0.78rem; color: #94A3B8;">High-risk pulse and escalation alerts will appear here.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="lang-selector-wrapper">
+          <button type="button" class="btn-lang-selector" id="langSelectorTrigger" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
+            <i class="fa-solid fa-globe" aria-hidden="true"></i>
+            <span id="currentLangLabel">EN</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="lang-dropdown" id="langDropdown" role="menu">
+            <li class="active" role="menuitem" data-lang="en">English (EN)</li>
+            <li role="menuitem" data-lang="hi">हिन्दी (HI)</li>
+            <li role="menuitem" data-lang="mr">मराठी (MR)</li>
+          </ul>
+        </div>
+
+        <!-- User Profile Chip & Popover -->
+        <div class="user-profile-wrapper">
+          <button type="button" class="nav-user-chip" id="navUserProfileChip" aria-haspopup="true" aria-expanded="false" aria-label="User Account Menu">
+            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+            <span id="navUserFullName">Administrator</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Popover Details -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-label="User Profile Details">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div>
+                <div class="popover-title" id="popoverUserFullName">Administrator</div>
+                <div class="popover-subtitle" id="popoverUserRole">District Authority</div>
+              </div>
+              <button type="button" class="popover-close-btn" id="popoverCloseBtn" aria-label="Close Profile Popover">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Official Email</span>
+                <span class="popover-value" id="popoverUserEmail">—</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account Status</span>
+                <span class="status-pill-active" id="popoverUserStatus">ACTIVE</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Jurisdiction</span>
+                <span class="popover-value" id="popoverUserJurisdiction">Nagpur District</span>
+              </div>
+            </div>
+
+            <div class="popover-divider"></div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="btnPopoverDismiss">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button type="button" class="btn btn-outline-pill btn-logout" aria-label="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =======================================================
+       COMPACT GRADIENT HERO HEADER
+       ======================================================= -->
+  <section class="command-hero-header" role="region" aria-label="Command Dashboard Banner">
+    <h1 class="command-hero-title">Command Dashboard</h1>
+    <p class="command-hero-desc">
+      Monitor and coordinate support operations across your district or state.
+    </p>
+    <div class="command-trust-badge">
+      <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+      <span>Use aggregated metrics and priority views to guide resource allocation and escalation.</span>
+    </div>
+  </section>
+
+  <!-- =======================================================
+       MAIN DASHBOARD CONTAINER
+       ======================================================= -->
+  <main class="command-main-container" role="main">
+
+    <!-- 1. Time-Range & Filter Controls Bar -->
+    <section class="command-filter-bar" aria-label="Dashboard Filters">
+      <div class="filter-group-wrapper">
+        
+        <!-- Time Range -->
+        <div class="filter-item">
+          <label class="filter-label" for="filterTimeRange"><i class="fa-solid fa-calendar-days"></i> Period:</label>
+          <select class="filter-select" id="filterTimeRange">
+            <option value="7d" selected>Last 7 Days</option>
+            <option value="30d">Last 30 Days</option>
+            <option value="90d">Last 90 Days</option>
+            <option value="all">All Time</option>
+          </select>
+        </div>
+
+        <!-- Support Type -->
+        <div class="filter-item">
+          <label class="filter-label" for="filterSupportType"><i class="fa-solid fa-hand-holding-heart"></i> Support:</label>
+          <select class="filter-select" id="filterSupportType">
+            <option value="all" selected>All Categories</option>
+            <option value="counselling">Counselling</option>
+            <option value="legal_aid">Legal Aid</option>
+            <option value="protection">Protection</option>
+            <option value="medical">Medical</option>
+            <option value="compensation">Compensation</option>
+            <option value="rehabilitation">Rehabilitation</option>
+          </select>
+        </div>
+
+        <!-- Case Stage -->
+        <div class="filter-item">
+          <label class="filter-label" for="filterCaseStage"><i class="fa-solid fa-timeline"></i> Stage:</label>
+          <select class="filter-select" id="filterCaseStage">
+            <option value="all" selected>All Stages</option>
+            <option value="stage_fir">FIR Filed</option>
+            <option value="stage_medical">Medical Exam</option>
+            <option value="stage_investigation">Investigation</option>
+            <option value="stage_court">Court Hearing</option>
+            <option value="stage_judgment">Judgment Pending</option>
+            <option value="stage_compensation">Compensation</option>
+            <option value="stage_rehab">Rehabilitation</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Priority Toggle -->
+      <div>
+        <button type="button" class="filter-toggle-pill" id="btnFilterPriorityOnly" aria-pressed="false">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Priority Cases Only</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. Aggregate Metrics Summary Card -->
+    <section class="command-summary-card" aria-labelledby="overviewHeading">
+      <div class="section-header-compact" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h2 class="section-title-compact" id="overviewHeading">
+            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+            Overview for <span id="jurisdictionName">Nagpur District</span>
+          </h2>
+          <p class="section-desc-compact">
+            Aggregated support activity for your jurisdiction.
+          </p>
+        </div>
+        <span class="badge-mode-ai" id="jurisdictionBadge">
+          <i class="fa-solid fa-building-columns"></i> District Administration Enclave
+        </span>
+      </div>
+
+      <div class="command-metrics-grid">
+        
+        <!-- Metric 1: New Support Pulses -->
+        <div class="metric-counter-item">
+          <span class="metric-item-label">
+            <i class="fa-solid fa-heart-pulse"></i> New Support Pulses
+          </span>
+          <span class="metric-item-value" id="metricNewPulses">—</span>
+          <span class="metric-item-subtext">Active check-ins in selected period</span>
+        </div>
+
+        <!-- Metric 2: Pending Support Requests -->
+        <div class="metric-counter-item">
+          <span class="metric-item-label">
+            <i class="fa-solid fa-hands-holding-child"></i> Pending Requests
+          </span>
+          <span class="metric-item-value" id="metricPendingRequests" style="color: #92400E;">—</span>
+          <span class="metric-item-subtext">Awaiting inter-agency assignment</span>
+        </div>
+
+        <!-- Metric 3: Active Cases -->
+        <div class="metric-counter-item">
+          <span class="metric-item-label">
+            <i class="fa-solid fa-folder-open"></i> Active Cases
+          </span>
+          <span class="metric-item-value" id="metricActiveCases" style="color: #1E3A8A;">—</span>
+          <span class="metric-item-subtext">Under procedural tracking</span>
+        </div>
+
+        <!-- Metric 4: Active Interventions -->
+        <div class="metric-counter-item">
+          <span class="metric-item-label">
+            <i class="fa-solid fa-shield-cat"></i> Active Interventions
+          </span>
+          <span class="metric-item-value" id="metricActiveInterventions" style="color: #15803D;">—</span>
+          <span class="metric-item-subtext">Coordinated protection &amp; aid</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. Two-Column Breakdown (Support Types & Case Stages) -->
+    <div class="dashboard-grid-2">
+      
+      <!-- Left Column: Support Requests by Type -->
+      <section class="dashboard-panel-card" aria-labelledby="supportTypeHeading">
+        <div class="section-header-compact">
+          <h2 class="section-title-compact" id="supportTypeHeading">
+            <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
+            Support Requests by Type
+          </h2>
+          <p class="section-desc-compact">
+            Volume breakdown across 6 assistance categories (last 30 days).
+          </p>
+        </div>
+
+        <div class="support-type-grid" id="supportTypesGrid">
+          <!-- Dynamically populated by js/command.js -->
+        </div>
+      </section>
+
+      <!-- Right Column: Case Stage Distribution -->
+      <section class="dashboard-panel-card" aria-labelledby="caseStagesHeading">
+        <div class="section-header-compact">
+          <h2 class="section-title-compact" id="caseStagesHeading">
+            <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+            Cases by Stage
+          </h2>
+          <p class="section-desc-compact">
+            Current active case distribution across official procedural stages.
+          </p>
+        </div>
+
+        <div class="stages-list" id="caseStagesList">
+          <!-- Dynamically populated by js/command.js -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- 4. Priority Cases & Escalations Section -->
+    <section class="priority-panel-card" aria-labelledby="priorityCasesHeading">
+      <div class="section-header-compact" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h2 class="section-title-compact" id="priorityCasesHeading">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true" style="color: #B91C1C;"></i>
+            Priority Cases &amp; Escalation Queue
+          </h2>
+          <p class="section-desc-compact">
+            High-risk indicators, urgent court milestones, and cross-departmental bottlenecks.
+          </p>
+        </div>
+        <span style="font-size: 0.82rem; font-weight: 700; color: #5C5574;">
+          <i class="fa-solid fa-lock"></i> Identifiers Strictly Masked
+        </span>
+      </div>
+
+      <div class="command-table-wrapper">
+        <table class="command-table">
+          <thead>
+            <tr>
+              <th>Case Number / Protected Person</th>
+              <th>District</th>
+              <th>Current Stage</th>
+              <th>Risk Level</th>
+              <th>Priority Reason</th>
+              <th>Urgency</th>
+              <th>Assigned Officials</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="priorityCasesTableBody">
+            <!-- Dynamically populated by js/command.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. District-Wise Comparative Summary (State & National Level) -->
+    <section class="priority-panel-card" id="districtSummarySection" aria-labelledby="districtSummaryHeading" style="display: none;">
+      <div class="section-header-compact">
+        <h2 class="section-title-compact" id="districtSummaryHeading">
+          <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+          District-Wise Comparative Summary
+        </h2>
+        <p class="section-desc-compact">
+          Multi-district caseload, response velocity, and coordination indicators across Tamil Nadu.
+        </p>
+      </div>
+
+      <div class="command-table-wrapper">
+        <table class="command-table">
+          <thead>
+            <tr>
+              <th>District / Code</th>
+              <th>New Pulses (30d)</th>
+              <th>Pending Requests</th>
+              <th>Active Cases</th>
+              <th>Interventions</th>
+              <th>Capacity Status</th>
+            </tr>
+          </thead>
+          <tbody id="districtSummaryTableBody">
+            <!-- Dynamically populated by js/command.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================
+       DETAIL & ESCALATION MODALS
+       ======================================================= -->
+  
+  <!-- 1. Priority Case Detail Modal -->
+  <div class="modal-backdrop" id="caseDetailModal" role="dialog" aria-labelledby="modalCaseDetailTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <i class="fa-solid fa-folder-open"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalCaseDetailTitle">Case Command Dossier</h2>
+            <span style="font-size: 0.80rem; font-weight: 700; color: #7E57C2; text-transform: uppercase; letter-spacing: 0.04em;">Official Inter-Agency Overview</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-info-grid">
+          <div class="modal-info-item">
+            <span class="modal-info-label">Case Identifier</span>
+            <span class="modal-info-value" id="modalCaseDetailNumber">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Protected Person</span>
+            <span class="modal-info-value" id="modalCaseDetailVictim">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Jurisdiction District</span>
+            <span class="modal-info-value" id="modalCaseDetailDistrict">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Current Stage</span>
+            <span class="modal-info-value" id="modalCaseDetailStage" style="color: #2B1552;">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Investigating Officer</span>
+            <span class="modal-info-value" id="modalCaseDetailOfficer">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Assigned Counsellor</span>
+            <span class="modal-info-value" id="modalCaseDetailCounsellor" style="color: #7E57C2;">—</span>
+          </div>
+        </div>
+
+        <div class="modal-content-box">
+          <span style="font-size: 0.84rem; font-weight: 800; color: #B91C1C; text-transform: uppercase; letter-spacing: 0.04em;">Priority Escalation Reason</span>
+          <p id="modalCaseDetailPriorityReason" style="font-size: 0.96rem; color: #2C2245; margin: 0; line-height: 1.5; font-weight: 600;"></p>
+        </div>
+
+        <div class="modal-content-box">
+          <span style="font-size: 0.84rem; font-weight: 800; color: #5C5574; text-transform: uppercase; letter-spacing: 0.04em;">Recent Case Milestones &amp; Interventions</span>
+          <ul class="modal-timeline-list" id="modalCaseTimelineList">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">
+          Close Dossier
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Case Escalation Action Modal -->
+  <div class="modal-backdrop" id="escalateModal" role="dialog" aria-labelledby="modalEscalateTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: linear-gradient(135deg, #FEE2E2 0%, #FED7AA 100%); color: #B91C1C;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalEscalateTitle">Escalate Case Priority</h2>
+            <span style="font-size: 0.80rem; font-weight: 700; color: #B91C1C; text-transform: uppercase; letter-spacing: 0.04em;">Administrative Intervention</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="modalEscalateCaseId" />
+
+        <div class="modal-info-grid">
+          <div class="modal-info-item">
+            <span class="modal-info-label">Case Identifier</span>
+            <span class="modal-info-value" id="modalEscalateCaseNumber">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">District</span>
+            <span class="modal-info-value" id="modalEscalateDistrict">—</span>
+          </div>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="selectEscalateLevel">Escalation Severity Level</label>
+          <select class="modal-form-select" id="selectEscalateLevel">
+            <option value="urgent">Urgent Priority (Expedited DLSA / Medical Attention)</option>
+            <option value="critical">Critical (Immediate Police Protection / Magistrate Alert)</option>
+            <option value="inter_district">Inter-District Coordination Requisition</option>
+          </select>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="inputEscalateReason">Escalation Reason &amp; Immediate Action Needed</label>
+          <input type="text" class="modal-form-input" id="inputEscalateReason" placeholder="e.g. Protection order delayed; witness intimidation reported..." />
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="inputEscalateOfficer">Assign Coordinating Officer / Department</label>
+          <input type="text" class="modal-form-input" id="inputEscalateOfficer" placeholder="e.g. Deputy Commissioner / DLSA Secretary" />
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="textareaEscalateNotes">Administrative Enclave Notes</label>
+          <textarea class="modal-form-textarea" id="textareaEscalateNotes" placeholder="Enter confidential administrative directives or coordination log..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-hero-primary" id="btnSubmitEscalateAction" style="background: #B91C1C; border-color: #B91C1C;">
+          <i class="fa-solid fa-bolt"></i> Confirm Escalation
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       SITE FOOTER (Clean, Aligned, Harmonious)
+       ======================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand & National Initiative -->
+        <div class="footer-col">
+          <div class="footer-brand">
+            <i class="fa-solid fa-brain" style="color: #D4C4FC;" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-desc">
+            Secure, Case-Aware Support Intelligence Platform. District &amp; State Command Centre for inter-agency coordination, victim relief tracking, and executive governance.
+          </p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-building-shield" aria-hidden="true"></i>
+            <span>Role-Protected Administrative Enclave</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Governance & Institutional Links -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Platform Governance</h4>
+          <ul class="footer-links">
+            <li><a href="command-dashboard.html">Command Dashboard</a></li>
+            <li><a href="counsellor-workspace.html">Review Workspace</a></li>
+            <li><a href="resources.html">Official Guidelines</a></li>
+            <li><a href="privacy-policy.html">Privacy Charter</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Legal & Assistance -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Security &amp; Oversight</h4>
+          <ul class="footer-links">
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="privacy-consent.html">Consent Framework</a></li>
+            <li><a href="resources.html">DLSA Directory</a></li>
+            <li><a href="index.html">Platform Status</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura — Smart India Hackathon Project (SIH26094). All rights reserved.</p>
+        <p>Authorised Official Environment. All aggregate metrics and actions are audited for integrity.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page Scripts -->
+  <script src="js/notifications.js"></script>
+  <script src="js/command.js"></script>
+</body>
+</html>

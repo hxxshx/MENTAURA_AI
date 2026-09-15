@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pending Approvals — MENTAURA</title>
+  <meta name="description" content="Review and approve official account registrations for counsellors, case officers, and district administrators." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Core & Page Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/pending-approvals.css" />
+</head>
+<body class="admin-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED ADMIN HEADER & NAVBAR
+       ======================================================= -->
+  <header class="site-header" role="banner">
+    <div class="header-container">
+      
+      <!-- Brand Logo -->
+      <a href="command-dashboard.html" class="brand-logo" aria-label="Mentaura Admin Home">
+        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+        <span>MENTAURA</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="main-nav" role="navigation" aria-label="Administrator Navigation">
+        <ul class="nav-links">
+          <li>
+            <a href="command-dashboard.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i> Command Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="pending-approvals.html" class="nav-link active" aria-current="page">
+              <i class="fa-solid fa-user-check"></i> Pending Approvals
+            </a>
+          </li>
+          <li>
+            <a href="counsellor-workspace.html" class="nav-link">
+              <i class="fa-solid fa-clipboard-check"></i> Review Workspace
+            </a>
+          </li>
+          <li>
+            <a href="resources.html" class="nav-link">
+              <i class="fa-solid fa-book-bookmark"></i> Resources
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right Header Actions (Language, User Chip & Popover, Logout) -->
+      <div class="header-actions">
+        
+        <!-- In-App Notification Bell -->
+        <div class="nav-notification-wrapper">
+          <button 
+            type="button" 
+            class="btn-notification-bell" 
+            id="notificationBellBtn" 
+            aria-haspopup="true" 
+            aria-expanded="false" 
+            aria-label="View In-App Notifications"
+          >
+            <i class="fa-solid fa-bell" aria-hidden="true"></i>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          </button>
+          
+          <div class="notification-dropdown-panel" id="notificationDropdown" role="region" aria-label="Notifications" style="display: none;">
+            <div class="notification-header">
+              <div class="notification-header-left">
+                <i class="fa-solid fa-bell" style="color: #7E57C2;" aria-hidden="true"></i>
+                <h3 class="notification-title">Notifications</h3>
+                <span class="notification-count-pill" id="notificationHeaderCount">0 new</span>
+              </div>
+              <button type="button" class="btn-mark-all-read" id="markAllReadBtn" title="Mark all as read">
+                <i class="fa-solid fa-check-double" aria-hidden="true"></i> Mark all as read
+              </button>
+            </div>
+            <div class="notification-list" id="notificationList">
+              <div class="notification-empty-state">
+                <i class="fa-regular fa-bell-slash" style="color: #94A3B8; font-size: 1.5rem;" aria-hidden="true"></i>
+                <p style="margin-top: 0.5rem; font-weight: 500; color: #64748B;">No recent notifications</p>
+                <span style="font-size: 0.78rem; color: #94A3B8;">High-risk pulse and escalation alerts will appear here.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="lang-selector-wrapper">
+          <button type="button" class="btn-lang-selector" id="langSelectorTrigger" aria-haspopup="true" aria-expanded="false" aria-label="Select Language">
+            <i class="fa-solid fa-globe" aria-hidden="true"></i>
+            <span id="currentLangLabel">EN</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="lang-dropdown" id="langDropdown" role="menu">
+            <li class="active" role="menuitem" data-lang="en">English (EN)</li>
+            <li role="menuitem" data-lang="hi">हिन्दी (HI)</li>
+            <li role="menuitem" data-lang="mr">मराठी (MR)</li>
+          </ul>
+        </div>
+
+        <!-- User Profile Chip & Popover -->
+        <div class="user-profile-wrapper">
+          <button type="button" class="nav-user-chip" id="navUserProfileChip" aria-haspopup="true" aria-expanded="false" aria-label="User Account Menu">
+            <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+            <span id="navUserFullName">Administrator</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Popover Details -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-label="User Profile Details">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div>
+                <div class="popover-title" id="popoverUserFullName">Administrator</div>
+                <div class="popover-subtitle" id="popoverUserRole">State Administrator</div>
+              </div>
+              <button type="button" class="popover-close-btn" id="popoverCloseBtn" aria-label="Close Profile Popover">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Official Email</span>
+                <span class="popover-value" id="popoverUserEmail">stateadmin@mentaura.example</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account Status</span>
+                <span class="status-pill-active" id="popoverUserStatus">ACTIVE</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Jurisdiction</span>
+                <span class="popover-value" id="popoverUserJurisdiction">Tamil Nadu State Command</span>
+              </div>
+            </div>
+
+            <div class="popover-divider"></div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="btnPopoverDismiss">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button type="button" class="btn btn-outline-pill btn-logout" id="logoutBtn" aria-label="Log Out">
+          <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+          <span>Logout</span>
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" role="navigation" aria-label="Mobile Navigation">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="command-dashboard.html" class="mobile-nav-link">Command Dashboard</a></li>
+          <li><a href="pending-approvals.html" class="mobile-nav-link active">Pending Approvals</a></li>
+          <li><a href="counsellor-workspace.html" class="mobile-nav-link">Review Workspace</a></li>
+          <li><a href="resources.html" class="mobile-nav-link">Resources</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout" style="width: 100%; justify-content: center;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       PAGE CONTENT CONTAINER
+       ======================================================= -->
+  <main class="admin-main-container" id="mainContent" role="main">
+
+    <!-- 1. Page Header (Compact Gradient Banner) -->
+    <section class="admin-page-header" aria-labelledby="pageHeaderTitle">
+      <div class="admin-header-content">
+        <div class="admin-badge-tag">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Administration Enclave
+        </div>
+        <h1 class="admin-header-title" id="pageHeaderTitle">Pending Approvals</h1>
+        <p class="admin-header-desc">Review and approve official account requests.</p>
+        <p class="admin-header-supporting">Only authorised administrators can approve or reject official role requests.</p>
+      </div>
+      <div class="admin-header-actions">
+        <div class="live-sync-indicator" id="liveSyncStatus">
+          <span class="live-dot"></span> Live Sync Active
+        </div>
+        <button type="button" class="btn-refresh-list" id="refreshListBtn" aria-label="Refresh list">
+          <i class="fa-solid fa-rotate"></i> Refresh List
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. Pending Officials List Panel -->
+    <section class="approvals-panel-card" aria-labelledby="pendingSectionTitle">
+      <div class="panel-card-header">
+        <div class="panel-header-left">
+          <h2 class="panel-title" id="pendingSectionTitle">
+            <i class="fa-solid fa-users-gear" style="color: #6B4BA3;" aria-hidden="true"></i>
+            Pending Official Requests
+          </h2>
+          <span class="count-badge" id="pendingCountBadge">0</span>
+        </div>
+      </div>
+
+      <!-- Approvals Table Container -->
+      <div class="table-responsive">
+        <table class="approvals-table" aria-label="Pending official candidates awaiting verification">
+          <thead>
+            <tr>
+              <th scope="col">Candidate Name</th>
+              <th scope="col">Requested Role</th>
+              <th scope="col">Jurisdiction</th>
+              <th scope="col">Registered At</th>
+              <th scope="col">Account Status</th>
+              <th scope="col" class="text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="pendingTableBody">
+            <!-- Populated dynamically via pending-approvals.js -->
+            <tr class="loading-placeholder-row">
+              <td colspan="6">
+                <div class="loading-state-container">
+                  <div class="spinner-custom"></div>
+                  <span>Retrieving pending registrations securely...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================
+       APPROVE OFFICIAL MODAL
+       ======================================================= -->
+  <div class="approval-modal" id="approveModal" role="dialog" aria-modal="true" aria-labelledby="approveModalTitle" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h3 id="approveModalTitle">
+          <i class="fa-solid fa-user-check" style="color: #059669;" aria-hidden="true"></i>
+          Approve Official Account
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeApproveModalBtn" aria-label="Close modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="modal-summary-box">
+          <div class="modal-info-row">
+            <span class="modal-label">Applicant:</span>
+            <span class="modal-val" id="modalApproveName">—</span>
+          </div>
+          <div class="modal-info-row">
+            <span class="modal-label">Email:</span>
+            <span class="modal-val" id="modalApproveEmail">—</span>
+          </div>
+        </div>
+
+        <form id="approveOfficialForm">
+          <input type="hidden" id="approveUserId" />
+          
+          <div class="form-group-custom">
+            <label for="approveRoleSelect" class="form-label-custom">Confirm Role to Assign *</label>
+            <select id="approveRoleSelect" class="form-control-custom" required>
+              <option value="counsellor">Psychological Counsellor</option>
+              <option value="case_officer">Case Coordination Officer</option>
+              <option value="legal_aid_officer">Legal Aid &amp; DLSA Officer</option>
+              <option value="protection_officer">Protection &amp; Security Officer</option>
+              <option value="medical_rehabilitation_officer">Medical &amp; Rehabilitation Officer</option>
+              <option value="district_authority">District Magistrate / Collector</option>
+              <option value="district_admin">District Administrator</option>
+              <option value="state_administrator">State Level Administrator</option>
+            </select>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group-custom">
+              <label for="approveDistrictInput" class="form-label-custom">Assigned District</label>
+              <input type="text" id="approveDistrictInput" class="form-control-custom" value="Chennai District" />
+            </div>
+            <div class="form-group-custom">
+              <label for="approveStateInput" class="form-label-custom">Assigned State</label>
+              <input type="text" id="approveStateInput" class="form-control-custom" value="Tamil Nadu" readonly />
+            </div>
+          </div>
+
+          <div class="form-group-custom">
+            <label for="approveNotesInput" class="form-label-custom">Verification Notes (Internal Audit)</label>
+            <input type="text" id="approveNotesInput" class="form-control-custom" placeholder="e.g. Verified license via Tamil Nadu State Registry" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer-custom">
+        <button type="button" class="btn-modal-cancel" id="cancelApproveBtn">Cancel</button>
+        <button type="submit" form="approveOfficialForm" class="btn-modal-confirm-approve" id="confirmApproveBtn">
+          <i class="fa-solid fa-check"></i> Confirm Approval
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       REJECT OFFICIAL MODAL
+       ======================================================= -->
+  <div class="approval-modal" id="rejectModal" role="dialog" aria-modal="true" aria-labelledby="rejectModalTitle" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header-custom">
+        <h3 id="rejectModalTitle">
+          <i class="fa-solid fa-user-xmark" style="color: #E11D48;" aria-hidden="true"></i>
+          Reject Official Request
+        </h3>
+        <button type="button" class="modal-close-btn" id="closeRejectModalBtn" aria-label="Close modal">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="modal-summary-box">
+          <div class="modal-info-row">
+            <span class="modal-label">Applicant:</span>
+            <span class="modal-val" id="modalRejectName">—</span>
+          </div>
+          <div class="modal-info-row">
+            <span class="modal-label">Email:</span>
+            <span class="modal-val" id="modalRejectEmail">—</span>
+          </div>
+        </div>
+
+        <form id="rejectOfficialForm">
+          <input type="hidden" id="rejectUserId" />
+          <div class="form-group-custom">
+            <label for="rejectReasonInput" class="form-label-custom">Reason for Rejection</label>
+            <textarea id="rejectReasonInput" class="form-control-custom" rows="3" placeholder="Provide reason for audit log (e.g. Unverified credentials or duplicate registration)"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer-custom">
+        <button type="button" class="btn-modal-cancel" id="cancelRejectBtn">Cancel</button>
+        <button type="submit" form="rejectOfficialForm" class="btn-modal-confirm-reject" id="confirmRejectBtn">
+          <i class="fa-solid fa-xmark"></i> Confirm Rejection
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Alert -->
+  <div class="toast-alert-box" id="toastBox" role="alert" aria-live="polite">
+    <i class="fa-solid fa-circle-check" style="color: #10B981;"></i>
+    <span id="toastMessage">Action completed successfully.</span>
+  </div>
+
+  <!-- =======================================================
+       SITE FOOTER (Clean, Aligned, Harmonious)
+       ======================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand & National Initiative -->
+        <div class="footer-col">
+          <div class="footer-brand">
+            <i class="fa-solid fa-brain" style="color: #D4C4FC;" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-desc">
+            Secure, Case-Aware Support Intelligence Platform. District &amp; State Command Centre for inter-agency coordination, victim relief tracking, and executive governance.
+          </p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-building-shield" aria-hidden="true"></i>
+            <span>Role-Protected Administrative Enclave</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Governance & Institutional Links -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Platform Governance</h4>
+          <ul class="footer-links">
+            <li><a href="command-dashboard.html">Command Dashboard</a></li>
+            <li><a href="pending-approvals.html">Pending Approvals</a></li>
+            <li><a href="counsellor-workspace.html">Review Workspace</a></li>
+            <li><a href="resources.html">Official Guidelines</a></li>
+            <li><a href="privacy-policy.html">Privacy Charter</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Legal & Assistance -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Security &amp; Oversight</h4>
+          <ul class="footer-links">
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="privacy-consent.html">Consent Framework</a></li>
+            <li><a href="resources.html">DLSA Directory</a></li>
+            <li><a href="index.html">Platform Status</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura — Smart India Hackathon Project (SIH26094). All rights reserved.</p>
+        <p>Authorised Official Environment. All aggregate metrics and actions are audited for integrity.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/pending-approvals.js"></script>
+</body>
+</html>

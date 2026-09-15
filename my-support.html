@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Support — MENTAURA</title>
+  <meta name="description" content="View your support requests, referrals, and authorised follow-up information in one place.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/my-support.css">
+  <script>window.location.replace('distress-trends.html');</script>
+</head>
+<body class="support-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED VICTIM NAVBAR
+       ======================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      
+      <!-- Language Selector (Left) -->
+      <div class="lang-selector-wrapper">
+        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox" aria-label="Select Language">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span class="lang-text" id="selectedLangText">EN</span>
+          <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" aria-selected="true" class="active" data-lang="EN">English (EN)</li>
+          <li role="option" aria-selected="false" data-lang="HI">हिन्दी (HI)</li>
+          <li role="option" aria-selected="false" data-lang="TA">தமிழ் (TA)</li>
+          <li role="option" aria-selected="false" data-lang="TE">తెలుగు (TE)</li>
+          <li role="option" aria-selected="false" data-lang="KN">ಕನ್ನಡ (KN)</li>
+          <li role="option" aria-selected="false" data-lang="MR">मराठी (MR)</li>
+          <li role="option" aria-selected="false" data-lang="BN">বাংলা (BN)</li>
+        </ul>
+      </div>
+
+      <!-- Navigation Pill (Center) -->
+      <nav class="nav-pill" id="mainNavPill" aria-label="Victim Navigation">
+        <ul class="nav-links">
+          <li><a href="victim-home.html" class="nav-link" id="nav-victim-home">Home</a></li>
+          <li><a href="checkin.html" class="nav-link" id="nav-victim-pulse">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="nav-link active" id="nav-victim-trends">Counsellor Consultation</a></li>
+        </ul>
+      </nav>
+
+      <!-- Authenticated Header Actions (Right) -->
+      <div class="header-actions">
+        <!-- Emergency SOS Button -->
+        <button class="btn btn-sos-header" id="headerSosBtn" title="Instant Emergency Alert (Section 15A Witness Protection)" style="background: #E53E3E; color: #FFFFFF; font-weight: 800; border-radius: 999px; padding: 6px 14px; font-size: 0.82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> SOS Alert
+        </button>
+
+        <!-- Stealth Camouflage Mode Button -->
+        <button class="btn btn-stealth-header" id="headerStealthBtn" title="Quick Camouflage Switch (Esc key)" style="background: #EDE8FB; color: #2B1552; border-radius: 999px; padding: 6px 12px; font-size: 0.80rem; border: 1px solid #D4C4FC; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-eye-slash"></i> Stealth (Esc)
+        </button>
+
+        <!-- User Profile Popover Wrapper -->
+        <div class="user-profile-wrapper">
+          <button class="nav-user-chip" id="userProfileBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="userProfilePopover" aria-label="Open account details">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <span id="navUserName">User</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Profile Popover Dropdown -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-labelledby="popoverTitle" aria-hidden="true">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h2 class="popover-title" id="popoverTitle">Your account</h2>
+                <span class="popover-subtitle" id="popoverUserRole">Victim / Support User</span>
+              </div>
+              <button class="popover-close-btn" id="popoverCloseBtn" aria-label="Close account details">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Name:</span>
+                <span class="popover-value" id="popoverName">Not available</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account type:</span>
+                <span class="popover-value" id="popoverAccountType">Victim / Complainant</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred language:</span>
+                <span class="popover-value" id="popoverLang">English (EN)</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred channel:</span>
+                <span class="popover-value" id="popoverChannel">Web Portal</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account status:</span>
+                <span class="popover-value status-pill-active" id="popoverStatus">Active</span>
+              </div>
+            </div>
+
+            <div class="popover-divider"></div>
+
+            <div class="popover-actions">
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Privacy &amp; Consent</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="index.html#privacy-safety" class="popover-action-link">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>View Privacy Policy</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Communication Preferences</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+            </div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="popoverCloseActionBtn">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline-pill btn-logout" id="headerLogoutBtn" style="padding: 7px 18px; font-size: 0.85rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i> Logout
+        </button>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-hidden="true">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="victim-home.html" class="mobile-nav-link">Home</a></li>
+          <li><a href="checkin.html" class="mobile-nav-link">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="mobile-nav-link active">Counsellor Consultation</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout mobile-btn" style="width: 100%;">Log Out Securely</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       COMPACT PAGE HEADER / HERO
+       ======================================================= -->
+  <section class="support-hero-header" id="supportHeader" aria-labelledby="supportPageHeading">
+    <h1 class="support-hero-title" id="supportPageHeading">My Support</h1>
+    <p class="support-hero-desc">
+      View your support requests, referrals, and authorised follow-up information in one place.
+    </p>
+    <div class="support-trust-badge">
+      <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
+      <span>You can request support through your Support Pulse whenever you need it.</span>
+    </div>
+  </section>
+
+  <!-- =======================================================
+       MAIN CONTENT CONTAINER
+       ======================================================= -->
+  <main class="support-main-container">
+
+    <!-- Loading Skeleton Indicator -->
+    <div id="supportLoadingIndicator" style="text-align: center; padding: 30px 20px; color: #6C5E8A;">
+      <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 1.6rem; color: #7E57C2; margin-bottom: 10px;"></i>
+      <p style="font-size: 0.94rem; font-weight: 600;">Loading your support details…</p>
+    </div>
+
+    <!-- Error Banner -->
+    <div id="supportErrorBanner" style="display: none; background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 12px; padding: 12px 16px; color: #C53030; font-size: 0.88rem; font-weight: 600; text-align: center;" role="alert"></div>
+
+    <!-- Dynamic Content Area -->
+    <div id="supportContentArea" style="display: none; flex-direction: column; gap: 16px;">
+
+      <!-- 1. Top Summary Card (Your Support Overview) -->
+      <section class="support-card support-summary-card" aria-labelledby="summaryCardHeading">
+        <div class="support-card-header-compact">
+          <h2 class="support-card-title-compact" id="summaryCardHeading">
+            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+            Your support overview
+          </h2>
+        </div>
+        <div class="support-summary-grid">
+          <!-- Block A: Active requests -->
+          <div class="summary-block">
+            <span class="summary-block-label">Active requests</span>
+            <span class="summary-block-val" id="summaryActiveCount">0</span>
+            <span class="summary-block-status"><i class="fa-solid fa-clock-rotate-left" style="color: #7E57C2;"></i> Ongoing support</span>
+          </div>
+          <!-- Block B: Under review -->
+          <div class="summary-block">
+            <span class="summary-block-label">Under review</span>
+            <span class="summary-block-val" id="summaryUnderReviewCount">0</span>
+            <span class="summary-block-status"><i class="fa-solid fa-user-clock" style="color: #1565C0;"></i> Authorised review</span>
+          </div>
+          <!-- Block C: Completed support -->
+          <div class="summary-block">
+            <span class="summary-block-label">Completed support</span>
+            <span class="summary-block-val" id="summaryCompletedCount">0</span>
+            <span class="summary-block-status"><i class="fa-solid fa-circle-check" style="color: #1E7E34;"></i> Closed / resolved</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Balanced 2-Column Dashboard Grid -->
+      <div class="support-dashboard-grid">
+
+        <!-- LEFT COLUMN: Your Support Requests -->
+        <div class="support-col-left">
+          <section class="support-card support-requests-card" aria-labelledby="requestsSectionHeading">
+            <div class="support-card-header-compact">
+              <h2 class="support-card-title-compact" id="requestsSectionHeading">
+                <i class="fa-solid fa-hands-holding-child" aria-hidden="true"></i>
+                Your support requests
+              </h2>
+              <a href="checkin.html" class="btn btn-hero-primary" style="padding: 5px 14px; font-size: 0.82rem;">
+                <i class="fa-solid fa-plus" style="margin-right: 4px;"></i> Start a Support Pulse
+              </a>
+            </div>
+            <p class="support-card-sub-compact">
+              Requests recorded through your check-ins and review updates from authorized personnel.
+            </p>
+
+            <!-- Scrollable list of requests or empty state -->
+            <div class="requests-scroll-box">
+              <div class="requests-stack" id="supportRequestsListContainer">
+                <!-- Populated by support.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- Privacy Protection Card (Left Column Bottom) -->
+          <section class="privacy-shield-card" aria-labelledby="privacyCardHeading">
+            <div class="privacy-card-icon">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+            </div>
+            <div class="privacy-card-content">
+              <h2 class="privacy-card-title" id="privacyCardHeading">Your support information is protected</h2>
+              <p class="privacy-card-text">
+                Your support requests are visible only to authorised personnel according to your account and case permissions. Internal notes and other people’s information are not displayed here.
+              </p>
+              <div class="privacy-links-row">
+                <a href="privacy-consent.html" class="privacy-card-link">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Privacy &amp; Consent
+                </a>
+                <a href="index.html#privacy-safety" class="privacy-card-link">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Privacy Policy
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: Available Support & 4-Step Guide -->
+        <div class="support-col-right">
+
+          <!-- A. Support Available Through Mentaura (6 Cards) -->
+          <section class="support-card" aria-labelledby="availableSupportHeading">
+            <div class="support-card-header-compact">
+              <h2 class="support-card-title-compact" id="availableSupportHeading">
+                <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+                Support available through Mentaura
+              </h2>
+            </div>
+            <p class="support-card-sub-compact">
+              Choose Support Pulse to request help. Requests are reviewed by authorised personnel.
+            </p>
+            <div class="categories-grid" id="categoriesGridContainer">
+              <!-- Populated by support.js -->
+            </div>
+          </section>
+
+          <!-- B. What Happens After You Request Support? (4 Steps) -->
+          <section class="support-card" aria-labelledby="howItWorksHeading">
+            <div class="support-card-header-compact">
+              <h2 class="support-card-title-compact" id="howItWorksHeading">
+                <i class="fa-solid fa-list-ol" aria-hidden="true"></i>
+                What happens after you request support?
+              </h2>
+            </div>
+            <div class="steps-grid">
+              <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-text">You choose the support you need through a private Support Pulse.</div>
+              </div>
+              <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-text">Your request is securely and confidentially recorded in Mentaura.</div>
+              </div>
+              <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-text">Authorised support personnel review the request safely.</div>
+              </div>
+              <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-text">The status is updated when the confirmed next step is scheduled.</div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- =======================================================
+       REQUEST DETAILS MODAL (Interactive Read-Only View)
+       ======================================================= -->
+  <div class="modal-backdrop" id="requestDetailsModal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" id="modalCategoryIcon">
+            <i class="fa-solid fa-hands-holding-child"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalTitle">Support Request Details</h2>
+            <span class="modal-sub" id="modalSubmittedDate">Submitted: 10 September 2026</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close details modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Status Banner -->
+        <div class="modal-status-banner">
+          <div>
+            <span class="modal-label">Current status:</span>
+            <span class="status-badge" id="modalStatusBadge">Under review</span>
+          </div>
+          <div id="modalLastUpdatedBox" style="font-size: 0.82rem; color: var(--journey-text-muted);">
+            <!-- Last updated if available -->
+          </div>
+        </div>
+
+        <!-- Status Timeline (Backend Confirmed) -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Support Status Timeline</h3>
+          <div class="modal-timeline" id="modalStatusTimeline">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- Next Steps & Details -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">What Happens Next</h3>
+          <div class="modal-info-box" id="modalNextStepBox">
+            <p id="modalNextStepText" style="margin: 0; font-size: 0.88rem; color: var(--journey-text-main); font-weight: 600;">
+              An authorised support person will review the request and update its status when appropriate.
+            </p>
+          </div>
+        </div>
+
+        <!-- Authorized Assignment / Appointment info if present -->
+        <div class="modal-section" id="modalAppointmentSection" style="display: none;">
+          <h3 class="modal-section-title">Authorised Assignment &amp; Appointment</h3>
+          <div class="modal-info-box" id="modalAppointmentContent">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a href="case-journey.html" class="btn btn-outline-pill" style="padding: 7px 18px; font-size: 0.84rem;">
+          <i class="fa-solid fa-timeline" style="margin-right: 4px;"></i> View Case Journey
+        </a>
+        <button type="button" class="btn btn-hero-primary" id="modalCloseActionBtn" style="padding: 7px 22px; font-size: 0.84rem;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       SITE FOOTER (Exact Match with Victim Home & Global Theme)
+       ======================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand -->
+        <div class="footer-col footer-col-brand">
+          <div class="footer-brand-title">
+            <i class="fa-solid fa-brain brand-icon" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-brand-desc">
+            Case-aware support intelligence for people affected by atrocity cases.
+          </p>
+        </div>
+
+        <!-- Column 2: Support Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Support Space</h3>
+          <ul class="footer-links-list">
+            <li><a href="checkin.html">Support Pulse</a></li>
+            <li><a href="case-journey.html">My Case Journey</a></li>
+            <li><a href="my-support.html">My Support Services</a></li>
+            <li><a href="privacy-consent.html">Privacy &amp; Consent</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Authorised Support</h3>
+          <div class="footer-contact-item">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <a href="mailto:support@mentaura.example">support@mentaura.example</a>
+          </div>
+          <p class="footer-contact-note">
+            For authorised support and programme coordination
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Bottom Copyright Strip -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura. All rights reserved. Secure Case-Aware Support Intelligence.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =======================================================
+       CAMOUFLAGE / STEALTH MODE OVERLAY (Disguised UI)
+       ======================================================= -->
+  <div class="camouflage-overlay" id="homeCamouflageOverlay" style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="font-size: 1.1rem; color: #4B5563; font-weight: 600;">Daily Utility &amp; Calculator</h2>
+      <p style="font-size: 0.8rem; color: #9CA3AF;">Standard desktop utility</p>
+    </div>
+    <div style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div id="homeCalcDisplay" style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">0</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('C')">C</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+/-')">&plusmn;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('%')">%</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('/')">&divide;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('7')">7</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('8')">8</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('9')">9</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('*')">&times;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('4')">4</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('5')">5</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('6')">6</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('-')">&minus;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('1')">1</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('2')">2</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('3')">3</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+')">+</button>
+        <button style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('0')">0</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('.')">.</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('=')">=</button>
+      </div>
+      <div id="homeStealthExit" style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
+        Press ESC or click here to restore support portal
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       EMERGENCY SOS CONFIRMATION MODAL
+       ======================================================= -->
+  <div class="modal-backdrop" id="homeSosModal" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
+      <div id="homeSosCount" style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">5</div>
+      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger</h3>
+      <p style="color: #4B5563; font-size: 0.88rem; line-height: 1.45; margin-bottom: 20px;">
+        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District SP/DSP Control Room and your designated Protection Officer.
+      </p>
+
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-hero-primary" id="homeSosConfirmBtn" style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Trigger Now
+        </button>
+        <button class="btn btn-hero-secondary" id="homeSosCancelBtn" style="padding: 10px 22px;">
+          Cancel (I am safe)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/support.js"></script>
+</body>
+</html>

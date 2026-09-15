@@ -1,0 +1,39 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+**/venv/
+**/.venv/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+.pytest_cache/
+
+# Database WAL/SHM temp files (keep .db but exclude temp)
+*.db-shm
+*.db-wal
+
+# Genkit traces (auto-generated)
+.genkit/
+
+# Uvicorn logs
+uvicorn.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment secrets — keep out of version control
+.env
+
+# Node modules (if any)
+node_modules/
+
+# Build artifacts
+*.egg-info/
+dist/
+build/

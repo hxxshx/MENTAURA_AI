@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MENTAURA — Case-Aware Support Intelligence Platform</title>
+  <meta name="description"
+    content="Secure, multilingual case-aware support monitoring and coordination intelligence for people affected by atrocity cases.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+
+  <!-- =======================================================
+       HEADER & NAVIGATION
+       ======================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+
+      <!-- Language Selector (Left) -->
+      <div class="lang-selector-wrapper">
+        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox"
+          aria-label="Select Language">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span class="lang-text" id="selectedLangText">EN</span>
+          <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" aria-selected="true" class="active" data-lang="EN">English (EN)</li>
+          <li role="option" aria-selected="false" data-lang="HI">हिन्दी (HI)</li>
+          <li role="option" aria-selected="false" data-lang="TA">தமிழ் (TA)</li>
+          <li role="option" aria-selected="false" data-lang="TE">తెలుగు (TE)</li>
+          <li role="option" aria-selected="false" data-lang="KN">ಕನ್ನಡ (KN)</li>
+          <li role="option" aria-selected="false" data-lang="MR">मराठी (MR)</li>
+          <li role="option" aria-selected="false" data-lang="BN">বাংলা (BN)</li>
+        </ul>
+      </div>
+
+      <!-- Navigation Pill (Center) -->
+      <nav class="nav-pill" id="mainNavPill" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active" id="nav-home">Home</a></li>
+          <li><a href="#how-it-works" class="nav-link" id="nav-how">How It Works</a></li>
+          <li><a href="#support-services" class="nav-link" id="nav-services">Support Services</a></li>
+          <li><a href="#resources" class="nav-link" id="nav-resources">Resources</a></li>
+          <li><a href="#privacy-safety" class="nav-link" id="nav-privacy">Privacy &amp; Safety</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons (Right) -->
+      <div class="header-actions">
+        <a href="#signup-placeholder" class="btn btn-secondary-pill" id="headerSignUpBtn">Sign Up</a>
+        <a href="#login-placeholder" class="btn btn-outline-pill" id="headerLoginBtn">Login</a>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-hidden="true">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="#hero" class="mobile-nav-link active">Home</a></li>
+          <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+          <li><a href="#support-services" class="mobile-nav-link">Support Services</a></li>
+          <li><a href="#resources" class="mobile-nav-link">Resources</a></li>
+          <li><a href="#privacy-safety" class="mobile-nav-link">Privacy &amp; Safety</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <a href="#signup-placeholder" class="btn btn-secondary-pill mobile-btn">Sign Up</a>
+          <a href="#login-placeholder" class="btn btn-outline-pill mobile-btn">Login</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- =======================================================
+         HERO SECTION (Compact Pastel Gradient Banner)
+         ======================================================= -->
+    <section class="hero-section" id="hero" aria-labelledby="heroHeading">
+      <div class="hero-content">
+        <!-- Main Heading -->
+        <h1 class="hero-title" id="heroHeading">MENTAURA</h1>
+
+        <!-- Tagline -->
+        <p class="hero-subtitle">Case-Aware Support for People Affected by Atrocity Cases</p>
+
+        <!-- One Small Line Defining the App -->
+        <p class="hero-description">
+          Secure, multilingual support monitoring and human-coordinated care throughout the case journey.
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-actions">
+          <a href="#signup-placeholder" class="btn btn-hero-primary" id="heroPrimaryCta">Create a Support Account</a>
+          <a href="#how-it-works" class="btn btn-hero-secondary" id="heroSecondaryCta">How Mentaura Works</a>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- =======================================================
+         HOW IT WORKS SECTION (5-Step Single Row Flow)
+         ======================================================= -->
+    <section class="how-section" id="how-it-works" aria-labelledby="howHeading">
+      <div class="container-wide">
+        <div class="section-header-centered">
+          <h2 class="section-title" id="howHeading">How Mentaura Works</h2>
+          <p class="section-description">
+            A secure support loop that connects periodic updates with timely, human-reviewed action.
+          </p>
+        </div>
+
+        <div class="steps-flow-container">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-badge-number">01</div>
+            <div class="icon-badge step-icon" aria-hidden="true">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h3 class="step-title">Secure Onboarding</h3>
+            <p class="step-text">Consent, communication preference, and role-based access begin the support journey.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-badge-number">02</div>
+            <div class="icon-badge step-icon" aria-hidden="true">
+              <i class="fa-solid fa-microphone-lines"></i>
+            </div>
+            <h3 class="step-title">Support Pulse</h3>
+            <p class="step-text">Short, private text, voice, or guided updates through approved communication channels.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-badge-number">03</div>
+            <div class="icon-badge step-icon" aria-hidden="true">
+              <i class="fa-solid fa-timeline"></i>
+            </div>
+            <h3 class="step-title">Case-Aware Insights</h3>
+            <p class="step-text">Changes are considered alongside relevant case events and engagement patterns.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="step-card">
+            <div class="step-badge-number">04</div>
+            <div class="icon-badge step-icon" aria-hidden="true">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <h3 class="step-title">Human Review</h3>
+            <p class="step-text">Authorised counsellors and officials review support needs and prioritise follow-up.</p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="step-card">
+            <div class="step-badge-number">05</div>
+            <div class="icon-badge step-icon" aria-hidden="true">
+              <i class="fa-solid fa-heart-circle-check"></i>
+            </div>
+            <h3 class="step-title">Follow-up &amp; Outcomes</h3>
+            <p class="step-text">Referrals, interventions, and follow-up progress are tracked over time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         SUPPORT SERVICES SECTION (5-Card Layout Matching Screenshot)
+         ======================================================= -->
+    <section class="services-section" id="support-services" aria-labelledby="servicesHeading">
+      <div class="container-wide">
+        <div class="section-header-centered">
+          <h2 class="section-title" id="servicesHeading">Support Services</h2>
+        </div>
+
+        <div class="services-grid">
+          <!-- Card 1 -->
+          <div class="service-card">
+            <div class="icon-badge service-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <h3 class="service-title">Support Pulse</h3>
+            <p class="service-text">Short private updates through text, voice, web, SMS, IVRS, and approved channels.
+            </p>
+            <a href="#how-it-works" class="service-btn-link">Learn More</a>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="service-card">
+            <div class="icon-badge service-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-route"></i>
+            </div>
+            <h3 class="service-title">Case Journey Monitoring</h3>
+            <p class="service-text">Connect changing support needs with investigation, hearings, compensation,
+              rehabilitation, and follow-up.</p>
+            <a href="#how-it-works" class="service-btn-link">Learn More</a>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="service-card">
+            <div class="icon-badge service-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-handshake-angle"></i>
+            </div>
+            <h3 class="service-title">Human Support Coordination</h3>
+            <p class="service-text">Help connect counselling, legal aid, medical support, protection, welfare, and
+              rehabilitation referrals.</p>
+            <a href="#resources" class="service-btn-link">Explore Support</a>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="service-card">
+            <div class="icon-badge service-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h3 class="service-title">Explainable Priority Insights</h3>
+            <p class="service-text">Help authorised personnel understand changing support needs and prioritise human
+              review.</p>
+            <a href="#how-it-works" class="service-btn-link">How It Works</a>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="service-card">
+            <div class="icon-badge service-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="service-title">Secure Official Monitoring</h3>
+            <p class="service-text">Enable privacy-aware district, State, and national monitoring through
+              role-appropriate views.</p>
+            <a href="#privacy-safety" class="service-btn-link">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         WHY MENTAURA SECTION (Soft Pink Background as in Screenshot 2)
+         ======================================================= -->
+    <section class="why-section" id="why-mentaura" aria-labelledby="whyHeading">
+      <div class="container">
+        <div class="section-header-centered">
+          <h2 class="section-title" id="whyHeading">Why Choose Mentaura?</h2>
+        </div>
+
+        <div class="why-grid">
+          <!-- Card 1 -->
+          <div class="why-card">
+            <div class="icon-badge why-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="why-title">Consent and Privacy</h3>
+            <p class="why-text">Consent-led data use, role-based access, and privacy-aware handling of sensitive
+              information.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="why-card">
+            <div class="icon-badge why-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-language"></i>
+            </div>
+            <h3 class="why-title">Multilingual Access</h3>
+            <p class="why-text">Support text and voice interactions through accessible Indian-language communication
+              channels.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="why-card">
+            <div class="icon-badge why-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <h3 class="why-title">Case-Aware Follow-up</h3>
+            <p class="why-text">Link support updates to relevant case events, support needs, and follow-up actions.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="why-card">
+            <div class="icon-badge why-icon-badge" aria-hidden="true">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <h3 class="why-title">Human-Reviewed Support</h3>
+            <p class="why-text">AI can assist with prioritisation while authorised professionals make final support
+              decisions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         PRIVACY & SAFETY SECTION
+         ======================================================= -->
+    <section class="privacy-section" id="privacy-safety" aria-labelledby="privacyHeading">
+      <div class="container">
+        <div class="privacy-card-container">
+          <div class="section-header-centered">
+            <div class="privacy-shield-icon" aria-hidden="true">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 class="section-title" id="privacyHeading">Designed for dignity, privacy, and human oversight</h2>
+            <p class="section-description">
+              Mentaura does not replace counsellors, legal-aid officers, medical professionals, protection authorities,
+              or government systems. It helps authorised teams coordinate timely, appropriate support.
+            </p>
+          </div>
+
+          <div class="trust-chips-grid">
+            <div class="trust-chip">
+              <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
+              <span>Consent-led</span>
+            </div>
+            <div class="trust-chip">
+              <i class="fa-solid fa-key" aria-hidden="true"></i>
+              <span>Role-based access</span>
+            </div>
+            <div class="trust-chip">
+              <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
+              <span>Explainable insights</span>
+            </div>
+            <div class="trust-chip">
+              <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+              <span>Human review required</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         RESOURCES SECTION
+         ======================================================= -->
+    <section class="resources-section" id="resources" aria-labelledby="resourcesHeading">
+      <div class="container">
+        <div class="section-header-centered">
+          <h2 class="section-title" id="resourcesHeading">Information and support resources</h2>
+          <p class="section-description">
+            Explore approved information about support pathways, privacy, legal aid, rehabilitation, and case-related
+            assistance.
+          </p>
+        </div>
+
+        <div class="resources-grid">
+          <!-- Resource 1 -->
+          <a href="#resources" class="resource-card">
+            <div class="resource-icon" aria-hidden="true">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <div class="resource-body">
+              <h3 class="resource-title">Understanding the support journey</h3>
+              <p class="resource-desc">Guide to stages from incident reporting to rehabilitation and support check-ins.
+              </p>
+            </div>
+            <div class="resource-arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+
+          <!-- Resource 2 -->
+          <a href="#privacy-safety" class="resource-card">
+            <div class="resource-icon" aria-hidden="true">
+              <i class="fa-solid fa-file-shield"></i>
+            </div>
+            <div class="resource-body">
+              <h3 class="resource-title">Privacy and consent</h3>
+              <p class="resource-desc">How your preferences are stored securely with strict role-based confidentiality.
+              </p>
+            </div>
+            <div class="resource-arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+
+          <!-- Resource 3 -->
+          <a href="#support-services" class="resource-card">
+            <div class="resource-icon" aria-hidden="true">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div class="resource-body">
+              <h3 class="resource-title">Legal and welfare support</h3>
+              <p class="resource-desc">Overview of legal aid schemes, witness protection, and welfare entitlements.</p>
+            </div>
+            <div class="resource-arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+
+          <!-- Resource 4 -->
+          <a href="#how-it-works" class="resource-card">
+            <div class="resource-icon" aria-hidden="true">
+              <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <div class="resource-body">
+              <h3 class="resource-title">Frequently asked questions</h3>
+              <p class="resource-desc">Answers regarding updates, authorised access, languages, and support
+                coordination.</p>
+            </div>
+            <div class="resource-arrow" aria-hidden="true">
+              <i class="fa-solid fa-arrow-right"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         FINAL CTA SECTION (Pastel Gradient matching Screenshot 2)
+         ======================================================= -->
+    <section class="final-cta-section" id="signup-placeholder" aria-labelledby="ctaHeading">
+      <div class="final-cta-content">
+        <h2 class="final-cta-title" id="ctaHeading">A connected support journey starts with a secure account.</h2>
+        <p class="final-cta-description">
+          Create an account to access role-appropriate features, secure support updates, and coordinated follow-up.
+        </p>
+
+        <div class="final-cta-buttons">
+          <a href="#signup-placeholder" class="btn btn-hero-primary" id="ctaPrimaryBtn">Create a Support Account</a>
+          <a href="#how-it-works" class="btn btn-hero-secondary" id="ctaSecondaryBtn">Learn How It Works</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================
+       FOOTER (Dark Purple matching Screenshot 2)
+       ======================================================= -->
+  <footer class="site-footer" id="login-placeholder">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Brand -->
+        <div class="footer-col footer-col-brand">
+          <div class="footer-brand-title">
+            <i class="fa-solid fa-brain brand-icon" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-brand-desc">
+            Case-aware support intelligence for people affected by atrocity cases.
+          </p>
+        </div>
+
+        <!-- Column 2: Support Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Support</h3>
+          <ul class="footer-links-list">
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#privacy-safety">Privacy Policy</a></li>
+            <li><a href="#privacy-safety">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Contact</h3>
+          <div class="footer-contact-item">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <a href="mailto:support@mentaura.example">support@mentaura.example</a>
+          </div>
+          <p class="footer-contact-note">
+            For authorised support and programme information
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Bottom Copyright Strip -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =======================================================
+       AUTHENTICATION MODALS
+       ======================================================= -->
+
+  <!-- 1. SIGNUP MODAL -->
+  <div class="auth-modal-overlay" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupTitle"
+    aria-hidden="true">
+    <div class="auth-modal-card auth-modal-card-wide">
+      <div class="auth-modal-header">
+        <button class="auth-modal-close-btn" aria-label="Close signup modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 class="auth-modal-title" id="signupTitle">Create a Mentaura Support Account</h2>
+        <p class="auth-modal-desc" id="signupDesc">
+          Create a secure account for role-appropriate support, approved communication, and coordinated follow-up.
+        </p>
+      </div>
+      <div class="auth-modal-body">
+        <div class="auth-alert" id="signupAlert" role="alert"></div>
+
+        <!-- SIGNUP FORM STEP -->
+        <form id="signupForm" class="auth-form-grid" novalidate>
+          <!-- 1. Role Selection (All 11 exact roles) -->
+          <div class="form-group auth-grid-full">
+            <label for="signupCategory" class="form-label">How will you use Mentaura? *</label>
+            <select id="signupCategory" class="form-select" required>
+              <option value="" disabled selected>Select your role / category</option>
+              <optgroup label="Affected Individuals &amp; Families">
+                <option value="victim">Victim / Complainant</option>
+                <option value="witness">Witness</option>
+                <option value="affected_family">Affected Family Member</option>
+              </optgroup>
+              <optgroup label="Authorised Support &amp; Officials">
+                <option value="counsellor">Counsellor / Mental-Health Professional</option>
+                <option value="case_officer">Case Officer</option>
+                <option value="district_authority">District Authority</option>
+                <option value="legal_aid_officer">Legal-Aid Officer</option>
+                <option value="protection_officer">Protection Officer</option>
+                <option value="medical_rehab_officer">Medical / Rehabilitation Officer</option>
+                <option value="state_admin">State Administrator</option>
+                <option value="national_admin">National Administrator</option>
+              </optgroup>
+            </select>
+            <span class="form-helper">
+              Selected category dictates role workflow. Official roles require credential verification.
+            </span>
+          </div>
+
+          <!-- 2. Identity Protection & Safe Anonymity Choice (For Affected Individuals & Families Only) -->
+          <div class="form-group auth-grid-full" id="anonymityChoiceGroup" style="display: none;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span>Privacy &amp; Identity Protection</span>
+              <span style="font-size: 0.74rem; font-weight: 600; color: #6366F1; background: #EEF2FF; padding: 2px 8px; border-radius: 8px;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 0.72rem; margin-right: 4px;"></i>Confidential
+              </span>
+            </label>
+
+            <div class="anonymity-options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <!-- Option 1: Anonymous (Recommended) -->
+              <label id="labelAnonYes" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #6366F1; background: #F5F3FF; border-radius: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);">
+                <input type="radio" name="anonymityChoice" id="anonymityChoiceYes" value="true" checked style="accent-color: #6366F1; width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #1E1B4B;">Continue Anonymously</span>
+                  <span style="font-size: 0.76rem; color: #6B7280; line-height: 1.35;">Your name and contact details stay hidden on all records.</span>
+                </div>
+              </label>
+
+              <!-- Option 2: Without Anonymity -->
+              <label id="labelAnonNo" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #E2E8F0; background: #FFFFFF; border-radius: 12px; cursor: pointer; transition: all 0.2s ease;">
+                <input type="radio" name="anonymityChoice" id="anonymityChoiceNo" value="false" style="accent-color: #6366F1; width: 16px; height: 16px; margin-top: 2px; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-weight: 700; font-size: 0.88rem; color: #374151;">Continue with Real Name</span>
+                  <span style="font-size: 0.76rem; color: #6B7280; line-height: 1.35;">Your full registered name is visible to assigned support officers.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Anonymous Notice Banner -->
+          <div class="form-group auth-grid-full" id="anonNoticeBanner" style="display: none; background: #F5F3FF; border: 1.5px solid #DDD6FE; border-radius: 10px; padding: 10px 14px; margin-bottom: 4px;">
+            <div style="font-size: 0.8rem; color: #4338CA; font-weight: 600; display: flex; align-items: center; gap: 7px;">
+              <i class="fa-solid fa-shield-halved" style="color: #6366F1; font-size: 0.88rem;"></i>
+              <span>Private mode: You will receive an Anonymous ID to log in safely.</span>
+            </div>
+          </div>
+
+          <!-- 3. Official ID & Instant Government Credential Verification -->
+          <div class="form-group auth-grid-full" id="officialIdGroup" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label for="signupOfficialId" class="form-label" style="margin-bottom: 0;">Official ID / Government Credential *</label>
+              <span id="officialIdBadge" class="official-verify-badge badge-pending">
+                <i class="fa-solid fa-id-card-clip"></i> Verification Required
+              </span>
+            </div>
+            <div class="official-id-input-wrap">
+              <div class="official-input-relative">
+                <input type="text" id="signupOfficialId" class="form-input official-id-field" placeholder="e.g. GOV-ADM-2026-01 / MH-ADM-84920 / IAS-DM-10928" autocomplete="off">
+                <span id="officialIdInputIcon" class="official-id-input-icon">
+                  <i class="fa-solid fa-building-columns"></i>
+                </span>
+              </div>
+              <button type="button" id="verifyOfficialIdBtn" class="btn-verify-official-id">
+                <i class="fa-solid fa-shield-check"></i>
+                <span id="verifyOfficialIdBtnText">Verify ID</span>
+              </button>
+            </div>
+            <!-- Dynamic verification result message / card -->
+            <div id="officialIdStatusMsg" class="official-verification-card" style="display: none;"></div>
+            <span class="form-helper" id="officialIdHelper">
+              Mandatory for official roles. Valid examples: <code>GOV-ADM-2026-01</code>, <code>MH-ADM-84920</code>, <code>IAS-DM-10928</code>, <code>EMP-10492</code>. Instant verification is required before account creation.
+            </span>
+          </div>
+
+          <!-- 4. Full Name (Hidden when anonymous mode is active) -->
+          <div class="form-group" id="signupFullNameGroup">
+            <label for="signupFullName" class="form-label" id="signupFullNameLabel">Full Name *</label>
+            <input type="text" id="signupFullName" class="form-input" placeholder="Enter your full name" required
+              autocomplete="name">
+          </div>
+
+          <!-- 5. Email (Optional in anonymous mode) -->
+          <div class="form-group" id="signupEmailGroup">
+            <label for="signupEmail" class="form-label" id="signupEmailLabel">Email Address *</label>
+            <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email address" required
+              autocomplete="email">
+            <span class="form-helper" id="signupEmailHelper" style="display: none;">
+              Optional: Leave blank for instant access, or enter email for OTP verification.
+            </span>
+          </div>
+
+          <!-- 6. Password -->
+          <div class="form-group">
+            <label for="signupPassword" class="form-label">Password *</label>
+            <div class="form-control-wrapper">
+              <input type="password" id="signupPassword" class="form-input" placeholder="Create password (min 8 chars, 1 letter, 1 digit)"
+                required autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" data-target="signupPassword"
+                aria-label="Toggle password visibility">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 7. Confirm Password -->
+          <div class="form-group">
+            <label for="signupConfirmPassword" class="form-label">Confirm Password *</label>
+            <div class="form-control-wrapper">
+              <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Re-enter password"
+                required autocomplete="new-password">
+              <button type="button" class="password-toggle-btn" data-target="signupConfirmPassword"
+                aria-label="Toggle password visibility">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Preferred Language -->
+          <div class="form-group">
+            <label for="signupLanguage" class="form-label">Preferred Language</label>
+            <select id="signupLanguage" class="form-select">
+              <option value="en" selected>English (Default)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="ml">മലയാളം (Malayalam)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+            </select>
+          </div>
+
+          <!-- Preferred Communication Channel -->
+          <div class="form-group">
+            <label for="signupChannel" class="form-label">Communication Channel</label>
+            <select id="signupChannel" class="form-select">
+              <option value="web_portal" selected>Web Portal (Secure Browser Access)</option>
+              <option value="sms">SMS Alerts</option>
+              <option value="ivrs">Automated Phone Call (IVRS)</option>
+              <option value="helpline">Dedicated Support Helpline</option>
+            </select>
+          </div>
+
+          <!-- Consent & Privacy Notice (Full width) -->
+          <div class="consent-notice-card auth-grid-full">
+            <div class="consent-notice-title">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Privacy &amp; Safety Commitment</span>
+            </div>
+            <p class="consent-notice-text">
+              Your privacy is our priority. Information you provide is strictly protected and handled in confidence under our <a href="#" id="openPrivacyModalLink" style="color: #6366F1; font-weight: 600; text-decoration: underline; cursor: pointer;">Privacy Policy</a>.
+            </p>
+            <label class="consent-checkbox-label">
+              <input type="checkbox" id="signupConsent" required>
+              <span>I agree to the privacy terms and wish to create my account.</span>
+            </label>
+          </div>
+
+          <!-- Submit Button (Full width) -->
+          <div class="auth-grid-full">
+            <button type="submit" class="btn-auth-submit" id="signupSubmitBtn">Create Support Account</button>
+          </div>
+        </form>
+
+        <!-- OTP VERIFICATION STEP (Shown after signup submission when email is provided) -->
+        <div id="otpSection" style="display: none;">
+          <div class="otp-card-content" style="text-align: center; padding: 12px 4px;">
+            <div class="otp-icon-bubble" style="width: 56px; height: 56px; background: rgba(99, 102, 241, 0.12); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <i class="fa-solid fa-envelope-circle-check" style="font-size: 26px; color: #4338ca;"></i>
+            </div>
+            <h3 style="margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: #1e1b4b;">Enter 6-Digit Verification Code</h3>
+            <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0; line-height: 1.5;">
+              We sent a verification code to <strong id="otpTargetEmail" style="color: #1e1b4b;"></strong>.<br>
+              The code will expire in <strong>10 minutes</strong>.
+            </p>
+
+            <div class="auth-alert" id="otpAlert" role="alert"></div>
+
+            <form id="otpVerificationForm" novalidate style="margin-top: 12px;">
+              <div class="form-group" style="max-width: 260px; margin: 0 auto 20px auto;">
+                <input type="text" id="otpCodeInput" class="form-input otp-digit-input" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" placeholder="------" required autocomplete="one-time-code" style="text-align: center; font-size: 28px; letter-spacing: 10px; font-weight: 700; height: 56px;">
+              </div>
+
+              <button type="submit" class="btn-auth-submit" id="otpSubmitBtn" style="margin-bottom: 14px;">Verify &amp; Continue</button>
+            </form>
+
+            <div style="font-size: 13px; color: #64748b; margin-top: 10px;">
+              Didn't receive the code? 
+              <button type="button" id="resendOtpBtn" style="background: none; border: none; color: #4338ca; font-weight: 600; cursor: pointer; text-decoration: underline; padding: 0 4px;">Resend Code</button>
+            </div>
+            <div style="margin-top: 14px;">
+              <a href="#" id="backToSignupForm" style="font-size: 13px; color: #64748b; text-decoration: underline;">← Edit Registration Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANONYMOUS CREATED SUCCESS STEP (Shown when registered in pure anonymous mode) -->
+        <div id="anonSuccessSection" style="display: none;">
+          <div class="otp-card-content" style="text-align: center; padding: 12px 4px;">
+            <div style="width: 60px; height: 60px; background: rgba(99, 102, 241, 0.12); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15);">
+              <i class="fa-solid fa-shield-halved" style="font-size: 28px; color: #6366F1;"></i>
+            </div>
+            <h3 style="margin: 0 0 6px 0; font-size: 20px; font-weight: 700; color: #1e1b4b;">Anonymous Account Created</h3>
+            <p style="color: #64748b; font-size: 14px; margin: 0 0 16px 0; line-height: 1.45;">
+              Zero personal data was saved. All support coordination and logins use your unique Anonymous ID.
+            </p>
+            <div style="background: #F8FAFC; border: 1.5px dashed #6366F1; border-radius: 12px; padding: 14px; margin-bottom: 18px;">
+              <div style="font-size: 11.5px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Your Protected Anonymous ID</div>
+              <div id="anonCreatedIdDisplay" style="font-size: 24px; font-weight: 800; color: #4338CA; letter-spacing: 2px; margin: 6px 0;">ANON-V-XXXXXX</div>
+              <button type="button" id="copyAnonIdBtn" style="background: #EEF2FF; border: 1px solid #C7D2FE; color: #4338CA; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                <i class="fa-regular fa-copy"></i> <span id="copyAnonIdBtnText">Copy Anonymous ID</span>
+              </button>
+            </div>
+            <div style="font-size: 12.5px; color: #64748b; margin-bottom: 18px; line-height: 1.4;">
+              <strong>Important:</strong> Save your Anonymous ID and password to log in anytime.
+            </div>
+            <button type="button" class="btn-auth-submit" id="anonProceedBtn">Enter Support Portal</button>
+          </div>
+        </div>
+
+        <div class="auth-modal-footer" id="signupFooter">
+          Already have an account? <a href="#" id="switchToLogin">Log in securely</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. LOGIN MODAL -->
+  <div class="auth-modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle"
+    aria-hidden="true">
+    <div class="auth-modal-card auth-modal-card-medium">
+      <div class="auth-modal-header">
+        <button class="auth-modal-close-btn" aria-label="Close login modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 class="auth-modal-title" id="loginTitle">Secure Login</h2>
+        <p class="auth-modal-desc">
+          Access the Mentaura features available for your verified role.
+        </p>
+      </div>
+      <div class="auth-modal-body">
+        <div class="auth-alert" id="loginAlert" role="alert"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="loginEmail" class="form-label">Email Address or Anonymous ID *</label>
+            <input type="text" id="loginEmail" class="form-input" placeholder="Enter your email or Anonymous ID (e.g. ANON-V-XXXX)" required
+              autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label for="loginPassword" class="form-label" style="margin-bottom: 0;">Password *</label>
+              <a href="#" id="openForgotPassword" class="forgot-password-link">Forgot password?</a>
+            </div>
+            <div class="form-control-wrapper">
+              <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required
+                autocomplete="current-password">
+              <button type="button" class="password-toggle-btn" data-target="loginPassword"
+                aria-label="Toggle password visibility">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-auth-submit" id="loginSubmitBtn">Log In Securely</button>
+        </form>
+
+        <div class="auth-modal-footer">
+          New to Mentaura? <a href="#" id="switchToSignup">Create a support account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FORGOT PASSWORD MODAL -->
+  <div class="auth-modal-overlay" id="forgotPasswordModal" role="dialog" aria-modal="true" aria-labelledby="forgotTitle"
+    aria-hidden="true">
+    <div class="auth-modal-card auth-modal-card-medium">
+      <div class="auth-modal-header">
+        <button class="auth-modal-close-btn" aria-label="Close password recovery modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 class="auth-modal-title" id="forgotTitle">Password Recovery</h2>
+        <p class="auth-modal-desc">
+          Enter your registered email address to receive password recovery assistance.
+        </p>
+      </div>
+      <div class="auth-modal-body">
+        <div class="auth-alert" id="forgotAlert" role="alert"></div>
+
+        <form id="forgotPasswordForm" novalidate>
+          <div class="form-group">
+            <label for="forgotEmail" class="form-label">Email Address *</label>
+            <input type="email" id="forgotEmail" class="form-input" placeholder="Enter your registered email" required>
+          </div>
+
+          <button type="submit" class="btn-auth-submit" id="forgotSubmitBtn">Request Reset Link</button>
+        </form>
+
+        <div class="auth-modal-footer">
+          Remember your password? <a href="#" id="backToLogin">Back to login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PRIVACY POLICY MODAL BOX -->
+  <div class="auth-modal-overlay" id="privacyPolicyModal" role="dialog" aria-modal="true" aria-labelledby="privacyModalTitle"
+    aria-hidden="true" style="z-index: 3500;">
+    <div class="auth-modal-card" style="max-width: 660px; width: 92vw; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="auth-modal-header" style="padding: 20px 24px 14px 24px; border-bottom: 1px solid #E2E8F0;">
+        <button class="auth-modal-close-btn" id="closePrivacyModalBtn" aria-label="Close privacy policy modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 42px; height: 42px; background: #EEF2FF; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #6366F1; font-size: 1.2rem; flex-shrink: 0;">
+            <i class="fa-solid fa-file-shield"></i>
+          </div>
+          <div>
+            <h2 class="auth-modal-title" id="privacyModalTitle" style="font-size: 1.25rem; font-weight: 800; color: #1E1B4B; margin: 0 0 2px 0;">Mentaura Privacy Policy</h2>
+            <p class="auth-modal-desc" style="margin: 0; font-size: 0.78rem; color: #6B7280;">
+              Effective Date: September 2026 | Notice Version: v1.0 | SIH26094 Compliance
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-modal-body" style="padding: 20px 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 16px; font-size: 0.88rem; color: #374151; line-height: 1.55;">
+        <section>
+          <h3 style="font-size: 0.96rem; font-weight: 700; color: #1E1B4B; margin: 0 0 4px 0;">1. Purpose &amp; Scope</h3>
+          <p style="margin: 0; color: #4B5563;">
+            Mentaura is a secure, case-aware support intelligence platform developed to assist victims, witnesses, and affected family members. This policy explains our data protection standards, role-based boundaries, and consent frameworks.
+          </p>
+        </section>
+
+        <section>
+          <h3 style="font-size: 0.96rem; font-weight: 700; color: #1E1B4B; margin: 0 0 4px 0;">2. Role-Based Access Control (RBAC)</h3>
+          <p style="margin: 0; color: #4B5563;">
+            Information collected is strictly segregated according to verified platform roles. Selecting an official role during signup requires administrative review before any official access is granted. Victims, witnesses, and counsellors only have access to records permitted for their specific verified relationship.
+          </p>
+        </section>
+
+        <section>
+          <h3 style="font-size: 0.96rem; font-weight: 700; color: #1E1B4B; margin: 0 0 4px 0;">3. Consent &amp; Support Pulse Processing</h3>
+          <p style="margin: 0; color: #4B5563;">
+            Participation in Support Pulse check-ins is voluntary. Users have the right to select AI-assisted processing or direct Human Review Only for each check-in submission. All AI models operate as advisory support tools and require human oversight.
+          </p>
+        </section>
+
+        <section>
+          <h3 style="font-size: 0.96rem; font-weight: 700; color: #1E1B4B; margin: 0 0 4px 0;">4. Data Minimisation &amp; Security</h3>
+          <p style="margin: 0; color: #4B5563;">
+            Personal data is protected using role-based safeguards. For anonymous users, zero personal name, email, or phone number is stored. Session tokens are generated cryptographically and managed through secure HTTP cookies.
+          </p>
+        </section>
+
+        <section>
+          <h3 style="font-size: 0.96rem; font-weight: 700; color: #1E1B4B; margin: 0 0 4px 0;">5. Contacting the Protection Unit</h3>
+          <p style="margin: 0; color: #4B5563;">
+            For privacy inquiries or verification questions, contact the District Support Cell at <code>support@mentaura.example</code>.
+          </p>
+        </section>
+      </div>
+
+      <div class="auth-modal-footer" style="padding: 16px 24px; border-top: 1px solid #E2E8F0; background: #FAF5FF; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; font-weight: 600; color: #1E1B4B; cursor: pointer; margin: 0;">
+          <input type="checkbox" id="modalPrivacyConsent" style="accent-color: #6366F1; width: 17px; height: 17px; cursor: pointer;">
+          <span>I understand and agree to these terms</span>
+        </label>
+        <button type="button" class="btn-auth-submit" id="acceptPrivacyPolicyBtn" style="padding: 8px 20px; font-size: 0.85rem; width: auto; margin: 0;">
+          Accept Terms &amp; Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+
+</html>

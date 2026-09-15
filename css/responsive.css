@@ -1,0 +1,176 @@
+/* ==========================================================================
+   MENTAURA — Responsive Stylesheet (css/responsive.css)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Medium & Large Screens (<= 1180px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .services-grid,
+  .steps-flow-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-link {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Tablets (<= 960px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .nav-pill {
+    display: none;
+  }
+
+  .header-actions {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .steps-flow-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps-flow-container .step-card:last-child {
+    grid-column: span 2;
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .trust-chips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .footer-col-brand {
+    grid-column: span 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Small Tablets & Phones (<= 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 38px 18px 42px;
+  }
+
+  .hero-title {
+    font-size: 2.1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .how-section,
+  .services-section,
+  .why-section,
+  .privacy-section,
+  .resources-section {
+    padding: 24px 0;
+  }
+
+  .services-grid,
+  .why-grid,
+  .resources-grid,
+  .trust-chips-grid,
+  .steps-flow-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .steps-flow-container .step-card:last-child {
+    grid-column: span 1;
+  }
+
+  .service-title,
+  .step-title,
+  .why-title,
+  .resource-title {
+    min-height: auto;
+  }
+
+  .final-cta-section {
+    padding: 22px 14px 24px;
+  }
+
+  .final-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .final-cta-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .footer-col-brand {
+    grid-column: span 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Small Mobile (<= 480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

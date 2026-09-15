@@ -1,0 +1,388 @@
+/* ==========================================================================
+   MENTAURA — Dynamic Distress Trends, Predictive Modeling & XAI Styles
+   SIH 26094 — MedTech / HealthTech Trauma Monitoring
+   ========================================================================== */
+
+.trends-app-wrapper {
+  background-color: var(--bg-services);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.trends-hero-header {
+  background: var(--gradient-hero);
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid rgba(230, 224, 248, 0.85);
+  text-align: center;
+}
+
+.trends-hero-title {
+  color: var(--color-purple-primary);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.trends-hero-desc {
+  color: var(--color-text-main);
+  font-size: 0.95rem;
+  max-width: 720px;
+  margin: 0 auto 10px;
+  line-height: 1.45;
+}
+
+.trends-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-purple-primary);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.80rem;
+  font-weight: 700;
+  border: 1px solid rgba(215, 205, 245, 0.8);
+}
+
+.trends-main-container {
+  max-width: 1320px;
+  margin: 20px auto 40px;
+  padding: 0 clamp(16px, 3vw, 36px);
+  flex: 1;
+  width: 100%;
+}
+
+/* 1. Top Summary Banner (Current DDS & Prediction) */
+.dds-summary-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dds-score-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 20px;
+  border: var(--card-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dds-circle-gauge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  border: 6px solid #BBA9EE;
+  background: #F9F8FE;
+  box-shadow: 0 4px 14px rgba(45, 20, 85, 0.08);
+}
+
+.dds-gauge-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-purple-primary);
+  line-height: 1;
+}
+
+.dds-gauge-max {
+  font-size: 0.72rem;
+  color: #7E7799;
+  font-weight: 700;
+}
+
+.dds-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.badge-risk-low {
+  background: #E6F4EA;
+  color: #137333;
+  border: 1px solid #CEEAD6;
+}
+
+.badge-risk-medium {
+  background: #FEF7E0;
+  color: #B06000;
+  border: 1px solid #FEEFC3;
+}
+
+.badge-risk-high {
+  background: #FCE8E6;
+  color: #C5221F;
+  border: 1px solid #FAD2CF;
+}
+
+/* Predictive Alert Card */
+.prediction-alert-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 20px;
+  border: var(--card-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.prediction-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.prediction-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #EDE8FB;
+  color: #7E57C2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.prediction-title {
+  color: var(--color-purple-primary);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.prediction-text {
+  color: var(--color-text-main);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.prediction-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFF4E5;
+  color: #B76E00;
+  border: 1px solid #FFE0B2;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* 2. Longitudinal Chart Section */
+.chart-card-wrapper {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 24px;
+  border: var(--card-border);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+
+.chart-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-title-group h2 {
+  color: var(--color-purple-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.chart-title-group p {
+  color: var(--color-text-muted);
+  font-size: 0.86rem;
+}
+
+.chart-filter-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.chart-filter-btn {
+  background: #F8F7FD;
+  border: 1px solid rgba(220, 214, 245, 0.9);
+  color: var(--color-purple-primary);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.80rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.chart-filter-btn.active,
+.chart-filter-btn:hover {
+  background: #7E57C2;
+  color: #FFFFFF;
+  border-color: #7E57C2;
+}
+
+.canvas-container {
+  width: 100%;
+  height: 320px;
+  position: relative;
+}
+
+/* Milestone Legend */
+.chart-milestone-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #EDE8FB;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* 3. Bottom Grid: Explainable AI (XAI) & Recommended Interventions */
+.xai-rec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.xai-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 22px 24px;
+  border: var(--card-border);
+  box-shadow: var(--shadow-card);
+}
+
+.xai-card-title {
+  color: var(--color-purple-heading);
+  font-size: 1.18rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xai-factor-row {
+  background: #F9F8FE;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(220, 214, 245, 0.8);
+}
+
+.xai-factor-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.xai-factor-name {
+  font-weight: 700;
+  color: var(--color-purple-primary);
+  font-size: 0.88rem;
+}
+
+.xai-factor-impact {
+  font-weight: 800;
+  color: #B76E00;
+  font-size: 0.84rem;
+  background: #FEF7E0;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.xai-factor-desc {
+  color: var(--color-text-muted);
+  font-size: 0.80rem;
+  line-height: 1.35;
+}
+
+/* Interventions List */
+.intervention-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #F9F8FE;
+  border-radius: 12px;
+  border: 1px solid rgba(220, 214, 245, 0.8);
+  margin-bottom: 10px;
+}
+
+.intervention-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #EDE8FB;
+  color: #7E57C2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.intervention-body {
+  flex: 1;
+}
+
+.intervention-title {
+  color: var(--color-purple-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.intervention-desc {
+  color: var(--color-text-muted);
+  font-size: 0.80rem;
+  line-height: 1.35;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .dds-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .xai-rec-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,23 @@
+# ---- Core web ----
+fastapi
+uvicorn[standard]
+websockets
+
+# ---- Data validation ----
+pydantic
+pydantic-settings
+
+# ---- ML / NLP ----
+torch
+transformers
+sentence-transformers
+sentencepiece
+tiktoken
+protobuf
+langdetect
+numpy
+
+# ---- Testing ----
+pytest
+pytest-asyncio
+httpx

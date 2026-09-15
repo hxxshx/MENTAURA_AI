@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy &amp; Consent — MENTAURA</title>
+  <meta name="description" content="Understand how Mentaura uses your information, manages role-based access, and respects your processing choices." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Core & Page Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/privacy.css" />
+</head>
+<body class="privacy-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED VICTIM HEADER & NAVBAR
+       ======================================================= -->
+  <header class="site-header" role="banner">
+    <div class="header-container">
+      
+      <!-- 1. Brand Logo -->
+      <a href="victim-home.html" class="footer-brand-title" aria-label="Mentaura Home" style="color: #2B1552; text-decoration: none;">
+        <i class="fa-solid fa-brain" style="color: #7E57C2;" aria-hidden="true"></i>
+        <span>MENTAURA</span>
+      </a>
+
+      <!-- 2. Language Selector -->
+      <div class="lang-selector-wrapper">
+        <button 
+          type="button" 
+          class="btn-lang-selector" 
+          id="langSelectBtn" 
+          aria-haspopup="listbox" 
+          aria-expanded="false" 
+          aria-label="Select Language"
+        >
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span id="currentLangLabel">EN</span>
+          <i class="fa-solid fa-chevron-down" style="font-size: 0.72rem;" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" data-lang="en" class="active" aria-selected="true">English (EN)</li>
+          <li role="option" data-lang="hi" aria-selected="false">हिन्दी (HI)</li>
+          <li role="option" data-lang="ta" aria-selected="false">தமிழ் (TA)</li>
+          <li role="option" data-lang="te" aria-selected="false">తెలుగు (TE)</li>
+          <li role="option" data-lang="bn" aria-selected="false">বাংলা (BN)</li>
+          <li role="option" data-lang="mr" aria-selected="false">मराठी (MR)</li>
+        </ul>
+      </div>
+
+      <!-- 3. Navigation Pill (Authenticated Victim Navigation) -->
+      <nav class="nav-pill" aria-label="Victim Navigation">
+        <ul class="nav-links">
+          <li><a href="victim-home.html" class="nav-link">Home</a></li>
+          <li><a href="checkin.html" class="nav-link">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="nav-link">Counsellor Consultation</a></li>
+        </ul>
+      </nav>
+
+      <!-- 4. Header Actions: Profile Popover & Logout -->
+      <div class="header-actions">
+
+        <!-- User Profile Popover Trigger -->
+        <!-- User Profile Popover Trigger -->
+        <div class="user-profile-wrapper">
+          <button 
+            type="button" 
+            class="nav-user-chip" 
+            id="userProfileChip" 
+            aria-haspopup="dialog" 
+            aria-expanded="false" 
+            aria-label="View Account Profile"
+          >
+            <i class="fa-solid fa-circle-user" aria-hidden="true"></i>
+            <span id="navUserName">Victim Space</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Profile Popover Dropdown Card -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-label="User Profile Details">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-shield-cat" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h2 class="popover-title" id="popoverFullName">Victim Account</h2>
+                <div class="popover-subtitle" id="popoverCategory">victim_complainant</div>
+              </div>
+              <button type="button" class="popover-close-btn" id="popoverCloseBtn" aria-label="Close Profile Popover">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Verified Role:</span>
+                <span class="popover-value" id="popoverRole">VICTIM</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account Status:</span>
+                <span class="status-pill-active" id="popoverStatus">Active</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Email:</span>
+                <span class="popover-value" id="popoverEmail">victim@mentaura.example</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Language:</span>
+                <span class="popover-value" id="popoverLanguage">EN</span>
+              </div>
+
+              <div class="popover-divider"></div>
+
+              <div class="popover-actions">
+                <a href="case-journey.html" class="popover-action-link">
+                  <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                  <span>My Case Journey</span>
+                  <i class="fa-solid fa-arrow-right action-arrow" aria-hidden="true"></i>
+                </a>
+                <a href="my-support.html" class="popover-action-link">
+                  <i class="fa-solid fa-hands-holding-child" aria-hidden="true"></i>
+                  <span>My Support</span>
+                  <i class="fa-solid fa-arrow-right action-arrow" aria-hidden="true"></i>
+                </a>
+                <a href="resources.html" class="popover-action-link">
+                  <i class="fa-solid fa-book-open-reader" aria-hidden="true"></i>
+                  <span>Resources &amp; Support</span>
+                  <i class="fa-solid fa-arrow-right action-arrow" aria-hidden="true"></i>
+                </a>
+                <a href="privacy-consent.html" class="popover-action-link">
+                  <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
+                  <span>Privacy &amp; Consent</span>
+                  <i class="fa-solid fa-arrow-right action-arrow" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="popoverCloseActionBtn">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button class="btn btn-outline-pill btn-logout" id="logoutBtn" style="padding: 7px 18px; font-size: 0.85rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;" aria-hidden="true"></i> Logout
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" role="navigation" aria-label="Mobile Navigation">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="victim-home.html" class="mobile-nav-link">Home</a></li>
+          <li><a href="checkin.html" class="mobile-nav-link">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="mobile-nav-link">Counsellor Consultation</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout mobile-btn" style="width: 100%;">Log Out Securely</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       COMPACT PAGE HEADER / HERO
+       ======================================================= -->
+  <section class="privacy-hero-header" id="privacyHeader" aria-labelledby="privacyPageHeading">
+    <h1 class="privacy-hero-title" id="privacyPageHeading">Privacy &amp; Consent</h1>
+    <p class="privacy-hero-desc">
+      Understand how Mentaura protects your information and how your processing choices are respected.
+    </p>
+    <div class="privacy-trust-badge">
+      <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+      <span>Information is role-protected and consent-governed across all support workflows.</span>
+    </div>
+  </section>
+
+  <!-- =======================================================
+       MAIN CONTENT CONTAINER
+       ======================================================= -->
+  <main class="privacy-main-container">
+
+    <!-- 1. Overview & Active Statuses (4 Columns) -->
+    <section class="privacy-summary-card" aria-labelledby="summaryHeading">
+      <div class="section-header-compact">
+        <h2 class="section-title-compact" id="summaryHeading">
+          <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+          Your Information &amp; Choices
+        </h2>
+        <p class="section-desc-compact">
+          Mentaura uses consent-based monitoring and role-based access to safeguard your case journey.
+        </p>
+      </div>
+
+      <div class="summary-status-grid">
+        <!-- Status 1: Account Access -->
+        <div class="summary-status-item">
+          <span class="status-item-label">
+            <i class="fa-solid fa-user-shield" aria-hidden="true"></i> Account access
+          </span>
+          <span class="status-badge-green">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i> Role-protected
+          </span>
+        </div>
+
+        <!-- Status 2: Support Pulse -->
+        <div class="summary-status-item">
+          <span class="status-item-label">
+            <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Support Pulse
+          </span>
+          <span class="status-badge-purple">
+            <i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Consent-based
+          </span>
+        </div>
+
+        <!-- Status 3: Processing Choice -->
+        <div class="summary-status-item">
+          <span class="status-item-label">
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i> Processing choice
+          </span>
+          <span class="status-item-value" id="summaryProcessingValue">
+            Loading...
+          </span>
+        </div>
+
+        <!-- Status 4: Information Visibility -->
+        <div class="summary-status-item">
+          <span class="status-item-label">
+            <i class="fa-solid fa-eye-low-vision" aria-hidden="true"></i> Visibility
+          </span>
+          <span class="status-item-value" style="font-size: 0.90rem;">
+            Authorised roles only
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. How Processing Choices Work (2 Side-by-Side Cards) -->
+    <section class="processing-section" aria-labelledby="processingHeading">
+      <div class="section-header-compact">
+        <h2 class="section-title-compact" id="processingHeading">
+          <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+          How Processing Choices Work
+        </h2>
+        <p class="section-desc-compact">
+          You decide how each Support Pulse check-in is handled. Both choices remain confidential and secure.
+        </p>
+      </div>
+
+      <div class="processing-grid">
+        <!-- Card A: AI-Assisted Support -->
+        <div class="processing-card card-ai">
+          <div class="processing-card-top">
+            <div class="processing-card-header">
+              <div class="processing-icon-title-row">
+                <div class="processing-badge-icon">
+                  <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+                </div>
+                <h3 class="processing-title">AI-assisted support</h3>
+              </div>
+              <span class="status-badge-purple" style="font-size: 0.76rem;">Optional</span>
+            </div>
+
+            <p class="processing-desc">
+              Permitted responses are analysed to identify well-being trends and prioritise authorised human review.
+            </p>
+
+            <ul class="processing-points-list">
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>Helps detect changes and distress signals over time.</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>All automated insights require authorised human review.</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>Does not replace clinical diagnoses or make automatic legal decisions.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="processing-card-footer">
+            <i class="fa-solid fa-user-check" aria-hidden="true"></i> Mandatory Human Oversight
+          </div>
+        </div>
+
+        <!-- Card B: Human Review Only -->
+        <div class="processing-card card-human">
+          <div class="processing-card-top">
+            <div class="processing-card-header">
+              <div class="processing-icon-title-row">
+                <div class="processing-badge-icon">
+                  <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+                </div>
+                <h3 class="processing-title">Human review only</h3>
+              </div>
+              <span style="background: #E2E8F0; color: #334155; padding: 3px 9px; border-radius: 9999px; font-size: 0.76rem; font-weight: 700;">Standard</span>
+            </div>
+
+            <p class="processing-desc">
+              Your updates are securely shared directly with assigned support personnel without AI analysis.
+            </p>
+
+            <ul class="processing-points-list">
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>No automated AI processing job is created for that update.</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>Assigned counsellors review notes and coordinate requests directly.</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <span>Full end-to-end role access protection and encryption applied.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="processing-card-footer" style="color: #475569;">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i> Direct Human Coordination
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. What We Collect & Why (3 Clean Columns) -->
+    <section class="collected-section" aria-labelledby="collectedHeading">
+      <div class="section-header-compact">
+        <h2 class="section-title-compact" id="collectedHeading">
+          <i class="fa-solid fa-database" aria-hidden="true"></i>
+          What We Collect &amp; Why
+        </h2>
+        <p class="section-desc-compact">
+          Every collected field directly serves your support coordination, protection, and platform accountability.
+        </p>
+      </div>
+
+      <div class="collected-grid-3col">
+        <!-- Card 1: Account & Identity -->
+        <div class="collected-card">
+          <div>
+            <div class="collected-card-header">
+              <div class="collected-icon-badge">
+                <i class="fa-solid fa-id-card" aria-hidden="true"></i>
+              </div>
+              <h3 class="collected-card-title">Account &amp; Identity</h3>
+            </div>
+            <ul class="collected-list">
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Full name &amp; contact info.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Preferred language &amp; channel.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Verified role &amp; account status.</span></li>
+            </ul>
+          </div>
+          <div class="collected-purpose-box">
+            <strong>Purpose:</strong> Authenticate access &amp; apply strict role permissions.
+          </div>
+        </div>
+
+        <!-- Card 2: Support Pulse & Requests -->
+        <div class="collected-card">
+          <div>
+            <div class="collected-card-header">
+              <div class="collected-icon-badge">
+                <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
+              </div>
+              <h3 class="collected-card-title">Support Pulse &amp; Needs</h3>
+            </div>
+            <ul class="collected-list">
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Well-being &amp; safety choices.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Optional text &amp; voice audio.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Assistance requests across 6 areas.</span></li>
+            </ul>
+          </div>
+          <div class="collected-purpose-box">
+            <strong>Purpose:</strong> Understand support needs &amp; coordinate assistance.
+          </div>
+        </div>
+
+        <!-- Card 3: Case Journey & Security -->
+        <div class="collected-card">
+          <div>
+            <div class="collected-card-header">
+              <div class="collected-icon-badge">
+                <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+              </div>
+              <h3 class="collected-card-title">Case Stage &amp; Security</h3>
+            </div>
+            <ul class="collected-list">
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Authorised stage &amp; milestones.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Referral &amp; relief updates.</span></li>
+              <li><i class="fa-solid fa-circle-dot" aria-hidden="true"></i> <span>Consent records &amp; audit events.</span></li>
+            </ul>
+          </div>
+          <div class="collected-purpose-box">
+            <strong>Purpose:</strong> Show case progress &amp; maintain institutional accountability.
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- 5. Consent Record, Preferences & Support (2 Columns) -->
+    <div class="two-panel-grid">
+      
+      <!-- Left: Your Consent Record -->
+      <section class="panel-card" aria-labelledby="consentHeading">
+        <div>
+          <div class="section-header-compact">
+            <h2 class="section-title-compact" id="consentHeading">
+              <i class="fa-solid fa-signature" aria-hidden="true"></i>
+              Your Active Consent Record
+            </h2>
+            <p class="section-desc-compact">Consent recorded at registration and check-ins.</p>
+          </div>
+
+          <div id="consentRecordsContainer" style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Rendered dynamically by js/privacy.js -->
+          </div>
+        </div>
+
+        <div style="font-size: 0.80rem; color: #5C5574; padding-top: 8px; border-top: 1px solid #F0EBFB;">
+          <i class="fa-solid fa-lock" style="color: #7E57C2; margin-right: 4px;"></i>
+          Consent timestamps and versions are immutably stored.
+        </div>
+      </section>
+
+      <!-- Right: Communication Preferences & Contact -->
+      <section class="panel-card" aria-labelledby="prefHeading">
+        <div>
+          <div class="section-header-compact">
+            <h2 class="section-title-compact" id="prefHeading">
+              <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+              Preferences &amp; Support Contact
+            </h2>
+            <p class="section-desc-compact">Registered settings and privacy support.</p>
+          </div>
+
+          <div class="pref-row-list">
+            <div class="pref-row-item">
+              <span class="pref-row-label">Preferred language:</span>
+              <span class="pref-row-value" id="prefLanguageVal">English (EN)</span>
+            </div>
+            <div class="pref-row-item">
+              <span class="pref-row-label">Preferred channel:</span>
+              <span class="pref-row-value" id="prefChannelVal">Web Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-action-row">
+          <button type="button" class="btn btn-hero-primary" id="openPrivacyContactBtn" style="padding: 8px 18px; font-size: 0.86rem;">
+            <i class="fa-solid fa-headset" style="margin-right: 5px;"></i> Contact Support
+          </button>
+          <div style="display: flex; gap: 10px;">
+            <a href="privacy-policy.html" style="font-size: 0.84rem; color: #7E57C2; font-weight: 700; text-decoration: underline;">
+              Privacy Policy
+            </a>
+            <span style="color: #C2B4EA;">|</span>
+            <a href="terms-of-service.html" style="font-size: 0.84rem; color: #7E57C2; font-weight: 700; text-decoration: underline;">
+              Terms
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- =======================================================
+       CONTACT SUPPORT MODAL DIALOG
+       ======================================================= -->
+  <div class="modal-backdrop" id="privacyContactModal" role="dialog" aria-labelledby="modalContactTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge">
+            <i class="fa-solid fa-shield-cat"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalContactTitle">Authorised Support Contact</h2>
+            <span style="font-size: 0.76rem; font-weight: 700; color: #7E57C2; text-transform: uppercase;">Privacy &amp; Data Rights</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closePrivacyContactBtn" aria-label="Close contact dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-desc">
+          For privacy concerns, consent inquiries, or official assistance, reach out to your designated district support coordination cell:
+        </p>
+
+        <div class="modal-contact-details-box">
+          <div class="modal-detail-row">
+            <span class="modal-detail-label">Support Unit:</span>
+            <span class="modal-detail-value" id="contactUnitName">District Victim &amp; Witness Support Cell</span>
+          </div>
+          <div class="modal-detail-row">
+            <span class="modal-detail-label">Official Email:</span>
+            <a href="mailto:support@mentaura.example?subject=Mentaura%20Privacy%20Inquiry" class="modal-detail-value" id="contactEmailLink" style="color: #7E57C2; text-decoration: underline;">
+              support@mentaura.example
+            </a>
+          </div>
+          <div class="modal-detail-row">
+            <span class="modal-detail-label">Working Hours:</span>
+            <span class="modal-detail-value">Mon – Sat, 09:00 – 18:00 IST</span>
+          </div>
+        </div>
+
+        <div style="background: #FDF9EC; border: 1px solid #F6E5B3; border-radius: 10px; padding: 12px 14px; font-size: 0.84rem; color: #744210; line-height: 1.4;">
+          <i class="fa-solid fa-triangle-exclamation" style="margin-right: 5px;"></i>
+          <strong>Emergency:</strong> For immediate safety threats, call emergency services (112) or the national helpline.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a href="mailto:support@mentaura.example?subject=Mentaura%20Privacy%20Inquiry" class="btn btn-hero-primary" style="padding: 8px 20px; font-size: 0.86rem;">
+          <i class="fa-solid fa-paper-plane" style="margin-right: 5px;"></i> Email Support
+        </a>
+        <button type="button" class="btn btn-secondary-pill" id="closePrivacyContactActionBtn" style="padding: 8px 20px; font-size: 0.86rem;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       SITE FOOTER (Clean, Aligned, Harmonious)
+       ======================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand & National Initiative -->
+        <div class="footer-col">
+          <div class="footer-brand">
+            <i class="fa-solid fa-brain" style="color: #D4C4FC;" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-desc">
+            Secure, Case-Aware Support Intelligence Platform. Ensuring transparent, consent-based, and role-protected care across all case stages.
+          </p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+            <span>Consent-Based &amp; Role-Protected</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Victim Portal Navigation Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-title">Victim Portal</h3>
+          <ul class="footer-links">
+            <li><a href="victim-home.html">Home Overview</a></li>
+            <li><a href="checkin.html">Support Pulse Check-in</a></li>
+            <li><a href="case-journey.html">My Case Journey</a></li>
+            <li><a href="my-support.html">My Support Requests</a></li>
+            <li><a href="resources.html">Resources &amp; Assistance</a></li>
+            <li><a href="privacy-consent.html">Privacy &amp; Consent</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Security & Governance -->
+        <div class="footer-col">
+          <h3 class="footer-col-title">Security &amp; Governance</h3>
+          <ul class="footer-links">
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="resources.html">Support Guidelines</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 MENTAURA — Smart India Hackathon Project (SIH26094). All rights reserved.</p>
+        <p>Role-protected environment. Information is general guidance and coordinated with authorised personnel.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/privacy.js"></script>
+</body>
+</html>

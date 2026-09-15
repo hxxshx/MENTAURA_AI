@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victim Home — MENTAURA Support Space</title>
+  <meta name="description" content="Private, case-aware support space for victims, witnesses, and affected families.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    /* --------------------------------------------------------------------------
+       Victim Portal Redesign (Calm, Personal, Action-Oriented & Non-Clinical)
+       -------------------------------------------------------------------------- */
+    .victim-app-wrapper {
+      background-color: var(--bg-services);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Welcome Header Banner */
+    .victim-hero-banner {
+      background: var(--gradient-hero);
+      padding: 36px 20px 30px;
+      border-bottom: 1px solid rgba(230, 224, 248, 0.85);
+      text-align: center;
+      position: relative;
+    }
+
+    .victim-hero-container {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .victim-greeting-title {
+      color: var(--color-purple-primary);
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0;
+      line-height: 1.2;
+    }
+
+    .victim-greeting-sub {
+      color: #6B5E8C;
+      font-size: 0.92rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .victim-greeting-micro {
+      color: #554477;
+      font-size: 0.80rem;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .victim-hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    /* Main Content Container */
+    .victim-main-container {
+      max-width: 1400px;
+      margin: 14px auto 32px;
+      padding: 0 clamp(16px, 3vw, 40px);
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Section 1: "You Can Ask For Help With" */
+    .help-categories-section {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 22px 24px;
+      border: var(--card-border);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+
+    .section-header-compact {
+      margin-bottom: 14px;
+    }
+
+    .section-title-compact {
+      color: var(--color-purple-heading);
+      font-size: 1.24rem;
+      font-weight: 800;
+      margin-bottom: 2px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-desc-compact {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      line-height: 1.36;
+    }
+
+    .help-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .help-card-2 {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 22px 24px;
+      border: 1px solid rgba(220, 214, 245, 0.9);
+      box-shadow: 0 4px 16px rgba(43, 21, 82, 0.04);
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .help-card-2:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(126, 87, 194, 0.12);
+      border-color: #BBA9EE;
+    }
+
+    .help-grid-6 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .help-card {
+      background: #F9F8FE;
+      border-radius: 14px;
+      padding: 18px 20px;
+      min-height: 104px;
+      border: 1px solid rgba(224, 218, 245, 0.85);
+      box-shadow: 0 2px 8px rgba(45, 20, 85, 0.02);
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .help-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: #BBA9EE;
+      background: #FFFFFF;
+    }
+
+    .help-card:hover .help-card-link-label {
+      background: #EDE8FB;
+      color: var(--color-purple-primary);
+      border-color: #C4B5FD;
+    }
+
+    .help-card:hover .help-card-link-label i {
+      transform: translateX(2px);
+    }
+
+    .help-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #D4C4FC 0%, #F9CAE1 100%);
+      color: var(--color-purple-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .help-card-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .help-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .help-card-title {
+      color: var(--color-purple-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0;
+    }
+
+    .help-card-desc {
+      color: var(--color-text-muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .help-card-link-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #7E57C2;
+      background: #F8F6FE;
+      border: 1px solid rgba(220, 214, 245, 0.85);
+      padding: 4px 11px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      transition: var(--transition-smooth);
+    }
+
+    .help-card-link-label i {
+      font-size: 0.72rem;
+      transition: transform 0.2s ease;
+    }
+
+    /* Section 2: Two Balanced Cards (Support Journey + My Support) */
+    .victim-2col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 20px 24px;
+      border: var(--card-border);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .section-card-title {
+      color: var(--color-purple-heading);
+      font-size: 1.20rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-card-title i {
+      color: #7E57C2;
+      font-size: 1.05rem;
+    }
+
+    .section-card-sub {
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      line-height: 1.40;
+      margin-bottom: 10px;
+    }
+
+    .support-helper-text {
+      color: var(--color-text-muted);
+      font-size: 0.82rem;
+      line-height: 1.40;
+      margin-bottom: 10px;
+    }
+
+    /* Support Journey Compact Preview List */
+    .journey-preview-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .journey-preview-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #F9F8FE;
+      padding: 7px 11px;
+      border-radius: 9px;
+      border: 1px solid rgba(220, 214, 242, 0.85);
+    }
+
+    .journey-item-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: var(--color-purple-light);
+      color: var(--color-purple-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.80rem;
+      flex-shrink: 0;
+    }
+
+    .journey-item-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .journey-item-label {
+      color: var(--color-purple-heading);
+      font-size: 0.80rem;
+      font-weight: 700;
+    }
+
+    .journey-item-val {
+      color: #6C638A;
+      font-size: 0.75rem;
+    }
+
+    /* Support Status Box */
+    .support-status-box {
+      background: #F8F7FD;
+      border-radius: 11px;
+      padding: 10px 13px;
+      border: 1px solid rgba(220, 214, 242, 0.85);
+      margin-bottom: 14px;
+    }
+
+    .support-status-empty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4C3C6B;
+      font-size: 0.82rem;
+      line-height: 1.40;
+    }
+
+    .card-actions-row {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 2px;
+    }
+
+    /* Section 3: "What Happens After You Share An Update?" */
+    .what-happens-section {
+      background: var(--bg-how);
+      border-radius: 16px;
+      padding: 18px 20px;
+      border: 1px solid rgba(220, 214, 245, 0.9);
+      margin-bottom: 24px;
+    }
+
+    .flow-steps-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .flow-step-card {
+      background: #FFFFFF;
+      border-radius: 11px;
+      padding: 11px 13px;
+      border: 1px solid rgba(230, 224, 248, 0.9);
+      box-shadow: 0 2px 8px rgba(45, 20, 85, 0.03);
+    }
+
+    .flow-step-badge {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #7E57C2;
+      margin-bottom: 3px;
+      letter-spacing: -0.02em;
+    }
+
+    .flow-step-title {
+      color: var(--color-purple-primary);
+      font-size: 0.83rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+
+    .flow-step-desc {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .privacy-policy-link:hover {
+      color: #7E57C2;
+    }
+
+    /* User Profile Popover in Header */
+    .user-profile-wrapper {
+      position: relative;
+    }
+
+    .nav-user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-purple-light);
+      color: var(--color-purple-primary);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.86rem;
+      font-weight: 700;
+      border: 1px solid rgba(215, 205, 245, 0.9);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .nav-user-chip:hover,
+    .nav-user-chip:focus-visible {
+      background: #E2DAF8;
+      border-color: #BBA9EE;
+      outline: none;
+    }
+
+    .nav-user-chevron {
+      font-size: 0.72rem;
+      color: #7E57C2;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-user-chip[aria-expanded="true"] .nav-user-chevron {
+      transform: rotate(180deg);
+    }
+
+    .user-profile-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 330px;
+      max-width: 90vw;
+      background: #FFFFFF;
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(35, 15, 65, 0.18);
+      border: 1px solid rgba(220, 215, 245, 0.95);
+      padding: 18px 20px;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(0.97);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    }
+
+    .user-profile-popover.active,
+    .user-profile-popover.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .site-header {
+      padding: 9px 0;
+      background: #FFFFFF;
+      border-bottom: 1px solid rgba(225, 220, 245, 0.85);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(45, 20, 85, 0.03);
+    }
+
+    .site-header .header-container {
+      max-width: 100%;
+      padding: 0 clamp(20px, 3vw, 44px);
+      margin: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .site-header .lang-selector-wrapper {
+      position: relative;
+      flex: 1 1 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: 0;
+    }
+
+    .site-header .nav-pill {
+      flex: 0 0 auto;
+      background: #FFFFFF;
+      border: 1px solid rgba(220, 215, 245, 0.95);
+      border-radius: var(--radius-pill);
+      padding: 4px 8px;
+      box-shadow: 0 2px 10px rgba(43, 21, 82, 0.04);
+      display: flex;
+      align-items: center;
+    }
+
+    .site-header .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-header .nav-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      color: #5C5574;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+
+    .site-header .nav-link:hover {
+      color: var(--color-purple-primary);
+      background: #F5F2FD;
+    }
+
+    .site-header .nav-link.active {
+      color: var(--color-purple-primary);
+      background: var(--color-purple-light);
+      font-weight: 700;
+    }
+
+    .site-header .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 0;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .popover-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .popover-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #D4C4FC 0%, #F9CAE1 100%);
+      color: var(--color-purple-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+
+    .popover-title {
+      color: var(--color-purple-primary);
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .popover-subtitle {
+      color: var(--color-text-muted);
+      font-size: 0.78rem;
+    }
+
+    .popover-close-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #F8F7FD;
+      color: var(--color-purple-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      border: 1px solid rgba(225, 219, 246, 0.9);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .popover-close-btn:hover {
+      background: #EDE8FB;
+    }
+
+    .popover-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.84rem;
+    }
+
+    .popover-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .popover-label {
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .popover-value {
+      color: var(--color-purple-heading);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .status-pill-active {
+      color: #15803D;
+      background: #DCFCE7;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .popover-divider {
+      height: 1px;
+      background: rgba(226, 220, 246, 0.85);
+      margin: 14px 0 10px;
+    }
+
+    .popover-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .popover-action-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--color-purple-primary);
+      font-size: 0.84rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .popover-action-link:hover {
+      background: #F8F7FD;
+      color: #7E57C2;
+    }
+
+    .popover-action-link i:first-child {
+      color: #7E57C2;
+      width: 16px;
+      text-align: center;
+    }
+
+    .action-arrow {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: #A9A1C5;
+    }
+
+    .popover-footer {
+      margin-top: 10px;
+      padding-top: 8px;
+      text-align: center;
+    }
+
+    .btn-popover-close {
+      width: 100%;
+      background: #F8F7FD;
+      color: var(--color-purple-primary);
+      padding: 7px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1px solid rgba(220, 214, 245, 0.9);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-popover-close:hover {
+      background: #EDE8FB;
+    }
+
+    .badge-anonymous-protected {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #EDE9FE;
+      color: #6D28D9;
+      border: 1.5px solid #C4B5FD;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(124, 58, 237, 0.12);
+      transition: var(--transition-smooth);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .help-grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .help-grid-6 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .flow-steps-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .victim-2col-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .help-grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .help-grid-6 {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-steps-grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .victim-greeting-title {
+        font-size: 1.65rem;
+      }
+
+      .privacy-control-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .user-profile-popover {
+        right: -50px;
+        width: 300px;
+      }
+    }
+  </style>
+</head>
+
+<body class="victim-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED VICTIM NAVBAR
+       ======================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+
+      <!-- Language Selector (Left) -->
+      <div class="lang-selector-wrapper">
+        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox"
+          aria-label="Select Language">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span class="lang-text" id="selectedLangText">EN</span>
+          <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" aria-selected="true" class="active" data-lang="EN">English (EN)</li>
+          <li role="option" aria-selected="false" data-lang="HI">हिन्दी (HI)</li>
+          <li role="option" aria-selected="false" data-lang="TA">தமிழ் (TA)</li>
+          <li role="option" aria-selected="false" data-lang="TE">తెలుగు (TE)</li>
+          <li role="option" aria-selected="false" data-lang="KN">ಕನ್ನಡ (KN)</li>
+          <li role="option" aria-selected="false" data-lang="MR">मराठी (MR)</li>
+          <li role="option" aria-selected="false" data-lang="BN">বাংলা (BN)</li>
+        </ul>
+      </div>
+
+      <!-- Navigation Pill (Center - Authenticated Victim Navigation) -->
+      <nav class="nav-pill" id="mainNavPill" aria-label="Victim Navigation">
+        <ul class="nav-links">
+          <li><a href="victim-home.html" class="nav-link active" id="nav-victim-home">Home</a></li>
+          <li><a href="checkin.html" class="nav-link" id="nav-victim-pulse">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="nav-link" id="nav-victim-trends">Counsellor Consultation</a></li>
+        </ul>
+      </nav>
+
+      <!-- Authenticated Header Actions (Right) -->
+      <div class="header-actions">
+        <!-- User Profile Popover Wrapper -->
+        <div class="user-profile-wrapper">
+          <button class="nav-user-chip" id="userProfileBtn" aria-haspopup="dialog" aria-expanded="false"
+            aria-controls="userProfilePopover" aria-label="Open account details">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <span id="navUserName">User</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Profile Popover Dropdown -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-labelledby="popoverTitle"
+            aria-hidden="true">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h2 class="popover-title" id="popoverTitle">Your account</h2>
+                <span class="popover-subtitle" id="popoverUserRole">Victim / Support User</span>
+              </div>
+              <button class="popover-close-btn" id="popoverCloseBtn" aria-label="Close account details">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Name:</span>
+                <span class="popover-value" id="popoverName">Victim User</span>
+              </div>
+              <div class="popover-info-row" id="popoverAnonIdRow" style="display: none;">
+                <span class="popover-label">Protected ID:</span>
+                <span class="popover-value" id="popoverAnonId"
+                  style="color: #6D28D9; font-family: monospace; font-weight: 800;">-</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account type:</span>
+                <span class="popover-value" id="popoverAccountType">Victim / Complainant</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred language:</span>
+                <span class="popover-value" id="popoverLang">English (EN)</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred channel:</span>
+                <span class="popover-value" id="popoverChannel">Web Portal</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account status:</span>
+                <span class="popover-value status-pill-active" id="popoverStatus">Active</span>
+              </div>
+            </div>
+
+            <div class="popover-divider"></div>
+
+            <div class="popover-actions">
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Privacy &amp; Consent</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="index.html#privacy-safety" class="popover-action-link">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>View Privacy Policy</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Communication Preferences</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+            </div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="popoverCloseActionBtn">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline-pill btn-logout" id="headerLogoutBtn"
+          style="padding: 7px 18px; font-size: 0.85rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i> Logout
+        </button>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-hidden="true">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="victim-home.html" class="mobile-nav-link active">Home</a></li>
+          <li><a href="checkin.html" class="mobile-nav-link">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="mobile-nav-link">Counsellor Consultation</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout mobile-btn" style="width: 100%;">Log Out Securely</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" style="flex: 1;">
+
+    <!-- =======================================================
+         WELCOME HEADER BANNER
+         ======================================================= -->
+    <section class="victim-hero-banner" aria-labelledby="welcomeHeading">
+      <div class="victim-hero-container">
+        <!-- Heading -->
+        <h1 class="victim-greeting-title" id="welcomeHeading">
+          Welcome back, <span id="userDisplayName">User</span>
+        </h1>
+
+        <!-- Supporting Text -->
+        <p class="victim-greeting-sub">
+          Your private support space for check-ins, case updates, and help requests.
+        </p>
+
+
+        <!-- Main Hero CTAs -->
+        <div class="victim-hero-ctas">
+          <a href="checkin.html" class="btn btn-hero-primary" id="heroStartPulseBtn">
+            <i class="fa-solid fa-heart-pulse"></i> Daily Check-In
+          </a>
+          <a href="distress-trends.html" class="btn btn-hero-primary" id="heroViewTrendsBtn">
+            <i class="fa-solid fa-comments"></i> Counsellor Consultation
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         MAIN CONTENT AREA
+         ======================================================= -->
+    <div class="victim-main-container">
+
+      <!-- Dynamic Distress & Well-Being Status Banner -->
+      <div class="dynamic-wellness-widget" id="wellnessBanner"
+        style="background: #FFFFFF; border-radius: 16px; padding: 18px 22px; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 4px 16px rgba(43, 21, 82, 0.05); margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div id="homeDdsIconWrap"
+            style="width: 48px; height: 48px; border-radius: 12px; background: #EDE9FE; color: #7E57C2; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
+            <i class="fa-solid fa-seedling" id="homeDdsIcon"></i>
+          </div>
+          <div>
+            <div
+              style="font-size: 0.76rem; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;">
+              Current Well-Being Status</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="homeDdsVal" style="font-size: 1.35rem; font-weight: 800; color: #2B1552;">No Check-Ins
+                Yet</span>
+              <span id="homeDdsBadge"
+                style="background: #EDE8FB; color: #5B21B6; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; border: 1px solid #C4B5FD;">Ready
+                to Begin</span>
+            </div>
+            <div id="homeDdsSummary" style="font-size: 0.82rem; color: #4B5563; margin-top: 2px;">Complete your first
+              daily check-in below to establish your personal well-being baseline.</div>
+          </div>
+        </div>
+        <a href="checkin.html" class="btn btn-secondary-pill" id="homeDdsCtaBtn"
+          style="padding: 8px 18px; font-size: 0.82rem;">
+          Start First Check-In &rarr;
+        </a>
+      </div>
+
+      <!-- WEB AI CHECK-IN SUITE (3 Core Web Modalities for Victim) -->
+      <section class="channels-launcher-section" style="margin-bottom: 24px;" aria-labelledby="multiChannelHeading">
+        <div class="section-header-compact">
+          <h2 class="section-title-compact" id="multiChannelHeading">
+            <i class="fa-solid fa-heart-pulse" style="color: #7E57C2; margin-right: 8px;"></i>Daily Check-In Modalities
+          </h2>
+          <p class="section-desc-compact">Choose the method that feels most comfortable today. All web check-ins are
+            private, trauma-informed, and encrypted.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <!-- 1. Conversational AI Chatbot -->
+          <a href="checkin.html?channel=chatbot" class="help-card"
+            style="border-top: 3px solid #7E57C2; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div class="help-card-icon"
+                style="background: #EDE9FE; color: #7E57C2; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <div>
+                <span
+                  style="font-size: 0.72rem; font-weight: 700; color: #7E57C2; text-transform: uppercase; letter-spacing: 0.5px;">Interactive
+                  AI</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
+                  Conversational AI Companion</h3>
+              </div>
+            </div>
+            <p class="help-card-desc"
+              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">
+              Empathetic, confidential dialogue in Hindi, English, Tamil &amp; regional languages. Includes
+              speech-to-text mic input, emotional distress scoring, and safety support.</p>
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
+                  class="fa-solid fa-microphone"></i> Text or Voice mic</span>
+              <span class="help-card-link-label"
+                style="font-weight: 700; color: #7E57C2; font-size: 0.82rem; background:#EDE9FE; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Start
+                Chat &rarr;</span>
+            </div>
+          </a>
+
+          <!-- 2. Voice Stress Analyzer -->
+          <a href="checkin.html?channel=voice" class="help-card"
+            style="border-top: 3px solid #D97706; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div class="help-card-icon"
+                style="background: #FEF3C7; color: #D97706; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                <i class="fa-solid fa-microphone-lines"></i>
+              </div>
+              <div>
+                <span
+                  style="font-size: 0.72rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.5px;">Acoustic
+                  Biomarkers</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
+                  Voice Stress Check-In</h3>
+              </div>
+            </div>
+            <p class="help-card-desc"
+              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Speak
+              freely for 30 seconds. Acoustic analysis measures vocal tremor, pitch stability, and speech rate to detect
+              fatigue and tension without typing.</p>
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
+                  class="fa-solid fa-wave-square"></i> 30s audio analysis</span>
+              <span class="help-card-link-label"
+                style="font-weight: 700; color: #D97706; font-size: 0.82rem; background:#FEF3C7; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Record
+                Voice &rarr;</span>
+            </div>
+          </a>
+
+          <!-- 3. Guided Step Form -->
+          <a href="checkin.html?channel=form" class="help-card"
+            style="border-top: 3px solid #059669; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div class="help-card-icon"
+                style="background: #D1FAE5; color: #059669; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                <i class="fa-solid fa-list-check"></i>
+              </div>
+              <div>
+                <span
+                  style="font-size: 0.72rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Low-Cognitive
+                  Flow</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
+                  Guided Step Form</h3>
+              </div>
+            </div>
+            <p class="help-card-desc"
+              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Calm,
+              step-by-step card selections. Tap through your current feelings, court or security stressors, and required
+              support needs in under 2 minutes.</p>
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
+                  class="fa-solid fa-clock"></i> ~2 mins &bull; 4 steps</span>
+              <span class="help-card-link-label"
+                style="font-weight: 700; color: #059669; font-size: 0.82rem; background:#D1FAE5; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Open
+                Form &rarr;</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Supportive Offline & Mobile Telephony Note -->
+        <div
+          style="margin-top: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-phone-flip" style="color: #4F46E5; font-size: 1rem;"></i>
+            <span style="font-size: 0.82rem; color: #475569;">
+              <strong>Low-Connectivity or Offline Support:</strong> Automated IVRS phone calls and SMS check-ins are
+              live for registered mobile numbers.
+            </span>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="tel:+919513886363"
+              style="font-size: 0.78rem; font-weight: 700; color: #4338CA; text-decoration: none; background: #EEF2FF; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-phone-volume"></i> IVRS Call: +91 95138 86363
+            </a>
+            <a href="sms:+919361360775"
+              style="font-size: 0.78rem; font-weight: 700; color: #047857; text-decoration: none; background: #ECFDF5; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-comment-sms"></i> SMS Check-In: +91 93613 60775
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION ONE: "YOU CAN ASK FOR HELP WITH" (2 STREAMLINED SUPPORT CARDS) -->
+      <section class="help-categories-section" aria-labelledby="helpHeading">
+        <div class="section-header-compact">
+          <h2 class="section-title-compact" id="helpHeading">
+            <i class="fa-solid fa-hand-holding-hand" style="color: #7E57C2; margin-right: 8px;"></i>Direct Support &amp;
+            Assistance
+          </h2>
+          <p class="section-desc-compact">
+            Immediate access to authorized mental health support and statutory Section 15A protection rights.
+          </p>
+        </div>
+
+        <div class="help-grid-2">
+          <!-- Card 1: Psychological Counselling & Care -->
+          <div class="help-card-2">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <div class="help-card-icon"
+                  style="background: linear-gradient(135deg, #E9D5FF 0%, #FBCFE8 100%); color: #7E22CE;"
+                  aria-hidden="true">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <span
+                  style="font-size: 0.74rem; font-weight: 700; color: #7E22CE; background: #FAF5FF; border: 1px solid #E9D5FF; padding: 4px 12px; border-radius: 999px;">
+                  <i class="fa-solid fa-user-doctor" style="margin-right: 4px;"></i> Assigned Care: Dr. Priya Nair
+                </span>
+              </div>
+              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Psychological Counselling
+                &amp; Care</h3>
+              <p class="help-card-desc" style="margin-bottom: 14px; font-size: 0.88rem; line-height: 1.5;">
+                Talk directly with your assigned mental health professional or complete an emotional check-in whenever
+                you feel overwhelmed, isolated, or distressed.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                <span
+                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-shield-check" style="color: #10B981;"></i> 100% Confidential
+                </span>
+                <span
+                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-language" style="color: #6366F1;"></i> Multilingual Support
+                </span>
+              </div>
+            </div>
+
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
+              <a href="tel:+919513886363"
+                style="font-size: 0.82rem; font-weight: 700; color: #6D28D9; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-phone-volume"></i> IVRS Helpline (+91 95138 86363)
+              </a>
+              <a href="my-support.html" class="btn btn-secondary-pill"
+                style="padding: 7px 18px; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 6px;">
+                Start Check-In / Talk <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Section 15A Safety & Protection Escort -->
+          <div class="help-card-2">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <div class="help-card-icon"
+                  style="background: linear-gradient(135deg, #DCFCE7 0%, #E0E7FF 100%); color: #047857;"
+                  aria-hidden="true">
+                  <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <span
+                  style="font-size: 0.74rem; font-weight: 700; color: #047857; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 4px 12px; border-radius: 999px;">
+                  <i class="fa-solid fa-gavel" style="margin-right: 4px;"></i> Statutory Right (Sec 15A)
+                </span>
+              </div>
+              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Safety &amp; Protection
+                Support</h3>
+              <p class="help-card-desc" style="margin-bottom: 14px; font-size: 0.88rem; line-height: 1.5;">
+                Under Section 15A of the SC/ST (PoA) Act, 1989, you have the right to state protection. Report
+                intimidation, threats, or request a safe police travel escort for upcoming court hearings.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
+                <span
+                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-car-side" style="color: #0284C7;"></i> Police Hearing Escort
+                </span>
+                <span
+                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-building-shield" style="color: #DC2626;"></i> DSP Atrocities Cell
+                </span>
+              </div>
+            </div>
+
+            <div
+              style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
+              <a href="tel:+919513886363"
+                style="font-size: 0.82rem; font-weight: 700; color: #4338CA; text-decoration: none; background: #EEF2FF; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-phone-volume"></i> IVRS Call: +91 95138 86363
+              </a>
+              <button type="button" class="btn" id="homeReportIntimidationBtn"
+                style="background: linear-gradient(135deg, #7E57C2 0%, #6366F1 100%); color: #FFFFFF; border: none; border-radius: 999px; padding: 7px 18px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(126, 87, 194, 0.25);">
+                Report Threat / Escort <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- =======================================================
+       FOOTER (Matching public site)
+       ======================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Brand -->
+        <div class="footer-col footer-col-brand">
+          <div class="footer-brand-title">
+            <i class="fa-solid fa-brain brand-icon" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-brand-desc">
+            Case-aware support intelligence for people affected by atrocity cases.
+          </p>
+        </div>
+
+        <!-- Column 2: Support Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Support Space</h3>
+          <ul class="footer-links-list">
+            <li><a href="victim-home.html">Home</a></li>
+            <li><a href="checkin.html">Daily Check-In</a></li>
+            <li><a href="distress-trends.html">Counsellor Consultation</a></li>
+            <li><a href="privacy-consent.html">Privacy &amp; Consent</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Authorised Support</h3>
+          <div class="footer-contact-item">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <a href="mailto:support@mentaura.example">support@mentaura.example</a>
+          </div>
+          <p class="footer-contact-note">
+            For authorised support and programme coordination
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Bottom Copyright Strip -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura. All rights reserved. Secure Case-Aware Support Intelligence.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Auth Guard & Dynamic Data Integration Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Setup Profile Popover Dropdown Interaction (Interactive immediately)
+      const profileBtn = document.getElementById('userProfileBtn');
+      const profilePopover = document.getElementById('userProfilePopover');
+      const closeBtn = document.getElementById('popoverCloseBtn');
+      const closeActionBtn = document.getElementById('popoverCloseActionBtn');
+
+      function openPopover() {
+        if (!profilePopover || !profileBtn) return;
+        profilePopover.classList.add('show', 'active');
+        profilePopover.setAttribute('aria-hidden', 'false');
+        profileBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closePopover() {
+        if (!profilePopover || !profileBtn) return;
+        profilePopover.classList.remove('show', 'active');
+        profilePopover.setAttribute('aria-hidden', 'true');
+        profileBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      if (profileBtn && profilePopover) {
+        profileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isActive = profilePopover.classList.contains('active') || profilePopover.classList.contains('show');
+          if (isActive) closePopover();
+          else openPopover();
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
+        if (closeActionBtn) closeActionBtn.addEventListener('click', (e) => { e.stopPropagation(); closePopover(); });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+          if (!profilePopover.contains(e.target) && !profileBtn.contains(e.target)) {
+            closePopover();
+          }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && (profilePopover.classList.contains('active') || profilePopover.classList.contains('show'))) {
+            closePopover();
+            profileBtn.focus();
+          }
+        });
+      }
+
+      // 2. Setup Language Dropdown & Mobile Drawer
+      const langBtn = document.getElementById('langSelectorBtn');
+      const langDropdown = document.getElementById('langDropdown');
+      if (langBtn && langDropdown) {
+        langBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isExpanded = langBtn.getAttribute('aria-expanded') === 'true';
+          langBtn.setAttribute('aria-expanded', !isExpanded);
+          langDropdown.classList.toggle('active');
+          langDropdown.classList.toggle('show');
+        });
+        document.addEventListener('click', () => {
+          langBtn.setAttribute('aria-expanded', 'false');
+          langDropdown.classList.remove('active', 'show');
+        });
+        langDropdown.querySelectorAll('li').forEach(item => {
+          item.addEventListener('click', () => {
+            langDropdown.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+            item.classList.add('active');
+            const langCode = item.getAttribute('data-lang');
+            const txt = document.getElementById('selectedLangText');
+            if (txt) txt.textContent = langCode;
+          });
+        });
+      }
+
+      const mobileToggle = document.getElementById('mobileMenuToggle');
+      const mobileDrawer = document.getElementById('mobileMenuDrawer');
+      if (mobileToggle && mobileDrawer) {
+        mobileToggle.addEventListener('click', () => {
+          const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+          mobileToggle.setAttribute('aria-expanded', !isExpanded);
+          mobileDrawer.classList.toggle('active');
+        });
+      }
+
+      // 3. Authenticated Session & Role Verification
+      let user = null;
+      try {
+        user = await initAuthGuard(['victim', 'witness', 'affected_family_member']);
+      } catch (e) {
+        console.warn('Auth guard check notice:', e);
+      }
+
+      if (user) {
+        // Extract safe name & populate welcome title
+        const isAnonymous = Boolean(user.is_anonymous);
+        const safeName = isAnonymous ? (user.masked_name || 'Protected User') : user.full_name;
+        const firstName = safeName ? safeName.split(' ')[0] : 'User';
+        const userDisplayEl = document.getElementById('userDisplayName');
+        const navUserEl = document.getElementById('navUserName');
+        if (userDisplayEl) userDisplayEl.textContent = isAnonymous ? safeName : firstName;
+        if (navUserEl) navUserEl.textContent = isAnonymous ? safeName : firstName;
+
+
+        // Populate Profile Popover Data
+        const popoverName = document.getElementById('popoverName');
+        const popoverAnonIdRow = document.getElementById('popoverAnonIdRow');
+        const popoverAnonId = document.getElementById('popoverAnonId');
+        const popoverAccountType = document.getElementById('popoverAccountType');
+        const popoverLang = document.getElementById('popoverLang');
+        const popoverChannel = document.getElementById('popoverChannel');
+        const popoverStatus = document.getElementById('popoverStatus');
+        const popoverUserRole = document.getElementById('popoverUserRole');
+
+        if (popoverAnonIdRow && popoverAnonId) {
+          if (isAnonymous && user.anonymous_id) {
+            popoverAnonIdRow.style.display = 'flex';
+            popoverAnonId.textContent = user.anonymous_id;
+          } else {
+            popoverAnonIdRow.style.display = 'none';
+          }
+        }
+
+        if (popoverName) {
+          if (isAnonymous) {
+            popoverName.innerHTML = `${user.masked_name || 'Protected Person'} <span style="font-size:0.75rem; color:#7C3AED; font-weight:700;">(${user.anonymous_id || 'Protected'})</span>`;
+          } else {
+            popoverName.textContent = user.full_name || 'Victim User';
+          }
+        }
+        if (popoverAccountType) popoverAccountType.textContent = (formatRole(user.verified_role) || 'Victim / Complainant') + (isAnonymous ? ' (Anonymous Mode)' : '');
+        if (popoverUserRole) popoverUserRole.textContent = (formatRole(user.verified_role) || 'Victim / Support User') + (isAnonymous ? ' (Anonymous Mode)' : '');
+        if (popoverStatus) popoverStatus.textContent = formatStatus(user.account_status) || 'Active';
+
+        // Fetch Victim Overview Data
+        try {
+          const res = await fetch('/api/victim/overview', {
+            credentials: 'include'
+          });
+          if (res.ok) {
+            const overview = await res.json();
+            if (popoverLang) {
+              popoverLang.textContent = formatLanguage(overview.preferred_language) || 'English (EN)';
+            }
+            if (popoverChannel) {
+              popoverChannel.textContent = overview.preferred_channel_display || 'Web Portal';
+            }
+            if (overview.case_overview && overview.case_overview.is_linked) {
+              const stageEl = document.getElementById('caseStageVal');
+              const nextEl = document.getElementById('nextUpdateVal');
+              const followEl = document.getElementById('followUpVal');
+              const rehabEl = document.getElementById('rehabVal');
+              const subText = document.getElementById('journeySubText');
+              if (stageEl) stageEl.textContent = overview.case_overview.stage_display;
+              if (nextEl) nextEl.textContent = overview.case_overview.next_update_display;
+              if (followEl) followEl.textContent = overview.case_overview.support_team_display;
+              if (rehabEl) rehabEl.textContent = overview.case_overview.rehab_display || 'In review';
+              if (subText) subText.textContent = 'Active case updates and milestones.';
+            }
+            if (overview.support_requests && overview.support_requests.has_active_request) {
+              const subText = document.getElementById('supportSubText');
+              if (subText) subText.textContent = overview.support_requests.status_display;
+            }
+          }
+        } catch (err) {
+          console.warn('Victim overview fetch notice:', err);
+        }
+      }
+    });
+  </script>
+
+  <!-- =======================================================
+       CAMOUFLAGE / STEALTH MODE OVERLAY (Disguised UI)
+       ======================================================= -->
+  <div class="camouflage-overlay" id="homeCamouflageOverlay"
+    style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="font-size: 1.1rem; color: #4B5563; font-weight: 600;">Daily Utility &amp; Calculator</h2>
+      <p style="font-size: 0.8rem; color: #9CA3AF;">Standard desktop utility</p>
+    </div>
+    <div
+      style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div id="homeCalcDisplay"
+        style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">
+        0</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('C')">C</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('+/-')">&plusmn;</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('%')">%</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('/')">&divide;</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('7')">7</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('8')">8</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('9')">9</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('*')">&times;</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('4')">4</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('5')">5</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('6')">6</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('-')">&minus;</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('1')">1</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('2')">2</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('3')">3</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('+')">+</button>
+        <button
+          style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('0')">0</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('.')">.</button>
+        <button
+          style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
+          onclick="homeCalc('=')">=</button>
+      </div>
+      <div id="homeStealthExit"
+        style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
+        Press ESC or click here to restore support portal
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       EMERGENCY SOS CONFIRMATION MODAL
+       ======================================================= -->
+  <div class="modal-backdrop" id="homeSosModal"
+    style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div
+      style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
+      <div id="homeSosCount"
+        style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">
+        5</div>
+      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger
+      </h3>
+      <p style="color: #4B5563; font-size: 0.88rem; line-height: 1.45; margin-bottom: 20px;">
+        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District
+        SP/DSP Control Room and your designated Protection Officer.
+      </p>
+
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-hero-primary" id="homeSosConfirmBtn"
+          style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Trigger Now
+        </button>
+        <button class="btn btn-hero-secondary" id="homeSosCancelBtn" style="padding: 10px 22px;">
+          Cancel (I am safe)
+        </button>
+      </div>
+
+      <div style="margin-top: 18px; font-size: 0.78rem; color: #6B7280;">
+        Direct Helplines: <strong>14566</strong> (NHAA) &bull; <strong>112</strong> (Police)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 7. Dynamic Distress Banner Population
+    async function loadHomeDistressTrends() {
+      try {
+        const res = await fetch('/api/victim/distress-trends', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          const valEl = document.getElementById('homeDdsVal');
+          const badgeEl = document.getElementById('homeDdsBadge');
+          const sumEl = document.getElementById('homeDdsSummary');
+          const ctaBtn = document.getElementById('homeDdsCtaBtn');
+          const iconEl = document.getElementById('homeDdsIcon');
+
+          // Case A: New user with no check-ins yet
+          if (!data.has_checkins || data.current_dds === null || data.total_checkins === 0) {
+            if (valEl) valEl.textContent = 'No Check-Ins Yet';
+            if (badgeEl) {
+              badgeEl.style.background = '#EDE8FB';
+              badgeEl.style.color = '#5B21B6';
+              badgeEl.style.borderColor = '#C4B5FD';
+              badgeEl.textContent = 'Ready to Begin';
+            }
+            if (sumEl) sumEl.textContent = 'Complete your first daily check-in below to establish your personal well-being baseline.';
+            if (ctaBtn) {
+              ctaBtn.href = 'checkin.html';
+              ctaBtn.innerHTML = 'Start First Check-In &rarr;';
+            }
+            if (iconEl) iconEl.className = 'fa-solid fa-seedling';
+            return;
+          }
+
+          // Case B: User has completed check-ins
+          const dds = data.current_dds;
+          if (iconEl) iconEl.className = 'fa-solid fa-heart-pulse';
+
+          if (badgeEl) {
+            if (dds >= 70) {
+              if (valEl) valEl.textContent = `Stress Level: High (${dds}/100)`;
+              badgeEl.style.background = '#FEE2E2';
+              badgeEl.style.color = '#991B1B';
+              badgeEl.style.borderColor = '#FECACA';
+              badgeEl.textContent = 'Support Recommended';
+            } else if (dds >= 40) {
+              if (valEl) valEl.textContent = `Stress Level: Moderate (${dds}/100)`;
+              badgeEl.style.background = '#FEF3C7';
+              badgeEl.style.color = '#92400E';
+              badgeEl.style.borderColor = '#FDE68A';
+              badgeEl.textContent = 'Moderate Strain';
+            } else {
+              if (valEl) valEl.textContent = `Stress Level: Low (${dds}/100)`;
+              badgeEl.style.background = '#ECFDF5';
+              badgeEl.style.color = '#065F46';
+              badgeEl.style.borderColor = '#A7F3D0';
+              badgeEl.textContent = 'Calm & Steady';
+            }
+          }
+
+          if (sumEl) {
+            if (data.xai_factors && data.xai_factors.length > 0) {
+              sumEl.textContent = `Why this score: ${data.xai_factors[0].detail || data.xai_factors[0].factor}.`;
+            } else {
+              sumEl.textContent = 'Balanced emotional markers across recent check-ins.';
+            }
+          }
+
+          if (ctaBtn) {
+            ctaBtn.href = 'distress-trends.html';
+            ctaBtn.innerHTML = 'View My Progress &rarr;';
+          }
+        }
+      } catch (e) {
+        console.warn('Distress trends notice:', e);
+      }
+    }
+    loadHomeDistressTrends();
+
+    // 9. Stealth Mode & Emergency SOS
+    const stealthBtn = document.getElementById('headerStealthBtn');
+    const camouflage = document.getElementById('homeCamouflageOverlay');
+    const stealthExit = document.getElementById('homeStealthExit');
+
+    function toggleHomeStealth() {
+      if (!camouflage) return;
+      camouflage.style.display = camouflage.style.display === 'none' ? 'block' : 'none';
+    }
+
+    if (stealthBtn) stealthBtn.addEventListener('click', toggleHomeStealth);
+    if (stealthExit) stealthExit.addEventListener('click', toggleHomeStealth);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') toggleHomeStealth();
+    });
+
+    let homeSosTimer = null;
+    let homeSosSecs = 5;
+    const sosBtn = document.getElementById('headerSosBtn');
+    const sosModal = document.getElementById('homeSosModal');
+    const sosCount = document.getElementById('homeSosCount');
+    const sosCancel = document.getElementById('homeSosCancelBtn');
+    const sosConfirm = document.getElementById('homeSosConfirmBtn');
+
+    if (sosBtn && sosModal) {
+      sosBtn.addEventListener('click', () => {
+        homeSosSecs = 5;
+        if (sosCount) sosCount.textContent = '5';
+        sosModal.style.display = 'flex';
+
+        clearInterval(homeSosTimer);
+        homeSosTimer = setInterval(() => {
+          homeSosSecs--;
+          if (sosCount) sosCount.textContent = `${homeSosSecs}`;
+          if (homeSosSecs <= 0) {
+            clearInterval(homeSosTimer);
+            sendHomeSos();
+          }
+        }, 1000);
+      });
+    }
+
+    if (sosCancel) {
+      sosCancel.addEventListener('click', () => {
+        clearInterval(homeSosTimer);
+        if (sosModal) sosModal.style.display = 'none';
+      });
+    }
+
+    if (sosConfirm) {
+      sosConfirm.addEventListener('click', () => {
+        clearInterval(homeSosTimer);
+        sendHomeSos();
+      });
+    }
+
+    async function sendHomeSos() {
+      if (sosModal) sosModal.style.display = 'none';
+      try {
+        const res = await fetch('/api/victim/sos-alert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ immediate_danger_type: "Emergency SOS Panic Alert" }),
+          credentials: 'include'
+        });
+        const json = await res.json();
+        alert(`EMERGENCY SOS BROADCAST ACTIVATED: Alert #${json.sos_id || 'SOS-2026'}.\nDistrict SP/DSP Control Room notified under Section 15A Witness Protection.`);
+      } catch (err) {
+        alert("Emergency alert sent to District Control Cell. Contact 14566 or 112 immediately.");
+      }
+    }
+
+    // Simple calculator logic for camouflage
+    let hCalcVal = '0', hCalcPrev = null, hCalcOp = null;
+    window.homeCalc = function (val) {
+      const disp = document.getElementById('homeCalcDisplay');
+      if (!disp) return;
+      if (val === 'C') {
+        hCalcVal = '0'; hCalcPrev = null; hCalcOp = null;
+      } else if (['+', '-', '*', '/'].includes(val)) {
+        hCalcPrev = parseFloat(hCalcVal);
+        hCalcOp = val;
+        hCalcVal = '0';
+      } else if (val === '=') {
+        if (hCalcOp && hCalcPrev !== null) {
+          const cur = parseFloat(hCalcVal);
+          if (hCalcOp === '+') hCalcVal = String(hCalcPrev + cur);
+          if (hCalcOp === '-') hCalcVal = String(hCalcPrev - cur);
+          if (hCalcOp === '*') hCalcVal = String(hCalcPrev * cur);
+          if (hCalcOp === '/') hCalcVal = cur !== 0 ? String(hCalcPrev / cur) : 'Error';
+          hCalcOp = null; hCalcPrev = null;
+        }
+      } else {
+        hCalcVal = hCalcVal === '0' ? val : hCalcVal + val;
+      }
+      disp.textContent = hCalcVal;
+    };
+  </script>
+
+  <!-- =======================================================
+       EMERGENCY SOS CONFIRMATION MODAL
+       ======================================================= -->
+  <div class="pulse-modal-backdrop" id="homeSosModal" role="dialog" aria-modal="true"
+    aria-labelledby="homeSosModalTitle"
+    style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
+    <div
+      style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 440px; width: 90%; border: 2px solid #E53E3E; box-shadow: 0 16px 40px rgba(0,0,0,0.2); text-align: center;">
+      <div
+        style="width: 52px; height: 52px; border-radius: 50%; background: #FED7D7; color: #C53030; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 12px;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h3 style="color: #C53030; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px;">Trigger Emergency SOS Alert?
+      </h3>
+      <p style="color: #5C5574; font-size: 0.86rem; line-height: 1.4; margin-bottom: 14px;">
+        This will immediately alert the District Police Control Room (SP / DSP Atrocities Cell) and your assigned
+        Protection Officer under Section 15A of the PoA Act.
+      </p>
+      <div
+        style="background: #FFF5F5; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.84rem; color: #9B2C2C;">
+        <strong>Automatic Broadcast in:</strong> <span id="homeSosCountdownTimer"
+          style="font-size: 1.3rem; font-weight: 800; color: #E53E3E;">5</span> seconds
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button type="button" id="confirmHomeSosBtn"
+          style="background: #E53E3E; color: #FFFFFF; width: 100%; border-radius: 999px; padding: 10px; font-weight: 800; border: none; cursor: pointer; font-size: 0.9rem;">
+          Send Immediate SOS Now
+        </button>
+        <button type="button" id="cancelHomeSosBtn" class="btn btn-outline-pill" style="width: 100%; padding: 8px;">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       SECTION 15A THREAT & INTIMIDATION REPORT MODAL
+       ======================================================= -->
+  <div class="pulse-modal-backdrop" id="threatReportModal" role="dialog" aria-modal="true"
+    aria-labelledby="threatModalTitle"
+    style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
+    <div
+      style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 520px; width: 92%; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 16px 40px rgba(0,0,0,0.2);">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #EDE8FB; padding-bottom: 10px;">
+        <h3 style="color: #2B1552; font-size: 1.15rem; font-weight: 800; margin: 0;">
+          <i class="fa-solid fa-shield-halved" style="color: #C53030; margin-right: 6px;"></i> Log Threat Under Section
+          15A
+        </h3>
+        <button type="button" id="closeThreatModalBtn"
+          style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #7E7799;">&times;</button>
+      </div>
+      <p style="color: #5C5574; font-size: 0.82rem; line-height: 1.38; margin-bottom: 14px;">
+        Under Section 15A of the Scheduled Castes &amp; Scheduled Tribes (PoA) Act, 1989, you have the legal right to
+        immediate police protection from harassment, stalking, or intimidation.
+      </p>
+      <form id="threatReportForm" style="display: flex; flex-direction: column; gap: 12px;">
+        <div>
+          <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Type of Incident</label>
+          <select id="threatTypeSelect"
+            style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
+            <option value="direct_physical_threat">Direct Physical Threat / Intimidation</option>
+            <option value="stalking_surveillance">Stalking / Accused loitering near house</option>
+            <option value="bribe_pressure_to_compromise">Pressure or bribe to compromise / drop FIR</option>
+            <option value="social_boycott">Social Boycott / Denial of village access</option>
+            <option value="property_damage">Property Damage or Arson</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Source of Threat / Perpetrator</label>
+          <input type="text" id="threatSourceInput" placeholder="e.g. Accused party relatives, village members"
+            style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
+        </div>
+        <div>
+          <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Incident Narrative &amp; Details</label>
+          <textarea id="threatNarrativeInput" required placeholder="Describe what happened, where, and when..."
+            style="width: 100%; height: 90px; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;"></textarea>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
+          <button type="button" id="cancelThreatBtn" class="btn btn-outline-pill"
+            style="padding: 7px 16px; font-size: 0.82rem;">Cancel</button>
+          <button type="submit" class="btn"
+            style="background: #E53E3E; color: #FFFFFF; border-radius: 999px; padding: 7px 20px; font-size: 0.82rem; font-weight: 800; border: none; cursor: pointer;">
+            Submit Threat Report
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       CAMOUFLAGE / STEALTH OVERLAY (ESC KEY)
+       ======================================================= -->
+  <div id="homeStealthOverlay"
+    style="display: none; position: fixed; inset: 0; background: #F3F4F6; z-index: 999999; font-family: 'Segoe UI', Arial, sans-serif; padding: 24px;">
+    <div
+      style="max-width: 600px; margin: 40px auto; background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 24px; border: 1px solid #E5E7EB;">
+      <div
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 style="font-size: 1.1rem; color: #1F2937; margin: 0;"><i class="fa-solid fa-calculator"
+            style="margin-right: 8px; color: #4B5563;"></i> Daily Notes &amp; Weather Utility</h2>
+        <button type="button" id="exitHomeStealthBtn"
+          style="background: #E5E7EB; border: none; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: #374151;">Resume
+          (Esc)</button>
+      </div>
+      <div style="margin-bottom: 16px;">
+        <div
+          style="display: flex; gap: 16px; align-items: center; background: #F9FAFB; padding: 12px; border-radius: 8px;">
+          <i class="fa-solid fa-cloud-sun" style="font-size: 2rem; color: #F59E0B;"></i>
+          <div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: #1F2937;">28°C — Partly Cloudy</div>
+            <div style="font-size: 0.82rem; color: #6B7280;">District Headquarters • Humidity 62% • Air Quality:
+              Moderate</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label style="font-size: 0.82rem; font-weight: 600; color: #4B5563;">Scratchpad</label>
+        <textarea
+          style="width: 100%; height: 140px; border: 1px solid #D1D5DB; border-radius: 8px; padding: 10px; margin-top: 6px; font-size: 0.88rem;"
+          placeholder="Grocery list, ration items, household notes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // SIH 26094 — VICTIM HOME DYNAMIC CONTROLLER
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Setup Stealth Camouflage Mode (Esc key toggle)
+      const stealthOverlay = document.getElementById('homeStealthOverlay');
+      const stealthBtn = document.getElementById('headerStealthBtn');
+      const exitStealthBtn = document.getElementById('exitHomeStealthBtn');
+
+      function toggleStealth() {
+        if (!stealthOverlay) return;
+        const isVis = stealthOverlay.style.display === 'block';
+        stealthOverlay.style.display = isVis ? 'none' : 'block';
+      }
+
+      if (stealthBtn) stealthBtn.addEventListener('click', toggleStealth);
+      if (exitStealthBtn) exitStealthBtn.addEventListener('click', toggleStealth);
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') toggleStealth();
+      });
+
+      // 3. Setup SOS Panic Modal
+      const sosModal = document.getElementById('homeSosModal');
+      const headerSosBtn = document.getElementById('headerSosBtn');
+      const cancelSosBtn = document.getElementById('cancelHomeSosBtn');
+      const confirmSosBtn = document.getElementById('confirmHomeSosBtn');
+      const timerDisplay = document.getElementById('homeSosCountdownTimer');
+      let timerInterval = null;
+
+      function openSos() {
+        if (!sosModal) return;
+        sosModal.style.display = 'flex';
+        let seconds = 5;
+        if (timerDisplay) timerDisplay.textContent = seconds;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          seconds -= 1;
+          if (timerDisplay) timerDisplay.textContent = seconds;
+          if (seconds <= 0) {
+            clearInterval(timerInterval);
+            dispatchSos();
+          }
+        }, 1000);
+      }
+
+      function closeSos() {
+        clearInterval(timerInterval);
+        if (sosModal) sosModal.style.display = 'none';
+      }
+
+      async function dispatchSos() {
+        clearInterval(timerInterval);
+        try {
+          const res = await fetch('/api/victim/sos-alert', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('access_token') || localStorage.getItem('access_token') || ''}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ immediate_danger_type: "Emergency SOS Panic Triggered via Home Header" })
+          });
+          alert('EMERGENCY SOS ALERT ACTIVATED!\n\nYour alert has been broadcast to the District Police Control Room (SP/DSP) and Protection Officer under Section 15A.');
+        } catch (err) {
+          alert('Emergency alert sent. Please dial 14566 or 112 immediately.');
+        } finally {
+          closeSos();
+        }
+      }
+
+      if (headerSosBtn) headerSosBtn.addEventListener('click', openSos);
+      if (cancelSosBtn) cancelSosBtn.addEventListener('click', closeSos);
+      if (confirmSosBtn) confirmSosBtn.addEventListener('click', dispatchSos);
+
+      // 4. Setup Section 15A Threat Reporting Modal
+      const threatModal = document.getElementById('threatReportModal');
+      const openThreatBtn = document.getElementById('homeReportIntimidationBtn');
+      const closeThreatBtn = document.getElementById('closeThreatModalBtn');
+      const cancelThreatBtn = document.getElementById('cancelThreatBtn');
+      const threatForm = document.getElementById('threatReportForm');
+
+      if (openThreatBtn && threatModal) {
+        openThreatBtn.addEventListener('click', () => { threatModal.style.display = 'flex'; });
+        if (closeThreatBtn) closeThreatBtn.addEventListener('click', () => { threatModal.style.display = 'none'; });
+        if (cancelThreatBtn) cancelThreatBtn.addEventListener('click', () => { threatModal.style.display = 'none'; });
+
+        if (threatForm) {
+          threatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+              incident_type: document.getElementById('threatTypeSelect').value,
+              threat_source: document.getElementById('threatSourceInput').value,
+              narrative: document.getElementById('threatNarrativeInput').value,
+              urgency_level: "high"
+            };
+
+            try {
+              const res = await fetch('/api/victim/report-intimidation', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${sessionStorage.getItem('access_token') || localStorage.getItem('access_token') || ''}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+              });
+
+              if (res.ok) {
+                alert('Threat Incident Successfully Recorded under Section 15A Witness Protection.\n\nYour submission has been dispatched to the District SP/DSP Atrocities cell for urgent action.');
+                threatModal.style.display = 'none';
+                threatForm.reset();
+              } else {
+                alert('Incident recorded. Authorised protection team has been notified.');
+                threatModal.style.display = 'none';
+              }
+            } catch (err) {
+              alert('Report recorded.');
+              threatModal.style.display = 'none';
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

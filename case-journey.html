@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Case Journey — MENTAURA</title>
+  <meta name="description" content="View authorised case updates, support progress, and what may happen next.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Base Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/journey.css">
+  <script>window.location.replace('distress-trends.html');</script>
+</head>
+<body class="journey-app-wrapper">
+
+  <!-- =======================================================
+       SAFETY & STEALTH TOP STRIP
+       ======================================================= -->
+  <div class="safety-strip" style="background: linear-gradient(90deg, #2A1549 0%, #1A0D30 100%); color: #FFF; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;" role="region" aria-label="Emergency and Discreet Controls">
+    <div>
+      <i class="fa-solid fa-lock" style="color: #A78BFA; margin-right: 4px;"></i>
+      <span>Protected Support Space &bull; Section 15A PoA Act</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button id="journeyStealthBtn" style="background: rgba(255, 255, 255, 0.12); color: #E2E8F0; border: 1px solid rgba(255, 255, 255, 0.25); padding: 5px 12px; border-radius: 999px; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+        <i class="fa-solid fa-calculator"></i> Quick Exit (ESC)
+      </button>
+      <button id="journeySosBtn" style="background: #DC2626; color: #FFF; border: none; padding: 6px 14px; border-radius: 999px; font-size: 0.80rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);">
+        <i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS
+      </button>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       AUTHENTICATED VICTIM NAVBAR
+       ======================================================= -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      
+      <!-- Language Selector (Left) -->
+      <div class="lang-selector-wrapper">
+        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox" aria-label="Select Language">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span class="lang-text" id="selectedLangText">EN</span>
+          <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" aria-selected="true" class="active" data-lang="EN">English (EN)</li>
+          <li role="option" aria-selected="false" data-lang="HI">हिन्दी (HI)</li>
+          <li role="option" aria-selected="false" data-lang="TA">தமிழ் (TA)</li>
+          <li role="option" aria-selected="false" data-lang="TE">తెలుగు (TE)</li>
+        </ul>
+      </div>
+
+      <!-- Navigation Pill (Center - Authenticated Victim Navigation) -->
+      <nav class="nav-pill" id="mainNavPill" aria-label="Victim Navigation">
+        <ul class="nav-links">
+          <li><a href="victim-home.html" class="nav-link" id="nav-victim-home">Home</a></li>
+          <li><a href="checkin.html" class="nav-link" id="nav-victim-pulse">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="nav-link active" id="nav-victim-trends">Counsellor Consultation</a></li>
+        </ul>
+      </nav>
+
+      <!-- Authenticated Header Actions (Right) -->
+      <div class="header-actions">
+        <!-- Emergency SOS Button -->
+        <button class="btn btn-sos-header" id="headerSosBtn" title="Instant Emergency Alert (Section 15A Witness Protection)" style="background: #E53E3E; color: #FFFFFF; font-weight: 800; border-radius: 999px; padding: 6px 14px; font-size: 0.82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> SOS Alert
+        </button>
+
+        <!-- Stealth Camouflage Mode Button -->
+        <button class="btn btn-stealth-header" id="headerStealthBtn" title="Quick Camouflage Switch (Esc key)" style="background: #EDE8FB; color: #2B1552; border-radius: 999px; padding: 6px 12px; font-size: 0.80rem; border: 1px solid #D4C4FC; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-eye-slash"></i> Stealth (Esc)
+        </button>
+
+        <!-- User Profile Popover Wrapper -->
+        <div class="user-profile-wrapper">
+          <button class="nav-user-chip" id="userProfileBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="userProfilePopover" aria-label="Open account details">
+            <i class="fa-regular fa-user" aria-hidden="true"></i>
+            <span id="navUserName">User</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Profile Popover Dropdown -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-labelledby="popoverTitle" aria-hidden="true">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h2 class="popover-title" id="popoverTitle">Your account</h2>
+                <span class="popover-subtitle" id="popoverUserRole">Victim / Support User</span>
+              </div>
+              <button class="popover-close-btn" id="popoverCloseBtn" aria-label="Close account details">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Name:</span>
+                <span class="popover-value" id="popoverName">Not available</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account type:</span>
+                <span class="popover-value" id="popoverAccountType">Victim / Complainant</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred language:</span>
+                <span class="popover-value" id="popoverLang">English (EN)</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Preferred channel:</span>
+                <span class="popover-value" id="popoverChannel">Web Portal</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Account status:</span>
+                <span class="popover-value status-pill-active" id="popoverStatus">Active</span>
+              </div>
+            </div>
+
+            <div class="popover-divider"></div>
+
+            <div class="popover-actions">
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Privacy &amp; Consent</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="index.html#privacy-safety" class="popover-action-link">
+                <i class="fa-solid fa-file-contract"></i>
+                <span>View Privacy Policy</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+              <a href="privacy-consent.html" class="popover-action-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Communication Preferences</span>
+                <i class="fa-solid fa-chevron-right action-arrow"></i>
+              </a>
+            </div>
+
+            <div class="popover-footer">
+              <button type="button" class="btn-popover-close" id="popoverCloseActionBtn">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline-pill btn-logout" id="headerLogoutBtn" style="padding: 7px 18px; font-size: 0.85rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i> Logout
+        </button>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-hidden="true">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="victim-home.html" class="mobile-nav-link">Home</a></li>
+          <li><a href="checkin.html" class="mobile-nav-link">Daily Check-In</a></li>
+          <li><a href="distress-trends.html" class="mobile-nav-link active">Counsellor Consultation</a></li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout mobile-btn" style="width: 100%;">Log Out Securely</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       COMPACT PAGE HEADER / HERO
+       ======================================================= -->
+  <section class="journey-hero-header" id="journeyHeader" aria-labelledby="journeyPageHeading">
+    <h1 class="journey-hero-title" id="journeyPageHeading">My Case Journey</h1>
+    <p class="journey-hero-desc">
+      View authorised case updates, support progress, and what may happen next.
+    </p>
+    <div class="journey-trust-badge">
+      <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+      <span>Only information approved for your account is shown here.</span>
+    </div>
+  </section>
+
+  <!-- =======================================================
+       MAIN CONTENT CONTAINER (Compact Dashboard)
+       ======================================================= -->
+  <main class="journey-main-container">
+
+    <!-- Loading Skeleton Indicator -->
+    <div id="journeyLoadingIndicator" style="text-align: center; padding: 30px 20px; color: #6C5E8A;">
+      <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 1.6rem; color: #7E57C2; margin-bottom: 10px;"></i>
+      <p style="font-size: 0.90rem; font-weight: 600;">Loading your case journey…</p>
+    </div>
+
+    <!-- Error Banner -->
+    <div id="journeyErrorBanner" style="display: none; background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 12px; padding: 12px 16px; color: #C53030; font-size: 0.86rem; font-weight: 600; text-align: center;" role="alert"></div>
+
+    <!-- Dynamic Content Area -->
+    <div id="journeyContentArea" style="display: none; flex-direction: column; gap: 16px;">
+
+      <!-- 1. Top Summary Bar (Current Journey) -->
+      <section class="journey-card journey-summary-card" aria-labelledby="summaryCardHeading">
+        <div class="journey-card-header-compact">
+          <h2 class="journey-card-title-compact" id="summaryCardHeading">
+            <i class="fa-solid fa-compass" aria-hidden="true"></i>
+            Your current journey
+          </h2>
+        </div>
+        <div class="journey-summary-grid">
+          <!-- Block A: Current Stage -->
+          <div class="summary-block">
+            <span class="summary-block-label">Current stage</span>
+            <span class="summary-block-val" id="summaryCurrentStage">Support monitoring</span>
+            <span class="summary-block-status"><i class="fa-solid fa-circle-check" style="color: #7E57C2;"></i> Active support</span>
+          </div>
+          <!-- Block B: Latest Update -->
+          <div class="summary-block">
+            <span class="summary-block-label">Latest update</span>
+            <span class="summary-block-val" id="summaryLatestUpdate">No update available</span>
+            <span class="summary-block-status" id="summaryLatestDate"></span>
+          </div>
+          <!-- Block C: Next Step -->
+          <div class="summary-block">
+            <span class="summary-block-label">Next step</span>
+            <span class="summary-block-val" id="summaryNextStep">Awaiting authorised case linking</span>
+            <span class="summary-block-status"><i class="fa-solid fa-clock" style="color: #8C84A6;"></i> In progress</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- POA ACT 3-STAGE STATUTORY RELIEF & COMPENSATION TRACKER -->
+      <section class="journey-card" id="statutoryReliefSection" style="background: #FFFFFF; border-radius: 16px; padding: 22px; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 4px 16px rgba(43, 21, 82, 0.04);">
+        <div class="journey-card-header-compact" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+          <div>
+            <h2 class="journey-card-title-compact" style="font-size: 1.15rem; font-weight: 800; color: #2B1552;">
+              <i class="fa-solid fa-hand-holding-dollar" style="color: #059669; margin-right: 6px;"></i>
+              PoA Act Statutory Relief &amp; Compensation Pipeline
+            </h2>
+            <p style="font-size: 0.82rem; color: #6B7280; margin-top: 2px;">
+              Mandatory 3-stage statutory relief under Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Rules, 1995 (Amended 2016).
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.80rem; font-weight: 700; color: #4B5563;">Total Sanctioned: <strong style="color: #2B1552; font-size: 0.98rem;" id="reliefTotalSanctioned">₹4,00,000</strong></span>
+            <span style="font-size: 0.78rem; font-weight: 700; background: #DCFCE7; color: #166534; padding: 3px 10px; border-radius: 999px;" id="reliefDisbursedBadge">₹1,00,000 (25%) Disbursed</span>
+          </div>
+        </div>
+
+        <!-- 3 Stages Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 16px;">
+          <!-- Stage 1 -->
+          <div style="background: #F9F8FE; border-radius: 12px; padding: 14px; border: 1.5px solid #A7F3D0; border-left: 5px solid #059669;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #059669; text-transform: uppercase;">Stage 1 &bull; 25% on FIR</span>
+              <span style="font-size: 0.74rem; font-weight: 700; background: #DCFCE7; color: #15803D; padding: 2px 8px; border-radius: 999px;">Disbursed</span>
+            </div>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #1F2937; margin-bottom: 2px;">₹1,00,000</div>
+            <div style="font-size: 0.78rem; color: #4B5563; line-height: 1.35;">Disbursed immediately upon FIR registration by District Social Welfare Cell. Ref: <code>PFMS-MOSJE-DL089</code>.</div>
+          </div>
+
+          <!-- Stage 2 -->
+          <div style="background: #F9F8FE; border-radius: 12px; padding: 14px; border: 1.5px solid #FDE68A; border-left: 5px solid #D97706;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #D97706; text-transform: uppercase;">Stage 2 &bull; 50% on Chargesheet</span>
+              <span style="font-size: 0.74rem; font-weight: 700; background: #FEF3C7; color: #B45309; padding: 2px 8px; border-radius: 999px;">In Progress</span>
+            </div>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #1F2937; margin-bottom: 2px;">₹2,00,000</div>
+            <div style="font-size: 0.78rem; color: #4B5563; line-height: 1.35;">
+              DSP 60-day investigation countdown: <strong>36 days remaining</strong> (Rule 7(2) PoA Rules mandate). Payable upon filing in Special Court.
+            </div>
+          </div>
+
+          <!-- Stage 3 -->
+          <div style="background: #F9F8FE; border-radius: 12px; padding: 14px; border: 1.5px solid #E2E8F0; border-left: 5px solid #9CA3AF;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <span style="font-size: 0.76rem; font-weight: 800; color: #6B7280; text-transform: uppercase;">Stage 3 &bull; 25% on Conviction</span>
+              <span style="font-size: 0.74rem; font-weight: 700; background: #F3F4F6; color: #4B5563; padding: 2px 8px; border-radius: 999px;">Upcoming</span>
+            </div>
+            <div style="font-size: 1.35rem; font-weight: 800; color: #1F2937; margin-bottom: 2px;">₹1,00,000</div>
+            <div style="font-size: 0.78rem; color: #4B5563; line-height: 1.35;">Disbursed upon final conviction judgment in Exclusive Special Court.</div>
+          </div>
+        </div>
+
+        <!-- TAME Allowance Sub-Bar -->
+        <div style="background: #EDE9FE; border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 0.82rem; color: #4C1D95;">
+          <div>
+            <i class="fa-solid fa-car-side" style="margin-right: 6px;"></i>
+            <strong>Rule 11 TAME Entitlement:</strong> You are entitled to Traveling and Maintenance Allowance of ₹500/day plus actual travel costs for each court hearing.
+          </div>
+          <span style="font-weight: 700; color: #6D28D9;">Claim Status: Settled (₹1,250 disbursed)</span>
+        </div>
+      </section>
+
+      <!-- 2. Balanced 2-Column Dashboard Grid -->
+      <div class="journey-dashboard-grid">
+
+        <!-- LEFT COLUMN: Timeline (Milestones) -->
+        <div class="journey-col-left">
+          <section class="journey-card" aria-labelledby="timelineCardHeading">
+            <div class="journey-card-header-compact">
+              <h2 class="journey-card-title-compact" id="timelineCardHeading">
+                <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+                Case and support timeline
+              </h2>
+            </div>
+            <p class="journey-card-sub-compact">
+              Authorised milestones and support checkpoints recorded for your journey.
+            </p>
+            <div class="timeline-stack" id="timelineContainer">
+              <!-- Populated by journey.js -->
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: Pulse History, Requests & Threat Logger -->
+        <div class="journey-col-right">
+
+          <!-- SECTION 15A WITNESS PROTECTION & THREAT LOGGER CARD -->
+          <section class="journey-card" style="border-top: 3px solid #DC2626;" aria-labelledby="threatLoggerHeading">
+            <div class="journey-card-header-compact" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <h2 class="journey-card-title-compact" id="threatLoggerHeading" style="color: #991B1B;">
+                  <i class="fa-solid fa-shield-halved" style="color: #DC2626;"></i>
+                  Witness Protection &amp; Threats (Sec 15A)
+                </h2>
+                <p style="font-size: 0.78rem; color: #6B7280;">Confidential intimidation evidence logger directly connected to DSP &amp; Protection Cell.</p>
+              </div>
+              <button type="button" class="btn btn-hero-primary" id="openThreatModalBtn" style="background: #DC2626; border-color: #DC2626; padding: 6px 14px; font-size: 0.78rem;">
+                <i class="fa-solid fa-plus"></i> Report Threat / Pressure
+              </button>
+            </div>
+
+            <!-- List of Threat Reports -->
+            <div id="threatReportsContainer" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="background: #FFF5F5; border: 1px solid #FED7D7; border-radius: 10px; padding: 10px 12px; font-size: 0.82rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <strong style="color: #991B1B;"><i class="fa-solid fa-triangle-exclamation"></i> Threat Incident Filed</strong>
+                  <span style="font-size: 0.72rem; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 999px; font-weight: 700;">Dispatched to DSP</span>
+                </div>
+                <div style="color: #4B5563; font-size: 0.78rem;">Section 15A report active. Assigned Protection Officer: Dy. SP Rajeshwar K.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- A. Support Pulse History -->
+          <section class="journey-card" aria-labelledby="pulseHistoryHeading">
+            <div class="journey-card-header-compact">
+              <h2 class="journey-card-title-compact" id="pulseHistoryHeading">
+                <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
+                My Support Pulse history
+              </h2>
+              <a href="checkin.html" class="btn btn-hero-primary" style="padding: 5px 14px; font-size: 0.78rem;">
+                <i class="fa-solid fa-plus" style="margin-right: 3px;"></i> New Pulse
+              </a>
+            </div>
+            <div class="history-scroll-box">
+              <div class="history-stack" id="pulseHistoryContainer">
+                <!-- Populated by journey.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- B. Support Requests -->
+          <section class="journey-card" aria-labelledby="requestsHeading">
+            <div class="journey-card-header-compact">
+              <h2 class="journey-card-title-compact" id="requestsHeading">
+                <i class="fa-solid fa-hands-holding-child" aria-hidden="true"></i>
+                Support requests
+              </h2>
+              <a href="my-support.html" class="btn btn-outline-pill" style="padding: 5px 14px; font-size: 0.78rem;">
+                View My Support
+              </a>
+            </div>
+            <div class="requests-scroll-box">
+              <div class="history-stack" id="supportRequestsContainer">
+                <!-- Populated by journey.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- C & D: Bottom 2-Card Row (Side-by-Side Subgrid) -->
+          <div class="journey-bottom-subgrid">
+            <!-- C. What Happens Next? -->
+            <section class="journey-card journey-card-compact-sub" aria-labelledby="whatNextHeading">
+              <div class="journey-card-header-compact">
+                <h2 class="journey-card-title-compact" id="whatNextHeading">
+                  <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                  What happens next?
+                </h2>
+              </div>
+              <div id="nextUpdateContainer">
+                <!-- Populated by journey.js -->
+              </div>
+            </section>
+
+            <!-- D. Privacy & Protection Card -->
+            <section class="privacy-shield-card journey-card-compact-sub" aria-labelledby="privacyCardHeading">
+              <div class="privacy-card-icon">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              </div>
+              <div class="privacy-card-content">
+                <h2 class="privacy-card-title" id="privacyCardHeading">Your case info is protected</h2>
+                <p class="privacy-card-text">
+                  Only case &amp; support info authorised for your account is shown here.
+                </p>
+                <div class="privacy-links-row">
+                  <a href="privacy-consent.html" class="privacy-card-link">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Privacy &amp; Consent
+                  </a>
+                  <a href="index.html#privacy-safety" class="privacy-card-link">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Policy
+                  </a>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- =======================================================
+       SITE FOOTER (Exact Match with Victim Home & Global Theme)
+       ======================================================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand -->
+        <div class="footer-col footer-col-brand">
+          <div class="footer-brand-title">
+            <i class="fa-solid fa-brain brand-icon" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-brand-desc">
+            Case-aware support intelligence for people affected by atrocity cases.
+          </p>
+        </div>
+
+        <!-- Column 2: Support Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Support Space</h3>
+          <ul class="footer-links-list">
+            <li><a href="checkin.html">Support Pulse</a></li>
+            <li><a href="case-journey.html">My Case Journey</a></li>
+            <li><a href="my-support.html">My Support Services</a></li>
+            <li><a href="privacy-consent.html">Privacy &amp; Consent</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col">
+          <h3 class="footer-col-heading">Authorised Support</h3>
+          <div class="footer-contact-item">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            <a href="mailto:support@mentaura.example">support@mentaura.example</a>
+          </div>
+          <p class="footer-contact-note">
+            For authorised support and programme coordination
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Bottom Copyright Strip -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Mentaura. All rights reserved. Secure Case-Aware Support Intelligence.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =======================================================
+       SECTION 15A WITNESS INTIMIDATION INCIDENT MODAL
+       ======================================================= -->
+  <div class="modal-backdrop" id="threatReportModal" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
+    <div style="background: #FFFFFF; border-radius: 20px; max-width: 580px; width: 100%; padding: 26px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: left; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #F3F4F6; padding-bottom: 10px;">
+        <h3 style="color: #991B1B; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-shield-halved"></i> Report Threat / Pressure (Section 15A)
+        </h3>
+        <button type="button" id="closeThreatModalBtn" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #6B7280;">&times;</button>
+      </div>
+      <p style="font-size: 0.82rem; color: #4B5563; margin-bottom: 16px; line-height: 1.4;">
+        Under Section 15A of the SC/ST PoA Act, 1989, victims and witnesses have a statutory right to police protection, confidentiality, and protection from any threat, inducement, violence, or social boycott.
+      </p>
+
+      <form id="threatReportForm" style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #374151; display: block; margin-bottom: 4px;">Incident Type *</label>
+          <select id="threatTypeSelect" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.85rem;" required>
+            <option value="direct_threat">Direct verbal/physical threat to life or family</option>
+            <option value="bribe_pressure">Pressure / inducement / bribe to withdraw complaint</option>
+            <option value="stalking">Stalking / surveillance outside residence or workplace</option>
+            <option value="social_boycott">Social boycott / village ostracism / denial of services</option>
+            <option value="property_damage">Property damage / crop burning / livestock harm</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: #374151; display: block; margin-bottom: 4px;">Perpetrator / Threat Source</label>
+            <input type="text" id="threatSourceInput" placeholder="e.g. Accused associates, village panchayat members" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem;">
+          </div>
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 700; color: #374151; display: block; margin-bottom: 4px;">Incident Location</label>
+            <input type="text" id="threatLocationInput" placeholder="e.g. Near home, village square, phone call" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem;">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #374151; display: block; margin-bottom: 4px;">Detailed Description / Narrative *</label>
+          <textarea id="threatNarrativeInput" rows="4" placeholder="Describe exactly what occurred, what was said, weapons shown, or pressure exerted..." style="width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #D1D5DB; font-size: 0.82rem; resize: vertical;" required></textarea>
+        </div>
+
+        <div>
+          <label style="font-size: 0.82rem; font-weight: 700; color: #374151; display: block; margin-bottom: 4px;">Urgency &amp; Protection Need</label>
+          <div style="display: flex; gap: 14px; font-size: 0.82rem;">
+            <label><input type="radio" name="threatUrgency" value="emergency"> Immediate Danger (Need Police Escort)</label>
+            <label><input type="radio" name="threatUrgency" value="high" checked> High Priority (Review within 24h)</label>
+            <label><input type="radio" name="threatUrgency" value="moderate"> Moderate Concern</label>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px;">
+          <button type="button" id="cancelThreatModalBtn" class="btn btn-hero-secondary" style="padding: 8px 18px; font-size: 0.84rem;">Cancel</button>
+          <button type="submit" class="btn btn-hero-primary" id="submitThreatBtn" style="background: #DC2626; border-color: #DC2626; padding: 8px 22px; font-size: 0.84rem;">
+            <i class="fa-solid fa-paper-plane"></i> File Section 15A Report
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       CAMOUFLAGE / STEALTH MODE OVERLAY (Disguised UI)
+       ======================================================= -->
+  <div class="camouflage-overlay" id="homeCamouflageOverlay" style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="font-size: 1.1rem; color: #4B5563; font-weight: 600;">Daily Utility &amp; Calculator</h2>
+      <p style="font-size: 0.8rem; color: #9CA3AF;">Standard desktop utility</p>
+    </div>
+    <div style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div id="homeCalcDisplay" style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">0</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('C')">C</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+/-')">&plusmn;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('%')">%</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('/')">&divide;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('7')">7</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('8')">8</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('9')">9</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('*')">&times;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('4')">4</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('5')">5</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('6')">6</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('-')">&minus;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('1')">1</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('2')">2</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('3')">3</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+')">+</button>
+        <button style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('0')">0</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('.')">.</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('=')">=</button>
+      </div>
+      <div id="homeStealthExit" style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
+        Press ESC or click here to restore support portal
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       EMERGENCY SOS CONFIRMATION MODAL
+       ======================================================= -->
+  <div class="modal-backdrop" id="homeSosModal" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
+      <div id="homeSosCount" style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">5</div>
+      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger</h3>
+      <p style="color: #4B5563; font-size: 0.88rem; line-height: 1.45; margin-bottom: 20px;">
+        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District SP/DSP Control Room and your designated Protection Officer.
+      </p>
+
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-hero-primary" id="homeSosConfirmBtn" style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Trigger Now
+        </button>
+        <button class="btn btn-hero-secondary" id="homeSosCancelBtn" style="padding: 10px 22px;">
+          Cancel (I am safe)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/journey.js"></script>
+</body>
+</html>

@@ -1,0 +1,997 @@
+/* ==========================================================================
+   MENTAURA — My Case Journey Stylesheet
+   Enhanced Readability, Optimized Full-Width & Balanced Two-Column Layout
+   ========================================================================== */
+
+:root {
+  --journey-purple-primary: #2B1552;
+  --journey-purple-heading: #261149;
+  --journey-purple-accent: #7E57C2;
+  --journey-purple-light: #EDE8FB;
+  --journey-purple-border: rgba(220, 214, 245, 0.85);
+  --journey-text-main: #2C2245;
+  --journey-text-muted: #5C5574;
+  --journey-card-bg: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   0. Body & Global Full-Width Containers
+   -------------------------------------------------------------------------- */
+body.journey-app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #FBF9FE 0%, #F1ECFC 100%);
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+}
+
+.journey-app-wrapper .header-container {
+  max-width: 1440px;
+  width: 96%;
+}
+
+.journey-app-wrapper .footer-container {
+  max-width: 1440px;
+  width: 96%;
+}
+
+.site-footer {
+  margin-top: auto;
+  background-color: var(--color-purple-footer, #1A0F2E);
+  color: #E2DCF0;
+  padding: 24px 0 16px;
+}
+
+/* --------------------------------------------------------------------------
+   1. Header Dropdown, Profile Popover & Mobile Drawer Styles
+   -------------------------------------------------------------------------- */
+.lang-selector-wrapper {
+  position: relative;
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background: #FFFFFF;
+  border: 1px solid rgba(220, 215, 245, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(43, 21, 82, 0.1);
+  padding: 4px;
+  min-width: 140px;
+  display: none;
+  z-index: 1010;
+  list-style: none;
+  margin: 0;
+}
+
+.lang-dropdown.active,
+.lang-dropdown.show {
+  display: block;
+}
+
+.lang-dropdown li {
+  padding: 8px 14px;
+  font-size: 0.90rem;
+  font-weight: 500;
+  color: var(--color-text-main, #2C2245);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition-smooth, all 0.2s ease);
+}
+
+.lang-dropdown li:hover,
+.lang-dropdown li.active {
+  background: var(--color-purple-light, #EDE8FB);
+  color: var(--color-purple-primary, #2B1552);
+  font-weight: 600;
+}
+
+/* User Profile Popover in Header */
+.user-profile-wrapper {
+  position: relative;
+}
+
+.nav-user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-purple-light, #EDE8FB);
+  color: var(--color-purple-primary, #2B1552);
+  padding: 6px 15px;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: 0.90rem;
+  font-weight: 700;
+  border: 1px solid rgba(215, 205, 245, 0.9);
+  cursor: pointer;
+  transition: var(--transition-smooth, all 0.2s ease);
+}
+
+.nav-user-chip:hover,
+.nav-user-chip:focus-visible {
+  background: #E2DAF8;
+  border-color: #BBA9EE;
+  outline: none;
+}
+
+.nav-user-chevron {
+  font-size: 0.76rem;
+  color: #7E57C2;
+  transition: transform 0.2s ease;
+}
+
+.nav-user-chip[aria-expanded="true"] .nav-user-chevron {
+  transform: rotate(180deg);
+}
+
+.user-profile-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 340px;
+  max-width: 90vw;
+  background: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(35, 15, 65, 0.18);
+  border: 1px solid rgba(220, 215, 245, 0.95);
+  padding: 20px 22px;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transform: translateY(-8px) scale(0.97);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.user-profile-popover.active,
+.user-profile-popover.show {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+  transform: translateY(0) scale(1);
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.popover-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #D4C4FC 0%, #F9CAE1 100%);
+  color: var(--color-purple-primary, #2B1552);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.10rem;
+  flex-shrink: 0;
+}
+
+.popover-title {
+  color: var(--color-purple-primary, #2B1552);
+  font-size: 1.10rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.popover-subtitle {
+  color: var(--color-text-muted, #5C5574);
+  font-size: 0.82rem;
+}
+
+.popover-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #F8F7FD;
+  color: var(--color-purple-primary, #2B1552);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.86rem;
+  border: 1px solid rgba(225, 219, 246, 0.9);
+  cursor: pointer;
+  transition: var(--transition-smooth, all 0.2s ease);
+}
+
+.popover-close-btn:hover {
+  background: #EDE8FB;
+}
+
+.popover-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+
+.popover-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.popover-label {
+  color: var(--color-text-muted, #5C5574);
+  font-weight: 600;
+}
+
+.popover-value {
+  color: var(--color-purple-heading, #261149);
+  font-weight: 700;
+  text-align: right;
+}
+
+.status-pill-active {
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: 0.80rem;
+  font-weight: 700;
+}
+
+.popover-divider {
+  height: 1px;
+  background: rgba(226, 220, 246, 0.85);
+  margin: 14px 0 10px;
+}
+
+.popover-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popover-action-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--color-purple-primary, #2B1552);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-smooth, all 0.2s ease);
+}
+
+.popover-action-link:hover {
+  background: #F8F7FD;
+  color: #7E57C2;
+}
+
+.popover-action-link i:first-child {
+  color: #7E57C2;
+  width: 18px;
+  text-align: center;
+}
+
+.action-arrow {
+  margin-left: auto;
+  font-size: 0.76rem;
+  color: #A9A1C5;
+}
+
+.popover-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  text-align: center;
+}
+
+.btn-popover-close {
+  width: 100%;
+  background: #F8F7FD;
+  color: var(--color-purple-primary, #2B1552);
+  padding: 8px;
+  border-radius: var(--radius-pill, 9999px);
+  font-size: 0.86rem;
+  font-weight: 700;
+  border: 1px solid rgba(220, 214, 245, 0.9);
+  cursor: pointer;
+  transition: var(--transition-smooth, all 0.2s ease);
+}
+
+.btn-popover-close:hover {
+  background: #EDE8FB;
+}
+
+/* Mobile Menu Drawer */
+.mobile-drawer,
+.mobile-menu-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(220, 214, 245, 0.9);
+  box-shadow: 0 10px 30px rgba(43, 21, 82, 0.12);
+  padding: 18px 24px;
+  z-index: 1000;
+}
+
+.mobile-drawer.open,
+.mobile-drawer.active,
+.mobile-menu-drawer.open,
+.mobile-menu-drawer.active {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   2. Header / Hero Section
+   -------------------------------------------------------------------------- */
+.journey-hero-header {
+  background: linear-gradient(135deg, #E8DEF8 0%, #DCE8FC 100%);
+  padding: 18px 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(220, 214, 245, 0.9);
+}
+
+.journey-hero-title {
+  color: var(--journey-purple-primary);
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+  letter-spacing: -0.015em;
+}
+
+.journey-hero-desc {
+  color: var(--journey-text-muted);
+  font-size: 0.98rem;
+  max-width: 720px;
+  margin: 0 auto 8px;
+  line-height: 1.4;
+}
+
+.journey-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(200, 190, 235, 0.85);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #533B85;
+}
+
+/* --------------------------------------------------------------------------
+   3. Main Container & Dashboard Card Layouts
+   -------------------------------------------------------------------------- */
+.journey-main-container {
+  flex: 1;
+  max-width: 1440px;
+  width: 96%;
+  margin: 16px auto 26px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.journey-card {
+  background: var(--journey-card-bg);
+  border-radius: 16px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 18px rgba(45, 20, 85, 0.04);
+  border: 1px solid rgba(220, 214, 245, 0.85);
+}
+
+.journey-summary-card {
+  padding: 16px 20px;
+}
+
+.journey-card-header-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.journey-card-title-compact {
+  color: var(--journey-purple-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+}
+
+.journey-card-title-compact i {
+  color: var(--journey-purple-accent);
+  font-size: 1.08rem;
+}
+
+.journey-card-sub-compact {
+  color: var(--journey-text-muted);
+  font-size: 0.88rem;
+  margin-top: -4px;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   4. Current Journey Summary Grid (3 Wide Columns)
+   -------------------------------------------------------------------------- */
+.journey-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.summary-block {
+  background: #F9F8FD;
+  border: 1px solid var(--journey-purple-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.summary-block:hover {
+  border-color: #C5B8EC;
+  background: #F5F1FD;
+}
+
+.summary-block-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6C5E8A;
+}
+
+.summary-block-val {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+  line-height: 1.25;
+}
+
+.summary-block-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--journey-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   5. 2-Column Balanced Dashboard Grid (50/50 Split)
+   -------------------------------------------------------------------------- */
+.journey-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.journey-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-col-left .journey-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* --------------------------------------------------------------------------
+   6. Case & Support Timeline (Left Column)
+   -------------------------------------------------------------------------- */
+.timeline-stack {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-left: 4px;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.timeline-stack::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 15px;
+  width: 2px;
+  background: #E0D9F5;
+  z-index: 1;
+}
+
+.timeline-stage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 10px;
+}
+
+.timeline-stage-item:last-child {
+  padding-bottom: 0;
+}
+
+.stage-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #EDE8FB;
+  border: 2px solid #D4C9F4;
+  color: #613C9E;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.86rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(126, 87, 194, 0.10);
+  transition: all 0.2s ease;
+}
+
+.timeline-stage-item.stage-completed .stage-marker {
+  background: #7E57C2;
+  border-color: #7E57C2;
+  color: #FFFFFF;
+}
+
+.timeline-stage-item.stage-active .stage-marker {
+  background: #FFFFFF;
+  border-color: #7E57C2;
+  color: #7E57C2;
+  box-shadow: 0 0 0 3px #EBE3FB;
+}
+
+.stage-content-card {
+  background: #F9F8FD;
+  border: 1px solid var(--journey-purple-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stage-main {
+  flex: 1;
+}
+
+.stage-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+  margin-bottom: 2px;
+}
+
+.stage-desc {
+  font-size: 0.86rem;
+  color: var(--journey-text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-completed {
+  background: #E8F7EE;
+  color: #1E7E34;
+  border: 1px solid #C3E6CB;
+}
+
+.badge-active {
+  background: #EFEAFB;
+  color: #613C9E;
+  border: 1px solid #D4C9F4;
+}
+
+.badge-awaiting {
+  background: #FFF8E6;
+  color: #B4730A;
+  border: 1px solid #FFE6A8;
+}
+
+.badge-under-review {
+  background: #E3F2FD;
+  color: #1565C0;
+  border: 1px solid #BBDEFB;
+}
+
+.badge-not-available {
+  background: #F0EDF7;
+  color: #8C84A6;
+  border: 1px solid #E2DDF0;
+}
+
+/* --------------------------------------------------------------------------
+   7. Right Column Cards & Scroll Boxes
+   -------------------------------------------------------------------------- */
+.history-scroll-box {
+  max-height: 190px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.requests-scroll-box {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom Sleek Scrollbars */
+.history-scroll-box::-webkit-scrollbar,
+.requests-scroll-box::-webkit-scrollbar {
+  width: 5px;
+}
+
+.history-scroll-box::-webkit-scrollbar-track,
+.requests-scroll-box::-webkit-scrollbar-track {
+  background: #F3EFFC;
+  border-radius: 4px;
+}
+
+.history-scroll-box::-webkit-scrollbar-thumb,
+.requests-scroll-box::-webkit-scrollbar-thumb {
+  background: #C4B5E8;
+  border-radius: 4px;
+}
+
+.history-scroll-box::-webkit-scrollbar-thumb:hover,
+.requests-scroll-box::-webkit-scrollbar-thumb:hover {
+  background: #9D84D6;
+}
+
+.history-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.history-item-row {
+  background: #F9F8FD;
+  border: 1px solid var(--journey-purple-border);
+  border-radius: 11px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.history-col-date {
+  min-width: 125px;
+}
+
+.history-date {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+}
+
+.history-channel {
+  font-size: 0.82rem;
+  color: var(--journey-text-muted);
+}
+
+.history-col-mode {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.processing-chip-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  background: #EDE8FB;
+  color: #55338D;
+  border: 1px solid #D9CEF6;
+}
+
+.attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: #FFFFFF;
+  color: #5C5574;
+  border: 1px solid #DDD6F3;
+}
+
+.history-col-status {
+  text-align: right;
+}
+
+.history-status-main {
+  font-size: 0.90rem;
+  font-weight: 700;
+  color: var(--journey-purple-heading);
+}
+
+.history-status-sub {
+  font-size: 0.80rem;
+  color: #6C5E8A;
+}
+
+/* Support Requests History */
+.request-item-row {
+  background: #F9F8FD;
+  border: 1px solid var(--journey-purple-border);
+  border-radius: 11px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.request-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+}
+
+.request-meta {
+  font-size: 0.84rem;
+  color: var(--journey-text-muted);
+}
+
+/* Empty State Box */
+.empty-state-box {
+  background: #FAF9FE;
+  border: 1.5px dashed #DCD5F5;
+  border-radius: 12px;
+  padding: 16px 14px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #EDE8FB;
+  color: var(--journey-purple-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.empty-state-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+  margin-bottom: 2px;
+}
+
+.empty-state-desc {
+  font-size: 0.84rem;
+  color: var(--journey-text-muted);
+  max-width: 460px;
+  margin: 0 auto 8px;
+  line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   8. Bottom Subgrid (What Happens Next + Privacy Side-by-Side)
+   -------------------------------------------------------------------------- */
+.journey-bottom-subgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.journey-card-compact-sub {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.next-update-block {
+  background: #F8F6FD;
+  border: 1px solid var(--journey-purple-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.next-update-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #EDE8FB;
+  color: var(--journey-purple-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.98rem;
+  flex-shrink: 0;
+}
+
+.next-update-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+  margin-bottom: 2px;
+}
+
+.next-update-text {
+  font-size: 0.84rem;
+  color: var(--journey-text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.privacy-shield-card {
+  background: #FFFFFF;
+  border: 1px solid #E4DDF7;
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.privacy-card-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #EDE8FB;
+  color: var(--journey-purple-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.02rem;
+  flex-shrink: 0;
+}
+
+.privacy-card-content {
+  flex: 1;
+}
+
+.privacy-card-title {
+  font-size: 0.94rem;
+  font-weight: 800;
+  color: var(--journey-purple-heading);
+  margin-bottom: 2px;
+}
+
+.privacy-card-text {
+  font-size: 0.84rem;
+  color: var(--journey-text-muted);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.privacy-links-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.privacy-card-link {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #613C9E;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.privacy-card-link:hover {
+  color: #3C1E70;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   9. Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .journey-bottom-subgrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .journey-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .journey-main-container {
+    width: 96%;
+    margin: 12px auto 24px;
+    padding: 0 8px;
+  }
+
+  .journey-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .journey-card {
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+
+  .journey-hero-title {
+    font-size: 1.50rem;
+  }
+
+  .stage-content-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .history-item-row,
+  .request-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .history-col-status {
+    text-align: left;
+  }
+
+  .privacy-shield-card {
+    flex-direction: column;
+  }
+}

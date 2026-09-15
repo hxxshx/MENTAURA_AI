@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Review Workspace — MENTAURA</title>
+  <meta name="description" content="Authorised Counsellor and Official Review Workspace for Support Pulse triage, support requests, and case interventions." />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Core & Page Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/counsellor.css?v=20260914_webaudio_v3" />
+  <link rel="stylesheet" href="css/gmeet.css" />
+</head>
+<body class="counsellor-app-wrapper">
+
+  <!-- =======================================================
+       AUTHENTICATED OFFICIAL HEADER & NAVBAR (Aligned with Victim Portal)
+       ======================================================= -->
+  <header class="site-header" id="siteHeader" role="banner">
+    <div class="header-container">
+      
+      <!-- Language Selector (Left) -->
+      <div class="lang-selector-wrapper">
+        <button 
+          type="button" 
+          class="lang-btn" 
+          id="langSelectorBtn" 
+          aria-haspopup="listbox" 
+          aria-expanded="false" 
+          aria-label="Select Language"
+        >
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span class="lang-text" id="selectedLangText">EN</span>
+          <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Languages">
+          <li role="option" data-lang="en" class="active" aria-selected="true">English (EN)</li>
+          <li role="option" data-lang="hi" aria-selected="false">हिन्दी (HI)</li>
+          <li role="option" data-lang="ta" aria-selected="false">தமிழ் (TA)</li>
+          <li role="option" data-lang="te" aria-selected="false">తెలుగు (TE)</li>
+          <li role="option" data-lang="kn" aria-selected="false">ಕನ್ನಡ (KN)</li>
+          <li role="option" data-lang="mr" aria-selected="false">मराठी (MR)</li>
+          <li role="option" data-lang="bn" aria-selected="false">বাংলা (BN)</li>
+        </ul>
+      </div>
+
+      <!-- Navigation Pill (Center - 3 Specialized Tabs: Message, Video, Requests) -->
+      <nav class="nav-pill" id="mainNavPill" aria-label="Official Navigation">
+        <ul class="nav-links" role="tablist">
+          <li>
+            <a href="javascript:void(0)" class="nav-link active header-nav-tab" data-tab="messages" id="headerNavMessages" role="tab" aria-selected="true" title="Message Consultation">
+              <i class="fa-solid fa-comments" aria-hidden="true"></i>
+              <span>Message Consultation</span>
+              <span class="header-nav-badge" id="headerBadgeMessages" style="display: none;">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="nav-link header-nav-tab" data-tab="video" id="headerNavVideo" role="tab" aria-selected="false" title="Video Consultation">
+              <i class="fa-solid fa-video" aria-hidden="true"></i>
+              <span>Video Consultation</span>
+              <span class="header-nav-badge" id="headerBadgeVideo">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="nav-link header-nav-tab" data-tab="requests" id="headerNavRequests" role="tab" aria-selected="false" title="Counselling Requests">
+              <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+              <span>Counselling Requests</span>
+              <span class="header-nav-badge" id="headerBadgeRequests">0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Authenticated Header Actions (Right) -->
+      <div class="header-actions">
+
+        <!-- In-App Notification Bell -->
+        <div class="nav-notification-wrapper">
+          <button 
+            type="button" 
+            class="btn-notification-bell" 
+            id="notificationBellBtn" 
+            aria-haspopup="true" 
+            aria-expanded="false" 
+            aria-label="View In-App Notifications"
+          >
+            <i class="fa-solid fa-bell" aria-hidden="true"></i>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+          </button>
+          
+          <div class="notification-dropdown-panel" id="notificationDropdown" role="region" aria-label="Notifications" style="display: none;">
+            <div class="notification-header">
+              <div class="notification-header-left">
+                <i class="fa-solid fa-bell" style="color: #7E57C2;" aria-hidden="true"></i>
+                <h3 class="notification-title">Notifications</h3>
+                <span class="notification-count-pill" id="notificationHeaderCount">0 new</span>
+              </div>
+              <button type="button" class="btn-mark-all-read" id="markAllReadBtn" title="Mark all as read">
+                <i class="fa-solid fa-check-double" aria-hidden="true"></i> Mark all as read
+              </button>
+            </div>
+            <div class="notification-list" id="notificationList">
+              <div class="notification-empty-state">
+                <i class="fa-regular fa-bell-slash" style="color: #94A3B8; font-size: 1.5rem;" aria-hidden="true"></i>
+                <p style="margin-top: 0.5rem; font-weight: 500; color: #64748B;">No recent notifications</p>
+                <span style="font-size: 0.78rem; color: #94A3B8;">High-risk pulse and escalation alerts will appear here.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- User Profile Popover Trigger -->
+        <div class="user-profile-wrapper">
+          <button 
+            type="button" 
+            class="nav-user-chip" 
+            id="userProfileChip" 
+            aria-haspopup="dialog" 
+            aria-expanded="false" 
+            aria-controls="userProfilePopover"
+            aria-label="View Official Profile"
+          >
+            <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
+            <span id="navUserName">Dr. Priya Nair</span>
+            <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
+          </button>
+
+          <!-- Profile Popover Dropdown Card -->
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-label="User Profile Details">
+            <div class="popover-header">
+              <div class="popover-icon">
+                <i class="fa-solid fa-id-badge" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h2 class="popover-title" id="popoverFullName">Dr. Priya Nair</h2>
+                <div class="popover-subtitle" id="popoverCategory">Verified Psychological Counsellor</div>
+              </div>
+              <button type="button" class="popover-close-btn" id="popoverCloseBtn" aria-label="Close Profile Popover">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <div class="popover-body">
+              <div class="popover-info-row">
+                <span class="popover-label">Verified Role:</span>
+                <span class="popover-value" id="popoverRole">COUNSELLOR</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Jurisdiction:</span>
+                <span class="status-pill-active" id="popoverStatus">District Support Cell</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Email:</span>
+                <span class="popover-value" id="popoverEmail">counsellor@mentaura.example</span>
+              </div>
+              <div class="popover-info-row">
+                <span class="popover-label">Language:</span>
+                <span class="popover-value" id="popoverLanguage">EN</span>
+              </div>
+
+              <div class="popover-divider"></div>
+
+              <div class="popover-footer">
+                <button type="button" class="btn-popover-close" id="popoverCloseActionBtn">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button class="btn btn-outline-pill btn-logout" id="logoutBtn" style="padding: 7px 18px; font-size: 0.85rem;">
+          <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;" aria-hidden="true"></i> Logout
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-menu-drawer" id="mobileMenuDrawer" aria-hidden="true" role="navigation" aria-label="Mobile Navigation">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li>
+            <a href="javascript:void(0)" class="mobile-nav-link active mobile-nav-tab" data-tab="messages">
+              <i class="fa-solid fa-comments"></i> Message Consultation
+              <span class="header-nav-badge" id="mobileBadgeMessages" style="display: none; margin-left: auto;">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="mobile-nav-link mobile-nav-tab" data-tab="video">
+              <i class="fa-solid fa-video"></i> Video Consultation
+              <span class="header-nav-badge" id="mobileBadgeVideo" style="margin-left: auto;">0</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="mobile-nav-link mobile-nav-tab" data-tab="requests">
+              <i class="fa-solid fa-clipboard-list"></i> Counselling Requests
+              <span class="header-nav-badge" id="mobileBadgeRequests" style="margin-left: auto;">0</span>
+            </a>
+          </li>
+        </ul>
+        <div class="mobile-actions">
+          <button class="btn btn-outline-pill btn-logout mobile-btn" id="mobileLogoutBtn" style="width: 100%;">Log Out Securely</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       COMPACT PAGE HEADER / HERO (Exact Match with Victim Portal)
+       ======================================================= -->
+  <!-- =======================================================
+       COMPACT PAGE HEADER / HERO (With Integrated Metrics)
+       ======================================================= -->
+  <section class="counsellor-hero-banner" id="counsellorHeader" aria-labelledby="workspaceHeading">
+    <div class="counsellor-hero-container">
+      <div class="counsellor-hero-compact-wrap">
+        <div class="counsellor-hero-text">
+          <h1 class="counsellor-greeting-title" id="workspaceHeading">Review Workspace</h1>
+          <p class="counsellor-greeting-sub">
+            Role-authorized psychological triage and Section 15A case coordination.
+          </p>
+        </div>
+
+        <!-- 3 Focused Caseload Metric Counters Fit Directly in the Hero Banner -->
+        <div class="hero-counters-strip" role="group" aria-label="Caseload Quick Selectors">
+          <button type="button" class="hero-counter-pill active" data-target-tab="messages" title="Message Consultation">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i>
+            <span class="hero-counter-label">Message Consultations</span>
+            <span class="hero-counter-badge" id="cntDirectMessages">0</span>
+          </button>
+
+          <button type="button" class="hero-counter-pill" data-target-tab="video" title="Video Consultation">
+            <i class="fa-solid fa-video" aria-hidden="true"></i>
+            <span class="hero-counter-label">Video Consultations</span>
+            <span class="hero-counter-badge" id="cntScheduledVideo">0</span>
+          </button>
+
+          <button type="button" class="hero-counter-pill" data-target-tab="requests" title="Counselling Requests">
+            <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+            <span class="hero-counter-label">Counselling Requests</span>
+            <span class="hero-counter-badge" id="cntPendingRequests">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================
+       MAIN CONTENT CONTAINER (Only Selected Queue Panel)
+       ======================================================= -->
+  <main class="counsellor-main-container">
+
+    <!-- 3. Tab Panel 1: WhatsApp-style Message Consultation (Default Active) -->
+    <section class="queue-panel-card queue-panel-container" id="panel-messages" aria-labelledby="messagesHeading" style="display: block;">
+      <div class="section-header-compact" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 class="section-title-compact" id="messagesHeading">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i>
+            Victim Message Consultation
+          </h2>
+          <p class="section-desc-compact">
+            Confidential WhatsApp-style two-way communication channel between victims &amp; Dr. Priya Nair under Section 15A.
+          </p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="live-sync-indicator" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: #4A3A70; background: #EDE8FB; padding: 6px 14px; border-radius: 9999px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #10B981; display: inline-block; box-shadow: 0 0 6px #10B981;"></span> Real-time Connected
+          </span>
+          <button type="button" class="btn btn-outline-pill" id="refreshMessagesBtn" style="padding: 7px 18px; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border-radius: 9999px; border: 1.5px solid #2B1552; color: #2B1552; background: #fff;" aria-label="Refresh Messages">
+            <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> Refresh Chats
+          </button>
+        </div>
+      </div>
+
+      <div class="messages-workspace-layout" id="counsellorMessagesLayout">
+        <!-- Left Sidebar: Conversations List -->
+        <aside class="counsellor-convos-sidebar">
+          <div class="convos-sidebar-header">
+            <h3 class="convos-sidebar-title">
+              <i class="fa-solid fa-users" style="color: #7C3AED;"></i> Victim Threads
+            </h3>
+            <p class="convos-sidebar-desc">Select a victim to view messages &amp; reply</p>
+          </div>
+          <div class="convos-list-container" id="counsellorConvosList">
+            <div style="text-align: center; padding: 24px; color: #8C84A6;">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading conversations...
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Side: Active Chat Enclave -->
+        <div class="counsellor-active-chat-wrap" id="counsellorActiveChatArea">
+          <div class="active-chat-header">
+            <div class="active-chat-title-group">
+              <h3 id="activeChatVictimName">
+                <i class="fa-solid fa-user-shield" style="color: #7E57C2;"></i> Select a conversation
+              </h3>
+              <span id="activeChatSubtext">Section 15A Protection &amp; Psychological Care</span>
+            </div>
+            <div id="activeChatActions" style="display: none;">
+              <span class="status-pill-active" style="font-size: 0.76rem; background: #ECFDF5; color: #065F46; padding: 4px 10px; border-radius: 9999px;">
+                <i class="fa-solid fa-lock"></i> SEC. 15A CONFIDENTIAL
+              </span>
+            </div>
+          </div>
+
+          <!-- Messages Thread Container -->
+          <div class="active-chat-messages-area" id="counsellorThreadMessages">
+            <div style="text-align: center; margin: auto; color: #8C84A6; padding: 20px;">
+              <i class="fa-solid fa-comments" style="font-size: 2rem; color: #7E57C2; margin-bottom: 8px;"></i>
+              <p style="font-weight: 700; color: #2B1552; margin: 0 0 4px;">No conversation selected</p>
+              <span style="font-size: 0.8rem;">Select a victim from the left list to review messages and coordinate assistance.</span>
+            </div>
+          </div>
+
+          <!-- Reply Bar -->
+          <div class="active-chat-reply-bar" id="activeChatReplyBar" style="display: none;">
+            <div class="counsellor-quick-templates">
+              <button type="button" class="c-quick-pill" data-template="I hear you and you are completely safe. We are monitoring your case closely.">"I hear you and you are safe"</button>
+              <button type="button" class="c-quick-pill" data-template="Let's coordinate safe transit under Section 15A for your upcoming hearing.">"Coordinate Section 15A Escort"</button>
+              <button type="button" class="c-quick-pill" data-template="Take three slow, deep breaths. I am reviewing your case files now.">"Grounding &amp; Breathing"</button>
+            </div>
+            <form id="counsellorReplyForm" class="counsellor-reply-form">
+              <input type="text" id="counsellorReplyText" class="counsellor-reply-input" placeholder="Type clinical / supportive response to victim..." required autocomplete="off" />
+              <button type="submit" class="btn btn-hero-primary counsellor-send-btn" id="counsellorReplySubmitBtn">
+                <i class="fa-solid fa-paper-plane"></i> Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Tab Panel 2: Scheduled Video Consultations (Google Meet Enclave) -->
+    <section class="queue-panel-card queue-panel-container" id="panel-video" aria-labelledby="videoHeading" style="display: none;">
+      <div class="section-header-compact" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 class="section-title-compact" id="videoHeading">
+            <i class="fa-solid fa-video" aria-hidden="true"></i>
+            Scheduled Video Consultations
+          </h2>
+          <p class="section-desc-compact">
+            Scheduled virtual therapy enclaves. Click "Join Meeting" to open the Google Meet-style consultation room with the beneficiary.
+          </p>
+        </div>
+      </div>
+
+      <div class="queue-table-wrapper">
+        <table class="counsellor-table">
+          <thead>
+            <tr>
+              <th>Beneficiary / Victim</th>
+              <th>Case Reference</th>
+              <th>Scheduled Appointment</th>
+              <th>Meeting Room Enclave</th>
+              <th>Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="videoScheduleTableBody">
+            <!-- Dynamically populated by js/counsellor.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. Tab Panel 3: Counselling Requests & Scheduling -->
+    <section class="queue-panel-card queue-panel-container" id="panel-requests" aria-labelledby="supportRequestsHeading" style="display: none;">
+      <div class="section-header-compact" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <h2 class="section-title-compact" id="supportRequestsHeading">
+            <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+            Counselling Requests &amp; Intake
+          </h2>
+          <p class="section-desc-compact">
+            Victims requesting psychological support. Review requirements and schedule a Video Consultation or In-Person OSC Visit (with verification slip).
+          </p>
+        </div>
+
+        <!-- Sub-filter Nav Pills -->
+        <div class="support-subfilter-bar" role="group" aria-label="Filter Support Requests">
+          <button type="button" class="support-subfilter-btn active" data-filter="clinical" id="btnFilterClinical">
+            <i class="fa-solid fa-brain"></i> Counselling &amp; Care
+            <span class="subfilter-badge" id="subfilterBadgeClinical">0</span>
+          </button>
+          <button type="button" class="support-subfilter-btn" data-filter="statutory" id="btnFilterStatutory">
+            <i class="fa-solid fa-scale-balanced"></i> Statutory Referrals
+            <span class="subfilter-badge" id="subfilterBadgeStatutory">0</span>
+          </button>
+          <button type="button" class="support-subfilter-btn" data-filter="all" id="btnFilterAll">
+            <i class="fa-solid fa-list-check"></i> All
+            <span class="subfilter-badge" id="subfilterBadgeAll">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="queue-table-wrapper">
+        <table class="counsellor-table">
+          <thead>
+            <tr>
+              <th>Beneficiary / Victim</th>
+              <th>Requirement / Support Need</th>
+              <th>Domain</th>
+              <th>Submitted Date</th>
+              <th>Care Format</th>
+              <th>Status</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody">
+            <!-- Dynamically populated by js/counsellor.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================
+       DETAIL & ACTION MODALS
+       ======================================================= -->
+  
+  <!-- 1. Support Pulse Review Modal -->
+  <div class="modal-backdrop" id="pulseReviewModal" role="dialog" aria-labelledby="modalPulseTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card modal-card-pulse-review">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge modal-icon-badge-pulse">
+            <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <h2 class="modal-title" id="modalPulseTitle">Daily Check-In Clinical Review</h2>
+              <span class="modal-confidential-chip"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> SEC. 15A ENCLAVE</span>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #6C5E8A;">Confidential Beneficiary Triage &amp; Risk Assessment Record</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body modal-body-pulse">
+        <input type="hidden" id="modalPulseId" />
+        
+        <!-- Beneficiary Identity Banner -->
+        <div class="review-beneficiary-banner">
+          <div class="review-beneficiary-avatar" id="modalPulseAvatar">AS</div>
+          <div class="review-beneficiary-info">
+            <div class="review-beneficiary-top">
+              <span class="review-beneficiary-name" id="modalPulseVictim">Aanya Sharma</span>
+              <span class="badge-role-pill" id="modalPulseRoleBadge"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verified Beneficiary</span>
+              <span class="badge-case-pill" id="modalPulseCaseBadge"><i class="fa-solid fa-folder-closed" aria-hidden="true"></i> Case #MUM-2026-9041</span>
+            </div>
+            <div class="review-beneficiary-meta">
+              <span><i class="fa-regular fa-clock" aria-hidden="true"></i> Submitted: <strong id="modalPulseDate">—</strong></span>
+              <span class="review-meta-dot">•</span>
+              <span id="modalPulseRelativeTime" style="color: #6C5E8A; font-weight: 600;">Direct Check-In</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compact Triage Metadata Strip (Space-efficient) -->
+        <div class="triage-compact-strip">
+          <div class="triage-compact-item stat-item-mood">
+            <span class="triage-compact-label"><i class="fa-solid fa-face-smile" id="modalPulseMoodIcon" aria-hidden="true"></i> State:</span>
+            <span class="triage-compact-value" id="modalPulseWellbeing">Managing</span>
+          </div>
+
+          <div class="triage-compact-item stat-item-risk">
+            <span class="triage-compact-label"><i class="fa-solid fa-shield-heart" id="modalPulseRiskIcon" aria-hidden="true"></i> Triage Level:</span>
+            <span class="triage-compact-value" id="modalPulseRiskBadge">
+              <span class="badge-risk-low"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Low Risk</span>
+            </span>
+            <span class="triage-compact-sub" id="modalPulseRiskScoreText">(Score: 15/100)</span>
+          </div>
+
+          <div class="triage-compact-item stat-item-mode">
+            <span class="triage-compact-label"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Care Pathway:</span>
+            <span class="triage-compact-value" id="modalPulseMode">AI-assisted support</span>
+          </div>
+
+          <div class="triage-compact-item stat-item-channel">
+            <span class="triage-compact-label"><i class="fa-solid fa-lock" aria-hidden="true"></i> Channel:</span>
+            <span class="triage-compact-value" id="modalPulseChannel">WEB Portal • EN</span>
+          </div>
+        </div>
+
+        <!-- Submitted Narrative Section -->
+        <div class="review-section-container">
+          <div class="review-section-header">
+            <span class="review-section-title"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i> Submitted Narrative Note</span>
+            <span class="review-section-badge" id="modalPulseNarrativeTag">Direct Entry</span>
+          </div>
+          <div class="review-narrative-card">
+            <i class="fa-solid fa-quote-left narrative-quote-mark" aria-hidden="true"></i>
+            <p id="modalPulseNarrative" class="review-narrative-text">No text narrative provided.</p>
+          </div>
+        </div>
+
+        <!-- Voice Note Enclave Player (Rendered when voice audio exists) -->
+        <div class="review-voice-player-card" id="modalPulseVoiceInfo" style="display: none;"></div>
+
+        <!-- Counsellor Official Notes & Clinical Triage Area -->
+        <div class="modal-form-group review-notes-group">
+          <div class="review-notes-header">
+            <label class="modal-form-label" for="modalPulseReviewNotes" style="margin-bottom: 0;">
+              <i class="fa-solid fa-user-doctor" aria-hidden="true"></i> Official Clinical Observations &amp; Triage Plan
+            </label>
+            <span class="review-notes-privacy"><i class="fa-solid fa-lock" aria-hidden="true"></i> Protected Official Record</span>
+          </div>
+          
+          <!-- Quick insert template pills -->
+          <div class="quick-template-chips">
+            <span class="quick-chip-hint">Quick inserts:</span>
+            <button type="button" class="quick-chip-btn" onclick="insertPulseNote('Beneficiary reports stable mood. Routine monitoring continues.')">+ Stable / Routine</button>
+            <button type="button" class="quick-chip-btn" onclick="insertPulseNote('Signs of acute stress observed. Recommended follow-up check-in within 24h.')">+ Stress Follow-Up</button>
+            <button type="button" class="quick-chip-btn" onclick="insertPulseNote('Priority escalation requested. Coordinated with DLSA legal aid and case officer.')">+ DLSA Escalation</button>
+          </div>
+
+          <textarea class="modal-form-textarea review-notes-textarea" id="modalPulseReviewNotes" placeholder="Enter clinical observations, recommended supportive interventions, or case officer assignment instructions..."></textarea>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer modal-footer-enhanced">
+        <div class="modal-footer-actions-left">
+          <button type="button" class="btn btn-hero-primary btn-modal-action" id="btnSubmitPulseReviewed">
+            <i class="fa-solid fa-circle-check" style="margin-right: 6px;"></i> Mark as Reviewed
+          </button>
+          <button type="button" class="btn btn-escalate-danger btn-modal-action" id="btnSubmitPulsePrioritize">
+            <i class="fa-solid fa-triangle-exclamation" style="margin-right: 6px;"></i> Escalate Priority
+          </button>
+        </div>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2A. Clinical Counselling Session & Care Modal -->
+  <div class="modal-backdrop" id="counsellingSessionModal" role="dialog" aria-labelledby="modalCounsellingTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #EDE8FB; color: #7C3AED;">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalCounsellingTitle">Psychological Counselling &amp; Care</h2>
+            <span style="font-size: 0.82rem; font-weight: 700; color: #7E57C2; text-transform: uppercase; letter-spacing: 0.04em;">Direct Clinical Oversight • Dr. Priya Nair</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="modalCounsellingId" />
+
+        <div class="modal-info-grid">
+          <div class="modal-info-item">
+            <span class="modal-info-label">Protected Beneficiary</span>
+            <span class="modal-info-value" id="modalCounsellingRequester">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Distress Need</span>
+            <span class="modal-info-value" id="modalCounsellingCategory">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Check-In / Request Date</span>
+            <span class="modal-info-value" id="modalCounsellingDate">—</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="modalCounsellingFormatSelect">Session Format / Mode</label>
+            <select class="modal-form-select" id="modalCounsellingFormatSelect">
+              <option value="video">📹 Video Consultation (Google Meet)</option>
+              <option value="in_person">🏥 In-Person Consultation (One-Stop Centre Slip)</option>
+            </select>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="modalCounsellingDatetime">Scheduled Appointment (UTC / IST)</label>
+            <input type="datetime-local" class="modal-form-select" id="modalCounsellingDatetime" style="padding: 10px 14px; font-family: inherit;" />
+          </div>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="modalCounsellingStatusSelect">Clinical Care Status</label>
+          <select class="modal-form-select" id="modalCounsellingStatusSelect">
+            <option value="scheduled">Scheduled Appointment</option>
+            <option value="in_progress">Therapy In Progress</option>
+            <option value="completed">Session Completed &amp; Stabilized</option>
+            <option value="follow_up_required">Follow-Up Required (High Vulnerability)</option>
+          </select>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="modalCounsellingNotes">Clinical Triage &amp; Care Notes</label>
+          <textarea class="modal-form-textarea" id="modalCounsellingNotes" placeholder="Enter clinical assessment, therapeutic intervention plan, coping strategy recommendations, or trauma stabilization observations..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-hero-primary" id="btnSubmitCounsellingSchedule">
+          <i class="fa-solid fa-calendar-check" style="margin-right: 4px;"></i> Save Session &amp; Schedule
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B. Official One-Stop Centre (OSC) In-Person Verification Slip Modal -->
+  <div class="modal-backdrop" id="inPersonVerificationSlipModal" role="dialog" aria-labelledby="modalSlipTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card" style="max-width: 650px; background: #FFFFFF; border-radius: 20px; overflow: hidden; border: 2px solid #7C3AED; box-shadow: 0 20px 50px rgba(124, 58, 237, 0.25);">
+      <!-- Slip Header -->
+      <div style="background: linear-gradient(135deg, #2B1552 0%, #4C1D95 100%); color: #FFFFFF; padding: 20px 24px; text-align: center; border-bottom: 3px solid #F59E0B;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.15); margin-bottom: 8px;">
+          <i class="fa-solid fa-landmark-dome" style="font-size: 1.4rem; color: #FDE68A;"></i>
+        </div>
+        <div style="font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #FDE68A;">Government of India • Ministry of Social Justice &amp; Empowerment</div>
+        <h2 style="margin: 4px 0 2px; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.01em; color: #FFFFFF;" id="modalSlipTitle">
+          One-Stop Centre (OSC) Verification Pass Slip
+        </h2>
+        <span style="font-size: 0.76rem; color: #E9D5FF; font-weight: 600;">Statutory In-Person Admission Voucher under SC/ST (PoA) Act Sec 15A &amp; Rule 12</span>
+      </div>
+
+      <div class="modal-body" style="padding: 24px; background: #FAF9FD;">
+        <!-- Pass ID Highlight Card -->
+        <div style="background: #FFFFFF; border: 2px dashed #7C3AED; border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);">
+          <div style="font-size: 0.76rem; font-weight: 800; color: #6C5E8A; text-transform: uppercase; letter-spacing: 1px;">Official Verification Pass ID</div>
+          <div style="font-size: 1.8rem; font-weight: 900; color: #7C3AED; letter-spacing: 2px; font-family: monospace; margin: 4px 0;" id="slipPassNumber">OSC-TN-2026-9041A</div>
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; color: #065F46; background: #D1FAE5; padding: 4px 12px; border-radius: 9999px;">
+            <i class="fa-solid fa-circle-check"></i> Security Verified &bull; Present at OSC Gate
+          </span>
+        </div>
+
+        <!-- Details Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 12px 16px; border: 1px solid #EDE8FB;">
+            <span style="font-size: 0.74rem; font-weight: 700; color: #6C5E8A; text-transform: uppercase;">Beneficiary / Victim</span>
+            <div style="font-size: 1rem; font-weight: 800; color: #2B1552; margin-top: 2px;" id="slipBeneficiaryName">Aanya Sharma</div>
+            <span style="font-size: 0.76rem; color: #7C3AED; font-weight: 600;" id="slipCaseId">Case #CASE-2026-9041</span>
+          </div>
+
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 12px 16px; border: 1px solid #EDE8FB;">
+            <span style="font-size: 0.74rem; font-weight: 700; color: #6C5E8A; text-transform: uppercase;">Scheduled Appointment</span>
+            <div style="font-size: 1rem; font-weight: 800; color: #2B1552; margin-top: 2px;" id="slipAppointmentTime">Today, 3:00 PM IST</div>
+            <span style="font-size: 0.76rem; color: #059669; font-weight: 600;">Priority Gate Clearance Active</span>
+          </div>
+        </div>
+
+        <div style="background: #FFFFFF; border-radius: 12px; padding: 14px 16px; border: 1px solid #EDE8FB; margin-bottom: 18px;">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="width: 36px; height: 36px; border-radius: 10px; background: #EDE8FB; color: #7C3AED; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fa-solid fa-hospital-user"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 700; color: #6C5E8A; text-transform: uppercase;">Reporting Location</div>
+              <div style="font-size: 0.94rem; font-weight: 800; color: #2B1552;">District One-Stop Centre (OSC) Support Enclave</div>
+              <div style="font-size: 0.8rem; color: #6B7280;">Ground Floor Clinical Chamber, Near District Protection Cell</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #EDE8FB; border-radius: 12px; padding: 12px 16px; border: 1px solid #DDD6FE;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-user-doctor" style="font-size: 1.2rem; color: #7C3AED;"></i>
+            <div>
+              <div style="font-size: 0.74rem; font-weight: 700; color: #6C5E8A;">Attending Psychological Counsellor</div>
+              <div style="font-size: 0.9rem; font-weight: 800; color: #2B1552;">Dr. Priya Nair</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 0.72rem; font-weight: 700; color: #7C3AED; background: #FFFFFF; padding: 4px 8px; border-radius: 6px; border: 1px solid #C4B5FD;">
+              <i class="fa-solid fa-qrcode"></i> BARCODE: VERIFIED
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 16px 24px; background: #FFFFFF; border-top: 1px solid #EDE8FB; display: flex; justify-content: space-between;">
+        <button type="button" class="btn btn-outline-pill" onclick="window.print()" style="padding: 10px 20px; font-weight: 700; border-color: #7C3AED; color: #7C3AED;">
+          <i class="fa-solid fa-print"></i> Print / Save Slip
+        </button>
+        <button type="button" class="btn btn-hero-primary" onclick="closeInPersonSlipModal()" style="padding: 10px 24px; border-radius: 9999px;">
+          <i class="fa-solid fa-check"></i> Done &bull; Slip Ready
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B. Cross-Agency Statutory Referral Modal -->
+  <div class="modal-backdrop" id="requestManageModal" role="dialog" aria-labelledby="modalRequestTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #FEF3C7; color: #B45309;">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+          <div>
+            <h2 class="modal-title" id="modalRequestTitle">Cross-Agency Statutory Referral</h2>
+            <span style="font-size: 0.82rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.04em;">SC/ST (PoA) Act Statutory Routing Desk</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="modalRequestId" />
+
+        <div class="referral-statutory-notice">
+          <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.2rem; margin-top: 2px;"></i>
+          <div>
+            <strong>Inter-Agency Referral Protocol:</strong> As an authorized counsellor, forward statutory non-clinical requests (legal aid, police escort, compensation) directly to the competent nodal authority under Section 15A &amp; Rule 12 with your clinical urgency assessment.
+          </div>
+        </div>
+
+        <div class="modal-info-grid">
+          <div class="modal-info-item">
+            <span class="modal-info-label">Beneficiary</span>
+            <span class="modal-info-value" id="modalRequestRequester">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Assistance Category</span>
+            <span class="modal-info-value" id="modalRequestCategory">—</span>
+          </div>
+          <div class="modal-info-item">
+            <span class="modal-info-label">Submitted Date</span>
+            <span class="modal-info-value" id="modalRequestDate">—</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="modalReferralAgencySelect">Forward To Statutory Authority</label>
+            <select class="modal-form-select" id="modalReferralAgencySelect">
+              <option value="DLSA Legal Aid Cell">DLSA Panel Advocate (Free Legal Aid - Sec 15A)</option>
+              <option value="SP Witness Protection Cell">SP Witness Protection Cell (Police Security - Sec 15A)</option>
+              <option value="District Social Welfare Office">District Social Welfare Officer (Rule 12 Relief / Compensation)</option>
+              <option value="District Chief Medical Officer">District CMO (Hospital / Psychiatric Exam)</option>
+              <option value="District Magistrate Nodal Cell">District Magistrate / Collectorate Support Cell</option>
+            </select>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="modalReferralUrgencySelect">Clinical Urgency Assessment</label>
+            <select class="modal-form-select" id="modalReferralUrgencySelect">
+              <option value="high_distress">High Priority — Significant Distress Escalation</option>
+              <option value="critical_threat">Emergency Crisis — Direct Threat / Intimidation</option>
+              <option value="standard">Standard Statutory Processing</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="modalRequestNotes">Clinical Referral Recommendation &amp; Case Context</label>
+          <textarea class="modal-form-textarea" id="modalRequestNotes" placeholder="Explain the psychological impact, intimidation reports, trial delay distress, or urgent protection needs for the statutory authority..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-statutory-refer" id="btnSubmitRequestManage" style="padding: 10px 22px; border-radius: 9999px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-share-nodes" style="margin-right: 4px;"></i> Forward &amp; Escalate to Authority
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Direct Victim-Counsellor Messaging Modal Enclave -->
+  <div class="modal-backdrop" id="counsellorDirectChatModal" role="dialog" aria-labelledby="modalDirectChatVictim" aria-hidden="true" style="display: none;">
+    <div class="modal-card modal-card-interactive-session" style="max-width: 780px; height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="flex-shrink: 0;">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #EDE8FB; color: #7C3AED;">
+            <i class="fa-solid fa-comments"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 class="modal-title" id="modalDirectChatVictim">Beneficiary Direct Message</h2>
+              <span class="modal-confidential-chip" style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0;">
+                <i class="fa-solid fa-lock"></i> SEC. 15A CONFIDENTIAL
+              </span>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 600; color: #6C5E8A;" id="modalDirectChatSubtext">Direct 1-on-1 Communication Channel with Dr. Priya Nair</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" class="btn btn-outline-pill" id="btnModalSwitchToVideo" style="padding: 6px 14px; font-size: 0.78rem; border-color: #7C3AED; color: #7C3AED;">
+            <i class="fa-solid fa-video"></i> Start Video Call
+          </button>
+          <button class="modal-close-btn" onclick="closeCounsellorChatModal()" aria-label="Close dialog">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body" style="flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 16px 20px;">
+        <input type="hidden" id="modalDirectChatVictimId" />
+        <input type="hidden" id="modalDirectChatRequestId" />
+
+        <!-- Messages Thread Container -->
+        <div class="active-chat-messages-area" id="modalCounsellorThreadMessages" style="flex: 1; overflow-y: auto; background: #FAF9FD; border-radius: 14px; padding: 18px; border: 1px solid #EDE8FB; display: flex; flex-direction: column; gap: 12px;">
+          <div style="text-align: center; margin: auto; color: #8C84A6;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.8rem; color: #7E57C2; margin-bottom: 8px;"></i>
+            <p style="font-weight: 600; font-size: 0.9rem;">Loading encrypted message thread...</p>
+          </div>
+        </div>
+
+        <!-- Quick Response Suggestions -->
+        <div class="counsellor-quick-templates" style="margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap;">
+          <button type="button" class="c-quick-pill" data-template="I hear you and you are completely safe. We are monitoring your case closely.">"I hear you and you are safe"</button>
+          <button type="button" class="c-quick-pill" data-template="Let's coordinate safe police transit under Section 15A for your court hearing.">"Coordinate Section 15A Escort"</button>
+          <button type="button" class="c-quick-pill" data-template="Take three slow, deep breaths. I am reviewing your case files now.">"Grounding &amp; Breathing"</button>
+        </div>
+
+        <!-- Reply Form -->
+        <form id="counsellorModalReplyForm" class="counsellor-reply-form" style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+          <input type="text" id="counsellorModalReplyText" class="modal-form-select" placeholder="Type confidential message to beneficiary..." style="flex: 1; border-radius: 9999px; padding: 12px 18px; border: 1.5px solid #DDD6FE;" required autocomplete="off" />
+          <button type="submit" class="btn btn-hero-primary" id="counsellorModalReplySubmitBtn" style="padding: 12px 22px; border-radius: 9999px;">
+            <i class="fa-solid fa-paper-plane"></i> Send
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       4 INTERACTIVE COUNSELLING SESSION CONSOLES
+       ======================================================= -->
+
+  <!-- 5. Secure Telephonic Callback Console Modal -->
+  <div class="modal-backdrop" id="counsellorTelephonicModal" role="dialog" aria-labelledby="modalTelTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card modal-card-interactive-session">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #EDE8FB; color: #7C3AED;">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 class="modal-title" id="modalTelTitle">Secure Telephonic Callback Console</h2>
+              <span class="modal-confidential-chip"><i class="fa-solid fa-lock"></i> IVRS 14566 BRIDGE</span>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #6C5E8A;">End-to-End Encrypted Priority Telephonic Care Enclave</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modalTelSessionId" />
+        <div class="session-hero-banner">
+          <div class="session-hero-avatar" id="modalTelAvatar">AS</div>
+          <div class="session-hero-info">
+            <h3 class="session-hero-name" id="modalTelVictimName">Beneficiary</h3>
+            <div class="session-hero-meta">
+              <span id="modalTelCaseId">Case #MUM-2026-9041</span> •
+              <span>Passcode: <strong id="modalTelPassCode">—</strong></span> •
+              <span class="session-status-chip" id="modalTelStatusBadge">Connecting...</span>
+            </div>
+          </div>
+          <div class="session-timer-display" id="modalTelTimer">00:00</div>
+        </div>
+
+        <!-- Audio Waveform Visualizer -->
+        <div class="interactive-waveform-wrap">
+          <canvas id="counsellorAudioWaveformCanvas" width="460" height="70"></canvas>
+          <div class="waveform-caption" id="modalTelWaveCaption">
+            <i class="fa-solid fa-signal"></i> Encrypted VoIP Carrier • DTLS-SRTP Active • Clear Bandwidth
+          </div>
+        </div>
+
+        <!-- Interactive Controls -->
+        <div class="session-controls-strip">
+          <button type="button" class="btn-session-control btn-ctrl-dial" id="btnCounsellorDialLine">
+            <i class="fa-solid fa-phone"></i> <span>Dial Beneficiary</span>
+          </button>
+          <button type="button" class="btn-session-control btn-ctrl-mute" id="btnCounsellorMuteLine">
+            <i class="fa-solid fa-microphone"></i> <span>Mute Mic</span>
+          </button>
+          <button type="button" class="btn-session-control btn-ctrl-end" id="btnCounsellorEndLine">
+            <i class="fa-solid fa-phone-slash"></i> <span>Conclude Call</span>
+          </button>
+        </div>
+
+        <!-- Clinical Notes During Call -->
+        <div class="modal-form-group" style="margin-top: 14px;">
+          <label class="modal-form-label" for="modalTelClinicalNotes">
+            <i class="fa-solid fa-user-doctor"></i> Real-Time Clinical Notes &amp; De-escalation Observations
+          </label>
+          <textarea class="modal-form-textarea" id="modalTelClinicalNotes" rows="2" placeholder="Record immediate vocal affect, distress reduction, or grounding observations..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-hero-primary" id="btnCounsellorSaveTelNotes">
+          <i class="fa-solid fa-floppy-disk"></i> Complete Session &amp; Save Assessment
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Google Meet Video Consultation Enclave -->
+  <div class="gmeet-modal-backdrop" id="gmeetVideoModal" role="dialog" aria-modal="true" style="display: none;">
+    <div class="gmeet-container">
+      <!-- Top Header Bar -->
+      <header class="gmeet-top-bar">
+        <div class="gmeet-top-left">
+          <div class="gmeet-brand-pill">
+            <i class="fa-solid fa-video"></i>
+            <span>MentAura Meet</span>
+          </div>
+          <span class="gmeet-divider">|</span>
+          <span class="gmeet-room-code" id="gmeetRoomCodeDisplay" title="Click to copy meeting code">
+            <i class="fa-regular fa-copy"></i> <span id="gmeetRoomCodeText">mentaura-care-772110</span>
+          </span>
+          <span class="gmeet-security-badge">
+            <i class="fa-solid fa-shield-halved"></i> E2EE 256-Bit DTLS
+          </span>
+        </div>
+        <div class="gmeet-top-right">
+          <div class="gmeet-call-timer" id="gmeetCallTimer">
+            <span class="gmeet-timer-dot"></span>
+            <span id="gmeetCallTimerText">00:00</span>
+          </div>
+          <button type="button" class="gmeet-top-btn" id="gmeetBtnFullscreen" title="Toggle Fullscreen">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+          <button type="button" class="gmeet-top-btn gmeet-top-close" id="gmeetBtnCloseModal" title="Close Video Consultation">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Meeting Stage (2-Person Video Grid + In-Call Side Panel) -->
+      <main class="gmeet-stage">
+        <!-- 2-Person Side-by-Side Video Grid -->
+        <div class="gmeet-video-grid" id="gmeetVideoGrid">
+          <!-- Tile 1: Counsellor (Dr. Priya Nair) -->
+          <div class="gmeet-video-tile" id="gmeetTileCounsellor">
+            <video class="gmeet-tile-video" id="gmeetVideoCounsellor" autoplay playsinline></video>
+            
+            <!-- Avatar Fallback (when cam is off) -->
+            <div class="gmeet-avatar-placeholder" id="gmeetAvatarCounsellor">
+              <div class="gmeet-avatar-ring">
+                <div class="gmeet-avatar-circle counsellor-avatar">
+                  <i class="fa-solid fa-user-doctor"></i>
+                </div>
+              </div>
+              <p class="gmeet-avatar-title">Dr. Priya Nair</p>
+              <span class="gmeet-avatar-status">Clinical Care Lead</span>
+            </div>
+
+            <!-- Hand Raise Indicator -->
+            <div class="gmeet-hand-indicator" id="gmeetHandCounsellor" style="display: none;">
+              <i class="fa-solid fa-hand"></i>
+            </div>
+
+            <!-- Tile Name Tag Overlay -->
+            <div class="gmeet-tile-nametag">
+              <span class="gmeet-tile-name"><i class="fa-solid fa-user-doctor" style="color: #A78BFA;"></i> Dr. Priya Nair (Counsellor)</span>
+              <span class="gmeet-tile-mic" id="gmeetTileMicCounsellor">
+                <i class="fa-solid fa-microphone"></i>
+              </span>
+            </div>
+
+            <!-- Top Badges -->
+            <div class="gmeet-tile-top-badges">
+              <span class="gmeet-hd-badge"><i class="fa-solid fa-shield-halved"></i> Protected</span>
+            </div>
+          </div>
+
+          <!-- Tile 2: Victim (Aanya Sharma) -->
+          <div class="gmeet-video-tile" id="gmeetTileVictim">
+            <video class="gmeet-tile-video" id="gmeetVideoVictim" autoplay playsinline></video>
+
+            <!-- Avatar Fallback (when cam is off) -->
+            <div class="gmeet-avatar-placeholder" id="gmeetAvatarVictim">
+              <div class="gmeet-avatar-ring">
+                <div class="gmeet-avatar-circle victim-avatar">
+                  <i class="fa-solid fa-user-shield"></i>
+                </div>
+              </div>
+              <p class="gmeet-avatar-title">Aanya Sharma</p>
+              <span class="gmeet-avatar-status">Verified Beneficiary</span>
+            </div>
+
+            <!-- Hand Raise Indicator -->
+            <div class="gmeet-hand-indicator" id="gmeetHandVictim" style="display: none;">
+              <i class="fa-solid fa-hand"></i>
+            </div>
+
+            <!-- Tile Name Tag Overlay -->
+            <div class="gmeet-tile-nametag">
+              <span class="gmeet-tile-name"><i class="fa-solid fa-user-shield" style="color: #34D399;"></i> Aanya Sharma (Beneficiary)</span>
+              <span class="gmeet-tile-mic" id="gmeetTileMicVictim">
+                <i class="fa-solid fa-microphone"></i>
+              </span>
+            </div>
+
+            <!-- Top Badges -->
+            <div class="gmeet-tile-top-badges">
+              <span class="gmeet-hd-badge"><i class="fa-solid fa-lock"></i> Secure</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Panel (Google Meet In-Call Messages & People) -->
+        <aside class="gmeet-side-panel" id="gmeetSidePanel" style="display: none;">
+          <div class="gmeet-side-header">
+            <div class="gmeet-side-tabs">
+              <button type="button" class="gmeet-side-tab active" id="gmeetTabBtnChat" data-tab="chat">
+                <i class="fa-solid fa-message"></i> In-call chat
+              </button>
+              <button type="button" class="gmeet-side-tab" id="gmeetTabBtnPeople" data-tab="people">
+                <i class="fa-solid fa-user-group"></i> People (2)
+              </button>
+              <button type="button" class="gmeet-side-tab" id="gmeetTabBtnNotes" data-tab="notes">
+                <i class="fa-solid fa-notes-medical"></i> Case Notes
+              </button>
+            </div>
+            <button type="button" class="gmeet-side-close" id="gmeetBtnClosePanel" title="Close panel">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <!-- Panel Tab 1: In-call Chat -->
+          <div class="gmeet-side-body gmeet-panel-tab-content active" id="gmeetPanelChat">
+            <div class="gmeet-chat-notice">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>Messages can only be seen by people in the call and are deleted when the call ends.</span>
+            </div>
+            
+            <div class="gmeet-chat-list" id="gmeetChatList">
+              <!-- Messages streamed in real-time -->
+            </div>
+
+            <form class="gmeet-chat-input-row" id="gmeetChatForm">
+              <input type="text" id="gmeetChatInput" class="gmeet-chat-input" placeholder="Send a message to everyone..." autocomplete="off" required />
+              <button type="submit" class="gmeet-chat-send-btn" id="gmeetChatSendBtn" title="Send message">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Panel Tab 2: People List -->
+          <div class="gmeet-side-body gmeet-panel-tab-content" id="gmeetPanelPeople" style="display: none;">
+            <div class="gmeet-people-list">
+              <div class="gmeet-person-item">
+                <div class="gmeet-person-avatar counsellor">
+                  <i class="fa-solid fa-user-doctor"></i>
+                </div>
+                <div class="gmeet-person-info">
+                  <span class="gmeet-person-name">Dr. Priya Nair</span>
+                  <span class="gmeet-person-role">Meeting host &bull; Clinical Lead</span>
+                </div>
+                <div class="gmeet-person-status">
+                  <i class="fa-solid fa-microphone"></i>
+                  <i class="fa-solid fa-video"></i>
+                </div>
+              </div>
+              <div class="gmeet-person-item">
+                <div class="gmeet-person-avatar victim">
+                  <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div class="gmeet-person-info">
+                  <span class="gmeet-person-name">Aanya Sharma</span>
+                  <span class="gmeet-person-role">Verified Beneficiary &bull; Section 15A</span>
+                </div>
+                <div class="gmeet-person-status">
+                  <i class="fa-solid fa-microphone"></i>
+                  <i class="fa-solid fa-video"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Tab 3: Case Notes (Counsellor) -->
+          <div class="gmeet-side-body gmeet-panel-tab-content" id="gmeetPanelNotes" style="display: none;">
+            <div class="gmeet-notes-container">
+              <label class="gmeet-notes-label"><i class="fa-solid fa-clipboard-check"></i> Tele-Psychiatric Assessment &amp; Case Notes</label>
+              <textarea id="gmeetClinicalNotesInput" class="gmeet-notes-textarea" rows="7" placeholder="Document mental status exam, emotional affect, Section 15A transit security, coping strategies discussed..."></textarea>
+              <div class="gmeet-notes-actions">
+                <button type="button" class="gmeet-btn-primary" id="gmeetBtnSaveNotes">
+                  <i class="fa-solid fa-check"></i> Save &amp; Finalize Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <!-- Bottom Control Bar (Google Meet Dock) -->
+      <footer class="gmeet-bottom-bar">
+        <div class="gmeet-bottom-left">
+          <span class="gmeet-clock" id="gmeetBottomClock">02:35 AM</span>
+          <span class="gmeet-bottom-divider">|</span>
+          <span class="gmeet-bottom-code" id="gmeetBottomRoomCode">mentaura-care</span>
+        </div>
+
+        <div class="gmeet-bottom-center">
+          <button type="button" class="gmeet-control-circle" id="gmeetBtnMic" title="Turn off microphone (Ctrl + d)">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          <button type="button" class="gmeet-control-circle" id="gmeetBtnCam" title="Turn off camera (Ctrl + e)">
+            <i class="fa-solid fa-camera"></i>
+          </button>
+          <button type="button" class="gmeet-control-circle" id="gmeetBtnShare" title="Share screen">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </button>
+          <button type="button" class="gmeet-control-circle" id="gmeetBtnHand" title="Raise hand">
+            <i class="fa-solid fa-hand"></i>
+          </button>
+          <button type="button" class="gmeet-control-pill-end" id="gmeetBtnLeave" title="Leave call">
+            <i class="fa-solid fa-phone-slash"></i>
+          </button>
+        </div>
+
+        <div class="gmeet-bottom-right">
+          <button type="button" class="gmeet-right-btn" id="gmeetBtnInfo" title="Meeting details">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+          <button type="button" class="gmeet-right-btn" id="gmeetBtnPeople" title="People (2)">
+            <i class="fa-solid fa-user-group"></i>
+            <span class="gmeet-badge-count">2</span>
+          </button>
+          <button type="button" class="gmeet-right-btn" id="gmeetBtnChat" title="In-call chat">
+            <i class="fa-solid fa-message"></i>
+            <span class="gmeet-badge-dot" id="gmeetChatUnreadDot" style="display: none;"></span>
+          </button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- 7. One-Stop Centre (OSC) Reception Desk Modal -->
+  <div class="modal-backdrop" id="counsellorOscModal" role="dialog" aria-labelledby="modalOscTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card modal-card-osc">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #FEF3C7; color: #B45309;">
+            <i class="fa-solid fa-hospital-user"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 class="modal-title" id="modalOscTitle">One-Stop Centre (OSC) In-Person Reception Desk</h2>
+              <span class="modal-confidential-chip" style="background: #FEF3C7; color: #92400E;"><i class="fa-solid fa-shield-halved"></i> SEC. 15A ENCLAVE</span>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #6C5E8A;">Physical Reception, Identity Verification &amp; Vitals Intake</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modalOscSessionId" />
+
+        <!-- Visitor Digital Pass Verification Banner -->
+        <div class="osc-pass-verification-card">
+          <div class="osc-pass-qr-preview">
+            <i class="fa-solid fa-qrcode"></i>
+          </div>
+          <div class="osc-pass-info">
+            <span class="osc-pass-label">OFFICIAL GOVERNMENT DIGITAL PASS</span>
+            <div class="osc-pass-number" id="modalOscPassNumber">OSC-TN-2026-9041A1</div>
+            <div class="osc-pass-meta">
+              <span>Beneficiary: <strong id="modalOscBeneficiary">Beneficiary</strong></span> •
+              <span id="modalOscGateStatusBadge" class="badge-gate-status"><i class="fa-solid fa-circle-check"></i> Visitor Checked In at Gate</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-hero-primary" id="btnOscAdmitVisitor" style="margin-left: auto;">
+            <i class="fa-solid fa-door-open"></i> Admit to Clinical Room
+          </button>
+        </div>
+
+        <!-- Clinical Vitals & Intake Form -->
+        <div class="osc-vitals-grid">
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="oscVitalsHeartRate"><i class="fa-solid fa-heart-pulse"></i> Pulse Rate (BPM)</label>
+            <input type="number" class="modal-form-input" id="oscVitalsHeartRate" placeholder="e.g. 74" value="76" />
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="oscVitalsBP"><i class="fa-solid fa-stethoscope"></i> Blood Pressure (mmHg)</label>
+            <input type="text" class="modal-form-input" id="oscVitalsBP" placeholder="e.g. 120/80" value="118/78" />
+          </div>
+          <div class="modal-form-group">
+            <label class="modal-form-label" for="oscVitalsMentalStatus"><i class="fa-solid fa-brain"></i> Mental Status Exam (MSE)</label>
+            <input type="text" class="modal-form-input" id="oscVitalsMentalStatus" value="Oriented to time, place, and person. Speech calm." />
+          </div>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-form-label" for="modalOscClinicalNotes"><i class="fa-solid fa-clipboard-check"></i> In-Person Clinical Observations &amp; Transit Record</label>
+          <textarea class="modal-form-textarea" id="modalOscClinicalNotes" rows="2" placeholder="Document physical safety check, escort coordination, or Rule 12 immediate relief voucher delivery..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-hero-primary" id="btnCounsellorSaveOscVisit">
+          <i class="fa-solid fa-circle-check"></i> Complete In-Person Visit &amp; Archive Vitals
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 24/7 Emergency Crisis Stabilization Suite Modal -->
+  <div class="modal-backdrop" id="counsellorCrisisModal" role="dialog" aria-labelledby="modalCrisisTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-card modal-card-crisis">
+      <div class="modal-header" style="background: #FEF2F2; border-bottom: 1px solid #FCA5A5;">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" style="background: #DC2626; color: #FFFFFF;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h2 class="modal-title" id="modalCrisisTitle" style="color: #991B1B;">Emergency Crisis Stabilization Protocol</h2>
+              <span class="modal-confidential-chip" style="background: #DC2626; color: #FFFFFF;"><i class="fa-solid fa-bolt"></i> PRIORITY 1 ESCALATION</span>
+            </div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #991B1B;">Immediate Trauma &amp; Intimidation Crisis Intervention</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modalCrisisSessionId" />
+
+        <!-- High Priority Beacon -->
+        <div class="crisis-beacon-strip" id="modalCrisisBeaconStrip">
+          <div class="crisis-pulse-dot"></div>
+          <div>
+            <strong>High-Distress Alert:</strong> Beneficiary triggered critical support request or SOS beacon.
+          </div>
+          <button type="button" class="btn btn-escalate-danger" id="btnCrisisPriorityCall" style="margin-left: auto;">
+            <i class="fa-solid fa-phone"></i> Emergency 1-Tap Bridge
+          </button>
+        </div>
+
+        <!-- Therapeutic 4-7-8 Breathing Pacer Display -->
+        <div class="crisis-breathing-sync-card">
+          <div class="breathing-circle-pacer" id="counsellorBreathingCircle">
+            <span class="breathing-pacer-text" id="counsellorBreathingText">Inhale</span>
+          </div>
+          <div class="breathing-instructions">
+            <h4>Trauma De-escalation Breathing Guide (4-7-8 Protocol)</h4>
+            <p>Guide beneficiary through 4s nasal inhalation, 7s breath hold, and 8s slow exhalation to regulate vagus nerve activation.</p>
+            <div class="breathing-steps-row">
+              <span class="b-step active" id="bStepInhale">4s Inhale</span> &rarr;
+              <span class="b-step" id="bStepHold">7s Hold</span> &rarr;
+              <span class="b-step" id="bStepExhale">8s Exhale</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Immediate Stabilization Actions -->
+        <div class="modal-form-group" style="margin-top: 14px;">
+          <label class="modal-form-label" for="modalCrisisProtocolNotes"><i class="fa-solid fa-shield-heart"></i> Crisis Stabilization Actions &amp; Emergency Escalation</label>
+          <textarea class="modal-form-textarea" id="modalCrisisProtocolNotes" rows="2" placeholder="Record immediate safety measures taken, threat mitigation, or Section 15A police patrol dispatch..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-hero-primary" id="btnCounsellorStabilizeCrisis" style="background: #15803D;">
+          <i class="fa-solid fa-circle-check"></i> Beneficiary Stabilized &amp; Log Protocol
+        </button>
+        <button type="button" class="btn btn-secondary-pill btn-modal-cancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       SITE FOOTER (Clean, Aligned, Harmonious)
+       ======================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-grid">
+        
+        <!-- Column 1: Brand & National Initiative -->
+        <div class="footer-col">
+          <div class="footer-brand">
+            <i class="fa-solid fa-brain" style="color: #D4C4FC;" aria-hidden="true"></i>
+            <span>MENTAURA</span>
+          </div>
+          <p class="footer-desc">
+            Secure, Case-Aware Support Intelligence Platform. Official workspace for psychological counselling, protection triage, and legal aid coordination.
+          </p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+            <span>Role-Protected Official Enclave</span>
+          </div>
+        </div>
+
+        <!-- Column 2: Official Navigation Links -->
+        <div class="footer-col">
+          <h3 class="footer-col-title">Official Portal</h3>
+          <ul class="footer-links">
+            <li><a href="counsellor-workspace.html">Review Workspace</a></li>
+            <li><a href="district-command-centre.html">Command Centre</a></li>
+            <li><a href="state-overview.html">State Overview</a></li>
+            <li><a href="resources.html">Resources &amp; Guidelines</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Security & Governance -->
+        <div class="footer-col">
+          <h3 class="footer-col-title">Security &amp; Governance</h3>
+          <ul class="footer-links">
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-service.html">Terms of Service</a></li>
+            <li><a href="resources.html">Support Guidelines</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 MENTAURA — Smart India Hackathon Project (SIH26094). All rights reserved.</p>
+        <p>Authorised official environment. All triage and review actions are immutably logged for auditability.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth-guard.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/gmeet.js"></script>
+  <script src="js/counsellor.js?v=20260915_0135"></script>
+</body>
+</html>
