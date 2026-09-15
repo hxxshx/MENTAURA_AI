@@ -1371,7 +1371,19 @@ def generate_chatbot_ai_response(
     if not api_key:
         return default_text
 
-    system_instruction = f"""You are MentAura AI Support Companion, an empathetic, caring, and conversational mental health AI companion for victims and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
+    try:
+        import google.generativeai as legacy_genai
+        legacy_genai.configure(api_key=api_key)
+
+        model_name = os.getenv("GEMINI_MODEL") or getattr(settings, "GEMINI_MODEL", "") or "gemini-flash-lite-latest"
+        models_to_try = list(dict.fromkeys([model_name, "gemini-flash-lite-latest", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]))
+
+        gen_cfg = legacy_genai.types.GenerationConfig(
+            max_output_tokens=300,
+            temperature=0.6
+        )
+
+        system_instruction = f"""You are MentAura AI Support Companion, an empathetic, caring, and conversational mental health AI companion for victims and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
 You are engaged in a direct, multi-turn conversation with a human.
 
 CRITICAL CONVERSATIONAL RULES:
@@ -1404,90 +1416,41 @@ CRITICAL CONVERSATIONAL RULES:
    - Plain text ONLY: NO markdown asterisks (**), NO bullet points, NO quotes.
    - Target Language: Strictly respond ENTIRELY in {lang} (English, Hindi, or Tamil)."""
 
-    # 1. Modern google-genai SDK
-    try:
-        from google import genai
-        from google.genai import types
-
-        client = genai.Client(api_key=api_key)
-        model_name = (
-            os.getenv("GEMINI_MODEL")
-            or getattr(settings, "GEMINI_MODEL", "")
-            or "gemini-3.5-flash-lite"
-        ).strip()
-        models_to_try = list(dict.fromkeys([
-            "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-        ]))
-
-        contents = []
+        chat_history = []
         if conversation_history:
-            for turn in conversation_history[-4:]:
+            for turn in conversation_history[-8:]:
                 r = "user" if turn.get("role") in ("user", "human") else "model"
                 c = turn.get("content") or turn.get("text") or ""
                 if c:
-                    contents.append(types.Content(role=r, parts=[types.Part.from_text(text=c)]))
-        contents.append(types.Content(role="user", parts=[types.Part.from_text(text=user_message)]))
-
-        gen_cfg = types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.3,
-            max_output_tokens=100
-        )
+                    chat_history.append({"role": r, "parts": [c]})
 
         for m_name in models_to_try:
             try:
-                response = client.models.generate_content(
-                    model=m_name,
-                    contents=contents,
-                    config=gen_cfg
+                gen_model = legacy_genai.GenerativeModel(
+                    model_name=m_name,
+                    system_instruction=system_instruction,
+                    generation_config=gen_cfg
                 )
-                raw_reply = response.text or ""
+                chat = gen_model.start_chat(history=chat_history)
+                res = chat.send_message(user_message)
+                raw_reply = ""
+                if hasattr(res, "candidates") and res.candidates:
+                    cand = res.candidates[0]
+                    if hasattr(cand, "content") and cand.content and hasattr(cand.content, "parts"):
+                        raw_reply = "".join([p.text for p in cand.content.parts if hasattr(p, "text") and p.text])
+                if not raw_reply and hasattr(res, "text"):
+                    try:
+                        raw_reply = res.text or ""
+                    except Exception:
+                        pass
                 if raw_reply:
                     cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
                     if len(cleaned) >= 15:
                         return cleaned
-            except Exception as m_err:
-                print(f"[CHATBOT GEMINI {m_name} ERROR]: {m_err}")
+            except Exception:
                 continue
     except Exception as e:
-        print(f"[CHATBOT GOOGLE-GENAI ERROR]: {e}")
-
-    # 2. Resilient Direct REST API Fallback
-    try:
-        import requests
-        rest_models = ["gemini-3.5-flash-lite", "gemini-3.6-flash"]
-        for rm in rest_models:
-            try:
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{rm}:generateContent?key={api_key}"
-                rest_contents = []
-                if conversation_history:
-                    for turn in conversation_history[-4:]:
-                        r = "user" if turn.get("role") in ("user", "human") else "model"
-                        c = turn.get("content") or turn.get("text") or ""
-                        if c:
-                            rest_contents.append({"role": r, "parts": [{"text": c}]})
-                rest_contents.append({"role": "user", "parts": [{"text": user_message}]})
-
-                payload_data = {
-                    "systemInstruction": {"parts": [{"text": system_instruction}]},
-                    "contents": rest_contents,
-                    "generationConfig": {"temperature": 0.3, "maxOutputTokens": 100}
-                }
-                resp = requests.post(url, json=payload_data, timeout=5)
-                if resp.status_code == 200:
-                    cand = resp.json().get("candidates", [{}])[0]
-                    parts = cand.get("content", {}).get("parts", [])
-                    raw_reply = "".join([p.get("text", "") for p in parts if "text" in p])
-                    if raw_reply:
-                        cleaned = raw_reply.strip().replace("**", "").replace('"', '').replace("```", "")
-                        if len(cleaned) >= 15:
-                            return cleaned
-            except Exception as rest_m_err:
-                print(f"[CHATBOT REST {rm} ERROR]: {rest_m_err}")
-                continue
-    except Exception as rest_e:
-        print(f"[CHATBOT REST GENERAL ERROR]: {rest_e}")
+        print(f"[CHATBOT GEMINI ERROR]: {e}")
 
     return default_text
 
@@ -3380,21 +3343,17 @@ def generate_voice_companion_response(
     if not api_key:
         return default_text
 
-    # 1. Modern google-genai SDK
     try:
-        from google import genai
-        from google.genai import types
+        import google.generativeai as legacy_genai
+        legacy_genai.configure(api_key=api_key)
 
-        client = genai.Client(api_key=api_key)
-        model_name = (
-            os.getenv("GEMINI_MODEL")
-            or getattr(settings, "GEMINI_MODEL", "")
-            or "gemini-3.5-flash-lite"
-        ).strip()
-        models_to_try = list(dict.fromkeys([
-            "gemini-3.5-flash-lite",
-            "gemini-3.6-flash",
-        ]))
+        model_name = os.getenv("GEMINI_MODEL") or getattr(settings, "GEMINI_MODEL", "") or "gemini-flash-lite-latest"
+        models_to_try = list(dict.fromkeys([model_name, "gemini-flash-lite-latest", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]))
+
+        gen_cfg = legacy_genai.types.GenerationConfig(
+            max_output_tokens=250,
+            temperature=0.6
+        )
 
         system_instruction = f"""You are MentAura Voice Companion, an empathetic, caring, and conversational AI voice companion for victims and witnesses under Section 15A of the SC/ST (Prevention of Atrocities) Act.
 You are engaged in a LIVE, bidirectional ChatGPT-style spoken voice conversation.
@@ -3416,74 +3375,43 @@ Rules for your spoken reply:
 4. Language: Respond ENTIRELY in the requested language ({lang}: English, Hindi, Tamil, Telugu, Kannada, Marathi, or Bengali).
 5. Human tone: Speak like a caring friend and supportive guide, never clinical or robotic."""
 
-        contents = []
+        # Format past turns
+        chat_history = []
         if conversation_history:
-            for turn in conversation_history[-4:]:
+            for turn in conversation_history[-6:]:
                 r = "user" if turn.get("role") in ("user", "human") else "model"
                 c = turn.get("content") or turn.get("text") or ""
                 if c:
-                    contents.append(types.Content(role=r, parts=[types.Part.from_text(text=c)]))
-        contents.append(types.Content(role="user", parts=[types.Part.from_text(text=user_message)]))
-
-        gen_cfg = types.GenerateContentConfig(
-            system_instruction=system_instruction,
-            temperature=0.3,
-            max_output_tokens=70
-        )
+                    chat_history.append({"role": r, "parts": [c]})
 
         for m_name in models_to_try:
             try:
-                response = client.models.generate_content(
-                    model=m_name,
-                    contents=contents,
-                    config=gen_cfg
+                gen_model = legacy_genai.GenerativeModel(
+                    model_name=m_name,
+                    system_instruction=system_instruction,
+                    generation_config=gen_cfg
                 )
-                raw_reply = response.text or ""
+                chat = gen_model.start_chat(history=chat_history)
+                res = chat.send_message(user_message)
+                raw_reply = ""
+                if hasattr(res, "candidates") and res.candidates:
+                    cand = res.candidates[0]
+                    if hasattr(cand, "content") and cand.content and hasattr(cand.content, "parts"):
+                        raw_reply = "".join([p.text for p in cand.content.parts if hasattr(p, "text") and p.text])
+                if not raw_reply and hasattr(res, "text"):
+                    try:
+                        raw_reply = res.text or ""
+                    except Exception:
+                        pass
                 if raw_reply:
                     cleaned = clean_voice_text(raw_reply)
                     if len(cleaned) >= 15:
                         return cleaned
-            except Exception as m_err:
-                print(f"[VOICE AI GEMINI {m_name} ERROR]: {m_err}")
+            except Exception:
                 continue
+
     except Exception as e:
-        print(f"[VOICE AI GOOGLE-GENAI ERROR]: {e}")
-
-    # 2. Resilient Direct REST API Fallback
-    try:
-        import requests
-        rest_models = ["gemini-3.5-flash-lite", "gemini-3.6-flash"]
-        for rm in rest_models:
-            try:
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{rm}:generateContent?key={api_key}"
-                rest_contents = []
-                if conversation_history:
-                    for turn in conversation_history[-4:]:
-                        r = "user" if turn.get("role") in ("user", "human") else "model"
-                        c = turn.get("content") or turn.get("text") or ""
-                        if c:
-                            rest_contents.append({"role": r, "parts": [{"text": c}]})
-                rest_contents.append({"role": "user", "parts": [{"text": user_message}]})
-
-                payload_data = {
-                    "systemInstruction": {"parts": [{"text": system_instruction}]},
-                    "contents": rest_contents,
-                    "generationConfig": {"temperature": 0.3, "maxOutputTokens": 70}
-                }
-                resp = requests.post(url, json=payload_data, timeout=5)
-                if resp.status_code == 200:
-                    cand = resp.json().get("candidates", [{}])[0]
-                    parts = cand.get("content", {}).get("parts", [])
-                    raw_reply = "".join([p.get("text", "") for p in parts if "text" in p])
-                    if raw_reply:
-                        cleaned = clean_voice_text(raw_reply)
-                        if len(cleaned) >= 15:
-                            return cleaned
-            except Exception as rest_m_err:
-                print(f"[VOICE AI REST {rm} ERROR]: {rest_m_err}")
-                continue
-    except Exception as rest_e:
-        print(f"[VOICE AI REST GENERAL ERROR]: {rest_e}")
+        print(f"[VOICE AI GEMINI ERROR]: {e}")
 
     return default_text
 
@@ -4543,8 +4471,8 @@ def post_video_signal(
     global _video_signals_store
     now = datetime.now(timezone.utc)
     
-    # Prune expired signals older than 2 minutes
-    cutoff = now - timedelta(minutes=2)
+    # Prune expired signals older than 5 minutes
+    cutoff = now - timedelta(minutes=5)
     _video_signals_store = [s for s in _video_signals_store if s["timestamp"] >= cutoff]
 
     try:
@@ -4583,11 +4511,17 @@ def get_video_signals(
     """Retrieves WebRTC signaling events for a specific consultation room for the peer."""
     clean_room = room_id.strip()
     res = []
-    found_since = False if since_id else True
+
+    # Check if since_id exists in our current store for this room
+    has_since = False
+    if since_id:
+        has_since = any(s["room_id"] == clean_room and s["id"] == since_id for s in _video_signals_store)
+
+    found_since = False if has_since else True
 
     for s in _video_signals_store:
         if s["room_id"] == clean_room:
-            if since_id:
+            if has_since:
                 if s["id"] == since_id:
                     found_since = True
                     continue
