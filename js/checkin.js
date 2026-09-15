@@ -2708,8 +2708,8 @@ function setupVoiceChannel() {
     } else if (state === 'thinking') {
       orbStage.classList.add('thinking');
       statePill.classList.add('thinking');
-      if (stateText) stateText.textContent = customMessage || 'Responding...';
-      if (orbIcon) orbIcon.className = 'fa-solid fa-bolt-lightning fa-fade';
+      if (stateText) stateText.textContent = customMessage || 'Thinking & understanding your words...';
+      if (orbIcon) orbIcon.className = 'fa-solid fa-brain fa-spin';
     } else if (state === 'speaking') {
       orbStage.classList.add('speaking');
       statePill.classList.add('speaking');
@@ -2862,20 +2862,20 @@ function setupVoiceChannel() {
               if (isRecording && capturedSpeechText.trim().length > 1) {
                 stopRecordingAndProcess();
               }
-            }, 550);
+            }, 1800);
             return;
           }
 
           capturedSpeechText = text;
 
-          // In hands-free mode, trigger instant response after ~550ms of natural silence
+          // In hands-free mode, trigger processing after ~1800ms of natural silence
           if (autoLoopToggle && autoLoopToggle.checked && isRecording) {
             clearTimeout(silenceTimeout);
             silenceTimeout = setTimeout(() => {
               if (isRecording && capturedSpeechText.trim().length > 1) {
                 stopRecordingAndProcess();
               }
-            }, 550);
+            }, 1800);
           }
         }
       };

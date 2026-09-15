@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Victim Home — MENTAURA Support Space</title>
   <meta name="description" content="Private, case-aware support space for victims, witnesses, and affected families.">
-
+  
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
-    rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
@@ -37,36 +32,32 @@
     /* Welcome Header Banner */
     .victim-hero-banner {
       background: var(--gradient-hero);
-      padding: 36px 20px 30px;
+      padding: 16px 20px 14px;
       border-bottom: 1px solid rgba(230, 224, 248, 0.85);
       text-align: center;
       position: relative;
     }
 
     .victim-hero-container {
-      max-width: 680px;
+      max-width: 900px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
     }
 
     .victim-greeting-title {
       color: var(--color-purple-primary);
-      font-size: 1.9rem;
+      font-size: 1.85rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin-bottom: 0;
+      margin-bottom: 4px;
       line-height: 1.2;
     }
 
     .victim-greeting-sub {
-      color: #6B5E8C;
-      font-size: 0.92rem;
-      margin-bottom: 0;
-      line-height: 1.5;
-      font-weight: 500;
+      color: var(--color-text-main);
+      font-size: 0.94rem;
+      margin-bottom: 2px;
+      line-height: 1.4;
+      font-weight: 600;
     }
 
     .victim-greeting-micro {
@@ -78,10 +69,9 @@
 
     .victim-hero-ctas {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 8px;
     }
 
     /* Main Content Container */
@@ -741,15 +731,12 @@
       .help-grid-2 {
         grid-template-columns: 1fr;
       }
-
       .help-grid-6 {
         grid-template-columns: repeat(2, 1fr);
       }
-
       .flow-steps-grid-4 {
         grid-template-columns: repeat(2, 1fr);
       }
-
       .victim-2col-grid {
         grid-template-columns: 1fr;
       }
@@ -759,24 +746,19 @@
       .help-grid-2 {
         grid-template-columns: 1fr;
       }
-
       .help-grid-6 {
         grid-template-columns: 1fr;
       }
-
       .flow-steps-grid-4 {
         grid-template-columns: 1fr;
       }
-
       .victim-greeting-title {
         font-size: 1.65rem;
       }
-
       .privacy-control-card {
         flex-direction: column;
         align-items: flex-start;
       }
-
       .user-profile-popover {
         right: -50px;
         width: 300px;
@@ -784,7 +766,6 @@
     }
   </style>
 </head>
-
 <body class="victim-app-wrapper">
 
   <!-- =======================================================
@@ -792,11 +773,10 @@
        ======================================================= -->
   <header class="site-header" id="siteHeader">
     <div class="header-container">
-
+      
       <!-- Language Selector (Left) -->
       <div class="lang-selector-wrapper">
-        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox"
-          aria-label="Select Language">
+        <button class="lang-btn" id="langSelectorBtn" aria-expanded="false" aria-haspopup="listbox" aria-label="Select Language">
           <i class="fa-solid fa-globe" aria-hidden="true"></i>
           <span class="lang-text" id="selectedLangText">EN</span>
           <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
@@ -823,18 +803,21 @@
 
       <!-- Authenticated Header Actions (Right) -->
       <div class="header-actions">
+        <!-- Anonymous Mode Protected Badge -->
+        <span class="badge-anonymous-protected" id="anonymousProtectedBadge" style="display: none;">
+          <i class="fa-solid fa-user-shield"></i> Anonymous Mode Active
+        </span>
+
         <!-- User Profile Popover Wrapper -->
         <div class="user-profile-wrapper">
-          <button class="nav-user-chip" id="userProfileBtn" aria-haspopup="dialog" aria-expanded="false"
-            aria-controls="userProfilePopover" aria-label="Open account details">
+          <button class="nav-user-chip" id="userProfileBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="userProfilePopover" aria-label="Open account details">
             <i class="fa-regular fa-user" aria-hidden="true"></i>
             <span id="navUserName">User</span>
             <i class="fa-solid fa-chevron-down nav-user-chevron" aria-hidden="true"></i>
           </button>
 
           <!-- Profile Popover Dropdown -->
-          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-labelledby="popoverTitle"
-            aria-hidden="true">
+          <div class="user-profile-popover" id="userProfilePopover" role="dialog" aria-labelledby="popoverTitle" aria-hidden="true">
             <div class="popover-header">
               <div class="popover-icon">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -855,8 +838,7 @@
               </div>
               <div class="popover-info-row" id="popoverAnonIdRow" style="display: none;">
                 <span class="popover-label">Protected ID:</span>
-                <span class="popover-value" id="popoverAnonId"
-                  style="color: #6D28D9; font-family: monospace; font-weight: 800;">-</span>
+                <span class="popover-value" id="popoverAnonId" style="color: #6D28D9; font-family: monospace; font-weight: 800;">-</span>
               </div>
               <div class="popover-info-row">
                 <span class="popover-label">Account type:</span>
@@ -902,8 +884,7 @@
           </div>
         </div>
 
-        <button class="btn btn-outline-pill btn-logout" id="headerLogoutBtn"
-          style="padding: 7px 18px; font-size: 0.85rem;">
+        <button class="btn btn-outline-pill btn-logout" id="headerLogoutBtn" style="padding: 7px 18px; font-size: 0.85rem;">
           <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i> Logout
         </button>
       </div>
@@ -933,7 +914,7 @@
   </header>
 
   <main id="main-content" style="flex: 1;">
-
+    
     <!-- =======================================================
          WELCOME HEADER BANNER
          ======================================================= -->
@@ -949,6 +930,16 @@
           Your private support space for check-ins, case updates, and help requests.
         </p>
 
+        <!-- Small Supporting Line -->
+        <p class="victim-greeting-micro">
+          You are in control of what you share and when you continue.
+        </p>
+
+        <!-- Anonymous Protection Pill/Banner -->
+        <div id="anonymousProtectedBanner" style="display: none; margin-top: 10px; margin-bottom: 12px; background: rgba(237, 233, 254, 0.95); border: 1px solid #C4B5FD; padding: 6px 16px; border-radius: 999px; align-items: center; gap: 8px; color: #5B21B6; font-size: 0.84rem; font-weight: 700; width: fit-content;">
+          <i class="fa-solid fa-user-shield" style="color: #7C3AED;"></i>
+          <span>Anonymous Mode Active: Your identity is masked across all case &amp; support workflows to safeguard your safety.</span>
+        </div>
 
         <!-- Main Hero CTAs -->
         <div class="victim-hero-ctas">
@@ -968,30 +959,21 @@
     <div class="victim-main-container">
 
       <!-- Dynamic Distress & Well-Being Status Banner -->
-      <div class="dynamic-wellness-widget" id="wellnessBanner"
-        style="background: #FFFFFF; border-radius: 16px; padding: 18px 22px; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 4px 16px rgba(43, 21, 82, 0.05); margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+      <div class="dynamic-wellness-widget" id="wellnessBanner" style="background: #FFFFFF; border-radius: 16px; padding: 18px 22px; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 4px 16px rgba(43, 21, 82, 0.05); margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
         <div style="display: flex; align-items: center; gap: 14px;">
-          <div id="homeDdsIconWrap"
-            style="width: 48px; height: 48px; border-radius: 12px; background: #EDE9FE; color: #7E57C2; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
+          <div id="homeDdsIconWrap" style="width: 48px; height: 48px; border-radius: 12px; background: #EDE9FE; color: #7E57C2; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
             <i class="fa-solid fa-seedling" id="homeDdsIcon"></i>
           </div>
           <div>
-            <div
-              style="font-size: 0.76rem; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;">
-              Current Well-Being Status</div>
+            <div style="font-size: 0.76rem; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;">Current Well-Being Status</div>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span id="homeDdsVal" style="font-size: 1.35rem; font-weight: 800; color: #2B1552;">No Check-Ins
-                Yet</span>
-              <span id="homeDdsBadge"
-                style="background: #EDE8FB; color: #5B21B6; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; border: 1px solid #C4B5FD;">Ready
-                to Begin</span>
+              <span id="homeDdsVal" style="font-size: 1.35rem; font-weight: 800; color: #2B1552;">No Check-Ins Yet</span>
+              <span id="homeDdsBadge" style="background: #EDE8FB; color: #5B21B6; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; border: 1px solid #C4B5FD;">Ready to Begin</span>
             </div>
-            <div id="homeDdsSummary" style="font-size: 0.82rem; color: #4B5563; margin-top: 2px;">Complete your first
-              daily check-in below to establish your personal well-being baseline.</div>
+            <div id="homeDdsSummary" style="font-size: 0.82rem; color: #4B5563; margin-top: 2px;">Complete your first daily check-in below to establish your personal well-being baseline.</div>
           </div>
         </div>
-        <a href="checkin.html" class="btn btn-secondary-pill" id="homeDdsCtaBtn"
-          style="padding: 8px 18px; font-size: 0.82rem;">
+        <a href="checkin.html" class="btn btn-secondary-pill" id="homeDdsCtaBtn" style="padding: 8px 18px; font-size: 0.82rem;">
           Start First Check-In &rarr;
         </a>
       </div>
@@ -1002,118 +984,71 @@
           <h2 class="section-title-compact" id="multiChannelHeading">
             <i class="fa-solid fa-heart-pulse" style="color: #7E57C2; margin-right: 8px;"></i>Daily Check-In Modalities
           </h2>
-          <p class="section-desc-compact">Choose the method that feels most comfortable today. All web check-ins are
-            private, trauma-informed, and encrypted.</p>
+          <p class="section-desc-compact">Choose the method that feels most comfortable today. All web check-ins are private, trauma-informed, and encrypted.</p>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
           <!-- 1. Conversational AI Chatbot -->
-          <a href="checkin.html?channel=chatbot" class="help-card"
-            style="border-top: 3px solid #7E57C2; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <a href="checkin.html?channel=chatbot" class="help-card" style="border-top: 3px solid #7E57C2; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-              <div class="help-card-icon"
-                style="background: #EDE9FE; color: #7E57C2; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-                <i class="fa-solid fa-comments"></i>
-              </div>
+              <div class="help-card-icon" style="background: #EDE9FE; color: #7E57C2; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-comments"></i></div>
               <div>
-                <span
-                  style="font-size: 0.72rem; font-weight: 700; color: #7E57C2; text-transform: uppercase; letter-spacing: 0.5px;">Interactive
-                  AI</span>
-                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
-                  Conversational AI Companion</h3>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #7E57C2; text-transform: uppercase; letter-spacing: 0.5px;">Interactive AI</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">Conversational AI Companion</h3>
               </div>
             </div>
-            <p class="help-card-desc"
-              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">
-              Empathetic, confidential dialogue in Hindi, English, Tamil &amp; regional languages. Includes
-              speech-to-text mic input, emotional distress scoring, and safety support.</p>
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
-              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
-                  class="fa-solid fa-microphone"></i> Text or Voice mic</span>
-              <span class="help-card-link-label"
-                style="font-weight: 700; color: #7E57C2; font-size: 0.82rem; background:#EDE9FE; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Start
-                Chat &rarr;</span>
+            <p class="help-card-desc" style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Empathetic, confidential dialogue in Hindi, English, Tamil &amp; regional languages. Includes speech-to-text mic input, emotional distress scoring, and safety support.</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280;"><i class="fa-solid fa-microphone" style="margin-right: 4px;"></i> Text or Voice mic</span>
+              <span class="help-card-link-label" style="font-weight: 700; color: #7E57C2; font-size: 0.84rem;">Start Chat &rarr;</span>
             </div>
           </a>
 
           <!-- 2. Voice Stress Analyzer -->
-          <a href="checkin.html?channel=voice" class="help-card"
-            style="border-top: 3px solid #D97706; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <a href="checkin.html?channel=voice" class="help-card" style="border-top: 3px solid #D97706; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-              <div class="help-card-icon"
-                style="background: #FEF3C7; color: #D97706; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-                <i class="fa-solid fa-microphone-lines"></i>
-              </div>
+              <div class="help-card-icon" style="background: #FEF3C7; color: #D97706; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-microphone-lines"></i></div>
               <div>
-                <span
-                  style="font-size: 0.72rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.5px;">Acoustic
-                  Biomarkers</span>
-                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
-                  Voice Stress Check-In</h3>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.5px;">Acoustic Biomarkers</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">Voice Stress Check-In</h3>
               </div>
             </div>
-            <p class="help-card-desc"
-              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Speak
-              freely for 30 seconds. Acoustic analysis measures vocal tremor, pitch stability, and speech rate to detect
-              fatigue and tension without typing.</p>
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
-              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
-                  class="fa-solid fa-wave-square"></i> 30s audio analysis</span>
-              <span class="help-card-link-label"
-                style="font-weight: 700; color: #D97706; font-size: 0.82rem; background:#FEF3C7; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Record
-                Voice &rarr;</span>
+            <p class="help-card-desc" style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Speak freely for 30 seconds. Acoustic analysis measures vocal tremor, pitch stability, and speech rate to detect fatigue and tension without typing.</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280;"><i class="fa-solid fa-wave-square" style="margin-right: 4px;"></i> 30s audio analysis</span>
+              <span class="help-card-link-label" style="font-weight: 700; color: #D97706; font-size: 0.84rem;">Record Voice &rarr;</span>
             </div>
           </a>
 
           <!-- 3. Guided Step Form -->
-          <a href="checkin.html?channel=form" class="help-card"
-            style="border-top: 3px solid #059669; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
+          <a href="checkin.html?channel=form" class="help-card" style="border-top: 3px solid #059669; background: #FFFFFF; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; text-decoration: none; box-shadow: 0 4px 14px rgba(43, 21, 82, 0.05); transition: transform 0.2s ease, box-shadow 0.2s ease;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-              <div class="help-card-icon"
-                style="background: #D1FAE5; color: #059669; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
-                <i class="fa-solid fa-list-check"></i>
-              </div>
+              <div class="help-card-icon" style="background: #D1FAE5; color: #059669; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-list-check"></i></div>
               <div>
-                <span
-                  style="font-size: 0.72rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Low-Cognitive
-                  Flow</span>
-                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">
-                  Guided Step Form</h3>
+                <span style="font-size: 0.72rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">Low-Cognitive Flow</span>
+                <h3 class="help-card-title" style="font-size: 1.05rem; font-weight: 800; color: #2B1552; margin: 0;">Guided Step Form</h3>
               </div>
             </div>
-            <p class="help-card-desc"
-              style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Calm,
-              step-by-step card selections. Tap through your current feelings, court or security stressors, and required
-              support needs in under 2 minutes.</p>
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #F3F0FA; padding-top: 12px;">
-              <span style="font-size: 0.78rem; color: #6B7280; display:flex; align-items:center; gap:4px;"><i
-                  class="fa-solid fa-clock"></i> ~2 mins &bull; 4 steps</span>
-              <span class="help-card-link-label"
-                style="font-weight: 700; color: #059669; font-size: 0.82rem; background:#D1FAE5; padding: 5px 12px; border-radius: 999px; white-space:nowrap;">Open
-                Form &rarr;</span>
+            <p class="help-card-desc" style="color: #4B5563; font-size: 0.86rem; line-height: 1.5; margin-bottom: 16px; flex-grow: 1;">Calm, step-by-step card selections. Tap through your current feelings, court or security stressors, and required support needs in under 2 minutes.</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F3F0FA; padding-top: 12px;">
+              <span style="font-size: 0.78rem; color: #6B7280;"><i class="fa-solid fa-clock" style="margin-right: 4px;"></i> ~2 mins &bull; 4 steps</span>
+              <span class="help-card-link-label" style="font-weight: 700; color: #059669; font-size: 0.84rem;">Open Form &rarr;</span>
             </div>
           </a>
         </div>
 
         <!-- Supportive Offline & Mobile Telephony Note -->
-        <div
-          style="margin-top: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="margin-top: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
           <div style="display: flex; align-items: center; gap: 10px;">
             <i class="fa-solid fa-phone-flip" style="color: #4F46E5; font-size: 1rem;"></i>
             <span style="font-size: 0.82rem; color: #475569;">
-              <strong>Low-Connectivity or Offline Support:</strong> Automated IVRS phone calls and SMS check-ins are
-              live for registered mobile numbers.
+              <strong>Low-Connectivity or Offline Support:</strong> Automated IVRS phone calls and SMS check-ins are live for registered mobile numbers.
             </span>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="tel:+919513886363"
-              style="font-size: 0.78rem; font-weight: 700; color: #4338CA; text-decoration: none; background: #EEF2FF; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+            <a href="tel:+919513886363" style="font-size: 0.78rem; font-weight: 700; color: #4338CA; text-decoration: none; background: #EEF2FF; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
               <i class="fa-solid fa-phone-volume"></i> IVRS Call: +91 95138 86363
             </a>
-            <a href="sms:+919361360775"
-              style="font-size: 0.78rem; font-weight: 700; color: #047857; text-decoration: none; background: #ECFDF5; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+            <a href="sms:+919361360775" style="font-size: 0.78rem; font-weight: 700; color: #047857; text-decoration: none; background: #ECFDF5; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
               <i class="fa-solid fa-comment-sms"></i> SMS Check-In: +91 93613 60775
             </a>
           </div>
@@ -1124,8 +1059,7 @@
       <section class="help-categories-section" aria-labelledby="helpHeading">
         <div class="section-header-compact">
           <h2 class="section-title-compact" id="helpHeading">
-            <i class="fa-solid fa-hand-holding-hand" style="color: #7E57C2; margin-right: 8px;"></i>Direct Support &amp;
-            Assistance
+            <i class="fa-solid fa-hand-holding-hand" style="color: #7E57C2; margin-right: 8px;"></i>Direct Support &amp; Assistance
           </h2>
           <p class="section-desc-compact">
             Immediate access to authorized mental health support and statutory Section 15A protection rights.
@@ -1137,42 +1071,32 @@
           <div class="help-card-2">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-                <div class="help-card-icon"
-                  style="background: linear-gradient(135deg, #E9D5FF 0%, #FBCFE8 100%); color: #7E22CE;"
-                  aria-hidden="true">
+                <div class="help-card-icon" style="background: linear-gradient(135deg, #E9D5FF 0%, #FBCFE8 100%); color: #7E22CE;" aria-hidden="true">
                   <i class="fa-solid fa-heart-pulse"></i>
                 </div>
-                <span
-                  style="font-size: 0.74rem; font-weight: 700; color: #7E22CE; background: #FAF5FF; border: 1px solid #E9D5FF; padding: 4px 12px; border-radius: 999px;">
+                <span style="font-size: 0.74rem; font-weight: 700; color: #7E22CE; background: #FAF5FF; border: 1px solid #E9D5FF; padding: 4px 12px; border-radius: 999px;">
                   <i class="fa-solid fa-user-doctor" style="margin-right: 4px;"></i> Assigned Care: Dr. Priya Nair
                 </span>
               </div>
-              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Psychological Counselling
-                &amp; Care</h3>
+              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Psychological Counselling &amp; Care</h3>
               <p class="help-card-desc" style="margin-bottom: 14px; font-size: 0.88rem; line-height: 1.5;">
-                Talk directly with your assigned mental health professional or complete an emotional check-in whenever
-                you feel overwhelmed, isolated, or distressed.
+                Talk directly with your assigned mental health professional or complete an emotional check-in whenever you feel overwhelmed, isolated, or distressed.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
-                <span
-                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <span style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
                   <i class="fa-solid fa-shield-check" style="color: #10B981;"></i> 100% Confidential
                 </span>
-                <span
-                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <span style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
                   <i class="fa-solid fa-language" style="color: #6366F1;"></i> Multilingual Support
                 </span>
               </div>
             </div>
 
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
-              <a href="tel:+919513886363"
-                style="font-size: 0.82rem; font-weight: 700; color: #6D28D9; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
+              <a href="tel:+919513886363" style="font-size: 0.82rem; font-weight: 700; color: #6D28D9; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                 <i class="fa-solid fa-phone-volume"></i> IVRS Helpline (+91 95138 86363)
               </a>
-              <a href="my-support.html" class="btn btn-secondary-pill"
-                style="padding: 7px 18px; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 6px;">
+              <a href="checkin.html" class="btn btn-secondary-pill" style="padding: 7px 18px; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 6px;">
                 Start Check-In / Talk <i class="fa-solid fa-arrow-right"></i>
               </a>
             </div>
@@ -1182,42 +1106,32 @@
           <div class="help-card-2">
             <div>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-                <div class="help-card-icon"
-                  style="background: linear-gradient(135deg, #DCFCE7 0%, #E0E7FF 100%); color: #047857;"
-                  aria-hidden="true">
+                <div class="help-card-icon" style="background: linear-gradient(135deg, #DCFCE7 0%, #E0E7FF 100%); color: #047857;" aria-hidden="true">
                   <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <span
-                  style="font-size: 0.74rem; font-weight: 700; color: #047857; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 4px 12px; border-radius: 999px;">
+                <span style="font-size: 0.74rem; font-weight: 700; color: #047857; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 4px 12px; border-radius: 999px;">
                   <i class="fa-solid fa-gavel" style="margin-right: 4px;"></i> Statutory Right (Sec 15A)
                 </span>
               </div>
-              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Safety &amp; Protection
-                Support</h3>
+              <h3 class="help-card-title" style="font-size: 1.15rem; margin-bottom: 6px;">Safety &amp; Protection Support</h3>
               <p class="help-card-desc" style="margin-bottom: 14px; font-size: 0.88rem; line-height: 1.5;">
-                Under Section 15A of the SC/ST (PoA) Act, 1989, you have the right to state protection. Report
-                intimidation, threats, or request a safe police travel escort for upcoming court hearings.
+                Under Section 15A of the SC/ST (PoA) Act, 1989, you have the right to state protection. Report intimidation, threats, or request a safe police travel escort for upcoming court hearings.
               </p>
               <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;">
-                <span
-                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <span style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
                   <i class="fa-solid fa-car-side" style="color: #0284C7;"></i> Police Hearing Escort
                 </span>
-                <span
-                  style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                <span style="font-size: 0.74rem; background: #F3F4F6; color: #4B5563; padding: 3px 9px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
                   <i class="fa-solid fa-building-shield" style="color: #DC2626;"></i> DSP Atrocities Cell
                 </span>
               </div>
             </div>
 
-            <div
-              style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
-              <a href="tel:+919513886363"
-                style="font-size: 0.82rem; font-weight: 700; color: #4338CA; text-decoration: none; background: #EEF2FF; padding: 5px 12px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
-                <i class="fa-solid fa-phone-volume"></i> IVRS Call: +91 95138 86363
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #F3F0FA; padding-top: 14px;">
+              <a href="tel:112" style="font-size: 0.82rem; font-weight: 700; color: #DC2626; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-phone-volume"></i> Police 112 (Emergency)
               </a>
-              <button type="button" class="btn" id="homeReportIntimidationBtn"
-                style="background: linear-gradient(135deg, #7E57C2 0%, #6366F1 100%); color: #FFFFFF; border: none; border-radius: 999px; padding: 7px 18px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(126, 87, 194, 0.25);">
+              <button type="button" class="btn" id="homeReportIntimidationBtn" style="background: linear-gradient(135deg, #7E57C2 0%, #6366F1 100%); color: #FFFFFF; border: none; border-radius: 999px; padding: 7px 18px; font-size: 0.84rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(126, 87, 194, 0.25);">
                 Report Threat / Escort <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
@@ -1235,7 +1149,7 @@
   <footer class="site-footer">
     <div class="footer-container">
       <div class="footer-grid">
-
+        
         <!-- Column 1: Brand -->
         <div class="footer-col footer-col-brand">
           <div class="footer-brand-title">
@@ -1384,6 +1298,11 @@
         if (userDisplayEl) userDisplayEl.textContent = isAnonymous ? safeName : firstName;
         if (navUserEl) navUserEl.textContent = isAnonymous ? safeName : firstName;
 
+        // Show/hide Anonymous Mode Shield Badge in navigation
+        const anonShieldBadge = document.getElementById('anonymousProtectedBadge');
+        if (anonShieldBadge) {
+          anonShieldBadge.style.display = isAnonymous ? 'inline-flex' : 'none';
+        }
 
         // Populate Profile Popover Data
         const popoverName = document.getElementById('popoverName');
@@ -1455,78 +1374,35 @@
   <!-- =======================================================
        CAMOUFLAGE / STEALTH MODE OVERLAY (Disguised UI)
        ======================================================= -->
-  <div class="camouflage-overlay" id="homeCamouflageOverlay"
-    style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
+  <div class="camouflage-overlay" id="homeCamouflageOverlay" style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
     <div style="text-align: center; margin-bottom: 20px;">
       <h2 style="font-size: 1.1rem; color: #4B5563; font-weight: 600;">Daily Utility &amp; Calculator</h2>
       <p style="font-size: 0.8rem; color: #9CA3AF;">Standard desktop utility</p>
     </div>
-    <div
-      style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-      <div id="homeCalcDisplay"
-        style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">
-        0</div>
+    <div style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div id="homeCalcDisplay" style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">0</div>
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('C')">C</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('+/-')">&plusmn;</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('%')">%</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('/')">&divide;</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('7')">7</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('8')">8</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('9')">9</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('*')">&times;</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('4')">4</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('5')">5</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('6')">6</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('-')">&minus;</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('1')">1</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('2')">2</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('3')">3</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('+')">+</button>
-        <button
-          style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('0')">0</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('.')">.</button>
-        <button
-          style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;"
-          onclick="homeCalc('=')">=</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('C')">C</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('+/-')">&plusmn;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('%')">%</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('/')">&divide;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('7')">7</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('8')">8</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('9')">9</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('*')">&times;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('4')">4</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('5')">5</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('6')">6</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('-')">&minus;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('1')">1</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('2')">2</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('3')">3</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('+')">+</button>
+        <button style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('0')">0</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('.')">.</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="homeCalc('=')">=</button>
       </div>
-      <div id="homeStealthExit"
-        style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
+      <div id="homeStealthExit" style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
         Press ESC or click here to restore support portal
       </div>
     </div>
@@ -1535,23 +1411,16 @@
   <!-- =======================================================
        EMERGENCY SOS CONFIRMATION MODAL
        ======================================================= -->
-  <div class="modal-backdrop" id="homeSosModal"
-    style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
-    <div
-      style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
-      <div id="homeSosCount"
-        style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">
-        5</div>
-      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger
-      </h3>
+  <div class="modal-backdrop" id="homeSosModal" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
+      <div id="homeSosCount" style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">5</div>
+      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger</h3>
       <p style="color: #4B5563; font-size: 0.88rem; line-height: 1.45; margin-bottom: 20px;">
-        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District
-        SP/DSP Control Room and your designated Protection Officer.
+        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District SP/DSP Control Room and your designated Protection Officer.
       </p>
 
       <div style="display: flex; gap: 10px; justify-content: center;">
-        <button class="btn btn-hero-primary" id="homeSosConfirmBtn"
-          style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
+        <button class="btn btn-hero-primary" id="homeSosConfirmBtn" style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
           <i class="fa-solid fa-triangle-exclamation"></i> Trigger Now
         </button>
         <button class="btn btn-hero-secondary" id="homeSosCancelBtn" style="padding: 10px 22px;">
@@ -1716,7 +1585,7 @@
 
     // Simple calculator logic for camouflage
     let hCalcVal = '0', hCalcPrev = null, hCalcOp = null;
-    window.homeCalc = function (val) {
+    window.homeCalc = function(val) {
       const disp = document.getElementById('homeCalcDisplay');
       if (!disp) return;
       if (val === 'C') {
@@ -1744,29 +1613,20 @@
   <!-- =======================================================
        EMERGENCY SOS CONFIRMATION MODAL
        ======================================================= -->
-  <div class="pulse-modal-backdrop" id="homeSosModal" role="dialog" aria-modal="true"
-    aria-labelledby="homeSosModalTitle"
-    style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
-    <div
-      style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 440px; width: 90%; border: 2px solid #E53E3E; box-shadow: 0 16px 40px rgba(0,0,0,0.2); text-align: center;">
-      <div
-        style="width: 52px; height: 52px; border-radius: 50%; background: #FED7D7; color: #C53030; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 12px;">
+  <div class="pulse-modal-backdrop" id="homeSosModal" role="dialog" aria-modal="true" aria-labelledby="homeSosModalTitle" style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 440px; width: 90%; border: 2px solid #E53E3E; box-shadow: 0 16px 40px rgba(0,0,0,0.2); text-align: center;">
+      <div style="width: 52px; height: 52px; border-radius: 50%; background: #FED7D7; color: #C53030; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 0 auto 12px;">
         <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
-      <h3 style="color: #C53030; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px;">Trigger Emergency SOS Alert?
-      </h3>
+      <h3 style="color: #C53030; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px;">Trigger Emergency SOS Alert?</h3>
       <p style="color: #5C5574; font-size: 0.86rem; line-height: 1.4; margin-bottom: 14px;">
-        This will immediately alert the District Police Control Room (SP / DSP Atrocities Cell) and your assigned
-        Protection Officer under Section 15A of the PoA Act.
+        This will immediately alert the District Police Control Room (SP / DSP Atrocities Cell) and your assigned Protection Officer under Section 15A of the PoA Act.
       </p>
-      <div
-        style="background: #FFF5F5; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.84rem; color: #9B2C2C;">
-        <strong>Automatic Broadcast in:</strong> <span id="homeSosCountdownTimer"
-          style="font-size: 1.3rem; font-weight: 800; color: #E53E3E;">5</span> seconds
+      <div style="background: #FFF5F5; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.84rem; color: #9B2C2C;">
+        <strong>Automatic Broadcast in:</strong> <span id="homeSosCountdownTimer" style="font-size: 1.3rem; font-weight: 800; color: #E53E3E;">5</span> seconds
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px;">
-        <button type="button" id="confirmHomeSosBtn"
-          style="background: #E53E3E; color: #FFFFFF; width: 100%; border-radius: 999px; padding: 10px; font-weight: 800; border: none; cursor: pointer; font-size: 0.9rem;">
+        <button type="button" id="confirmHomeSosBtn" style="background: #E53E3E; color: #FFFFFF; width: 100%; border-radius: 999px; padding: 10px; font-weight: 800; border: none; cursor: pointer; font-size: 0.9rem;">
           Send Immediate SOS Now
         </button>
         <button type="button" id="cancelHomeSosBtn" class="btn btn-outline-pill" style="width: 100%; padding: 8px;">
@@ -1779,29 +1639,21 @@
   <!-- =======================================================
        SECTION 15A THREAT & INTIMIDATION REPORT MODAL
        ======================================================= -->
-  <div class="pulse-modal-backdrop" id="threatReportModal" role="dialog" aria-modal="true"
-    aria-labelledby="threatModalTitle"
-    style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
-    <div
-      style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 520px; width: 92%; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 16px 40px rgba(0,0,0,0.2);">
-      <div
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #EDE8FB; padding-bottom: 10px;">
+  <div class="pulse-modal-backdrop" id="threatReportModal" role="dialog" aria-modal="true" aria-labelledby="threatModalTitle" style="display: none; position: fixed; inset: 0; background: rgba(25, 16, 44, 0.7); z-index: 99999; align-items: center; justify-content: center;">
+    <div style="background: #FFFFFF; border-radius: 18px; padding: 24px; max-width: 520px; width: 92%; border: 1px solid rgba(220, 214, 245, 0.9); box-shadow: 0 16px 40px rgba(0,0,0,0.2);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #EDE8FB; padding-bottom: 10px;">
         <h3 style="color: #2B1552; font-size: 1.15rem; font-weight: 800; margin: 0;">
-          <i class="fa-solid fa-shield-halved" style="color: #C53030; margin-right: 6px;"></i> Log Threat Under Section
-          15A
+          <i class="fa-solid fa-shield-halved" style="color: #C53030; margin-right: 6px;"></i> Log Threat Under Section 15A
         </h3>
-        <button type="button" id="closeThreatModalBtn"
-          style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #7E7799;">&times;</button>
+        <button type="button" id="closeThreatModalBtn" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #7E7799;">&times;</button>
       </div>
       <p style="color: #5C5574; font-size: 0.82rem; line-height: 1.38; margin-bottom: 14px;">
-        Under Section 15A of the Scheduled Castes &amp; Scheduled Tribes (PoA) Act, 1989, you have the legal right to
-        immediate police protection from harassment, stalking, or intimidation.
+        Under Section 15A of the Scheduled Castes &amp; Scheduled Tribes (PoA) Act, 1989, you have the legal right to immediate police protection from harassment, stalking, or intimidation.
       </p>
       <form id="threatReportForm" style="display: flex; flex-direction: column; gap: 12px;">
         <div>
           <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Type of Incident</label>
-          <select id="threatTypeSelect"
-            style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
+          <select id="threatTypeSelect" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
             <option value="direct_physical_threat">Direct Physical Threat / Intimidation</option>
             <option value="stalking_surveillance">Stalking / Accused loitering near house</option>
             <option value="bribe_pressure_to_compromise">Pressure or bribe to compromise / drop FIR</option>
@@ -1811,19 +1663,15 @@
         </div>
         <div>
           <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Source of Threat / Perpetrator</label>
-          <input type="text" id="threatSourceInput" placeholder="e.g. Accused party relatives, village members"
-            style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
+          <input type="text" id="threatSourceInput" placeholder="e.g. Accused party relatives, village members" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;">
         </div>
         <div>
           <label style="font-size: 0.80rem; font-weight: 700; color: #2B1552;">Incident Narrative &amp; Details</label>
-          <textarea id="threatNarrativeInput" required placeholder="Describe what happened, where, and when..."
-            style="width: 100%; height: 90px; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;"></textarea>
+          <textarea id="threatNarrativeInput" required placeholder="Describe what happened, where, and when..." style="width: 100%; height: 90px; padding: 8px 12px; border-radius: 8px; border: 1px solid #CBD5E0; font-size: 0.85rem; margin-top: 4px;"></textarea>
         </div>
         <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px;">
-          <button type="button" id="cancelThreatBtn" class="btn btn-outline-pill"
-            style="padding: 7px 16px; font-size: 0.82rem;">Cancel</button>
-          <button type="submit" class="btn"
-            style="background: #E53E3E; color: #FFFFFF; border-radius: 999px; padding: 7px 20px; font-size: 0.82rem; font-weight: 800; border: none; cursor: pointer;">
+          <button type="button" id="cancelThreatBtn" class="btn btn-outline-pill" style="padding: 7px 16px; font-size: 0.82rem;">Cancel</button>
+          <button type="submit" class="btn" style="background: #E53E3E; color: #FFFFFF; border-radius: 999px; padding: 7px 20px; font-size: 0.82rem; font-weight: 800; border: none; cursor: pointer;">
             Submit Threat Report
           </button>
         </div>
@@ -1834,34 +1682,24 @@
   <!-- =======================================================
        CAMOUFLAGE / STEALTH OVERLAY (ESC KEY)
        ======================================================= -->
-  <div id="homeStealthOverlay"
-    style="display: none; position: fixed; inset: 0; background: #F3F4F6; z-index: 999999; font-family: 'Segoe UI', Arial, sans-serif; padding: 24px;">
-    <div
-      style="max-width: 600px; margin: 40px auto; background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 24px; border: 1px solid #E5E7EB;">
-      <div
-        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 16px;">
-        <h2 style="font-size: 1.1rem; color: #1F2937; margin: 0;"><i class="fa-solid fa-calculator"
-            style="margin-right: 8px; color: #4B5563;"></i> Daily Notes &amp; Weather Utility</h2>
-        <button type="button" id="exitHomeStealthBtn"
-          style="background: #E5E7EB; border: none; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: #374151;">Resume
-          (Esc)</button>
+  <div id="homeStealthOverlay" style="display: none; position: fixed; inset: 0; background: #F3F4F6; z-index: 999999; font-family: 'Segoe UI', Arial, sans-serif; padding: 24px;">
+    <div style="max-width: 600px; margin: 40px auto; background: #FFFFFF; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 24px; border: 1px solid #E5E7EB;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; padding-bottom: 12px; margin-bottom: 16px;">
+        <h2 style="font-size: 1.1rem; color: #1F2937; margin: 0;"><i class="fa-solid fa-calculator" style="margin-right: 8px; color: #4B5563;"></i> Daily Notes &amp; Weather Utility</h2>
+        <button type="button" id="exitHomeStealthBtn" style="background: #E5E7EB; border: none; padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; color: #374151;">Resume (Esc)</button>
       </div>
       <div style="margin-bottom: 16px;">
-        <div
-          style="display: flex; gap: 16px; align-items: center; background: #F9FAFB; padding: 12px; border-radius: 8px;">
+        <div style="display: flex; gap: 16px; align-items: center; background: #F9FAFB; padding: 12px; border-radius: 8px;">
           <i class="fa-solid fa-cloud-sun" style="font-size: 2rem; color: #F59E0B;"></i>
           <div>
             <div style="font-size: 1.1rem; font-weight: 700; color: #1F2937;">28°C — Partly Cloudy</div>
-            <div style="font-size: 0.82rem; color: #6B7280;">District Headquarters • Humidity 62% • Air Quality:
-              Moderate</div>
+            <div style="font-size: 0.82rem; color: #6B7280;">District Headquarters • Humidity 62% • Air Quality: Moderate</div>
           </div>
         </div>
       </div>
       <div>
         <label style="font-size: 0.82rem; font-weight: 600; color: #4B5563;">Scratchpad</label>
-        <textarea
-          style="width: 100%; height: 140px; border: 1px solid #D1D5DB; border-radius: 8px; padding: 10px; margin-top: 6px; font-size: 0.88rem;"
-          placeholder="Grocery list, ration items, household notes..."></textarea>
+        <textarea style="width: 100%; height: 140px; border: 1px solid #D1D5DB; border-radius: 8px; padding: 10px; margin-top: 6px; font-size: 0.88rem;" placeholder="Grocery list, ration items, household notes..."></textarea>
       </div>
     </div>
   </div>
@@ -1990,5 +1828,5 @@
     });
   </script>
 </body>
-
 </html>
+

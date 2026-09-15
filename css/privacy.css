@@ -330,51 +330,40 @@ body.privacy-app-wrapper {
    2. Header / Hero Section
    -------------------------------------------------------------------------- */
 .privacy-hero-header {
-  background: linear-gradient(135deg, #2B1552 0%, #4C2A8A 45%, #6B46C1 100%);
-  padding: 52px 24px 40px;
+  background: linear-gradient(135deg, #E8DEF8 0%, #DCE8FC 100%);
+  padding: 20px 24px 18px;
   text-align: center;
-  border-bottom: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.privacy-hero-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(167, 139, 250, 0.25) 0%, transparent 70%);
-  pointer-events: none;
+  border-bottom: 1px solid rgba(220, 214, 245, 0.9);
 }
 
 .privacy-hero-title {
-  color: #FFFFFF;
-  font-size: 2.4rem;
+  color: var(--privacy-purple-primary);
+  font-size: 1.85rem;
   font-weight: 800;
-  margin-bottom: 10px;
-  letter-spacing: -0.025em;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  margin-bottom: 3px;
+  letter-spacing: -0.015em;
 }
 
 .privacy-hero-desc {
-  color: rgba(230, 220, 255, 0.92);
-  font-size: 1.05rem;
-  max-width: 580px;
-  margin: 0 auto 16px;
-  line-height: 1.65;
+  color: var(--privacy-text-muted);
+  font-size: 0.98rem;
+  max-width: 720px;
+  margin: 0 auto 8px;
+  line-height: 1.4;
 }
 
 .privacy-trust-badge {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(200, 190, 235, 0.85);
   border-radius: 9999px;
-  padding: 6px 18px;
-  font-size: 0.84rem;
+  padding: 4px 14px;
+  font-size: 0.82rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #533B85;
 }
 
 /* --------------------------------------------------------------------------
@@ -382,48 +371,39 @@ body.privacy-app-wrapper {
    -------------------------------------------------------------------------- */
 .privacy-main-container {
   flex: 1;
-  max-width: 1100px;
-  width: 94%;
-  margin: 28px auto 48px;
-  padding: 0;
+  max-width: 1440px;
+  width: 96%;
+  margin: 20px auto 36px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 22px;
 }
 
 /* Section Header */
 .section-header-compact {
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 
 .section-title-compact {
-  font-size: 1.3rem;
+  font-size: 1.20rem;
   font-weight: 800;
   color: var(--privacy-purple-heading);
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 6px;
+  gap: 8px;
+  margin: 0 0 2px;
 }
 
 .section-title-compact i {
-  width: 34px;
-  height: 34px;
-  background: linear-gradient(135deg, #EDE8FB 0%, #ddd6fe 100%);
   color: var(--privacy-purple-accent);
-  border-radius: 9px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  flex-shrink: 0;
+  font-size: 1.10rem;
 }
 
 .section-desc-compact {
-  font-size: 0.94rem;
+  font-size: 0.90rem;
   color: var(--privacy-text-muted);
-  margin: 0 0 0 44px;
-  line-height: 1.55;
+  margin: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -431,13 +411,13 @@ body.privacy-app-wrapper {
    -------------------------------------------------------------------------- */
 .privacy-summary-card {
   background: #FFFFFF;
-  border-radius: 22px;
-  padding: 28px 32px;
-  box-shadow: 0 8px 32px rgba(45, 20, 85, 0.09);
-  border: 1px solid rgba(220, 214, 245, 0.7);
+  border-radius: 18px;
+  padding: 22px 26px;
+  box-shadow: 0 4px 20px rgba(45, 20, 85, 0.04);
+  border: 1px solid rgba(220, 214, 245, 0.85);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .summary-status-grid {
@@ -447,27 +427,27 @@ body.privacy-app-wrapper {
 }
 
 .summary-status-item {
-  background: linear-gradient(145deg, #FDFCFF 0%, #F5F0FD 100%);
-  border: 1px solid rgba(196, 181, 253, 0.5);
-  border-radius: 16px;
-  padding: 18px 20px;
+  background: #F9F8FD;
+  border: 1px solid var(--privacy-purple-border);
+  border-radius: 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .summary-status-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(43, 21, 82, 0.10);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(43, 21, 82, 0.06);
 }
 
 .status-item-label {
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  color: #7C6FA0;
+  color: var(--privacy-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -478,7 +458,7 @@ body.privacy-app-wrapper {
 }
 
 .status-item-value {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 800;
   color: var(--privacy-purple-heading);
 }
@@ -520,20 +500,14 @@ body.privacy-app-wrapper {
 
 .processing-card {
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 24px 26px;
-  box-shadow: 0 6px 28px rgba(45, 20, 85, 0.07);
+  border-radius: 18px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 20px rgba(45, 20, 85, 0.04);
   border: 1.5px solid rgba(220, 214, 245, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 14px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.processing-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(43, 21, 82, 0.10);
 }
 
 .processing-card.card-ai {
@@ -652,20 +626,14 @@ body.privacy-app-wrapper {
 
 .collected-card {
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 24px 26px;
-  box-shadow: 0 6px 28px rgba(45, 20, 85, 0.07);
+  border-radius: 18px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 20px rgba(45, 20, 85, 0.04);
   border: 1px solid rgba(220, 214, 245, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 14px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.collected-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(43, 21, 82, 0.10);
 }
 
 .collected-card-header {
@@ -744,14 +712,14 @@ body.privacy-app-wrapper {
 
 .panel-card {
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 24px 28px;
-  box-shadow: 0 6px 28px rgba(45, 20, 85, 0.07);
+  border-radius: 18px;
+  padding: 22px 26px;
+  box-shadow: 0 4px 20px rgba(45, 20, 85, 0.04);
   border: 1px solid rgba(220, 214, 245, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
 }
 
 /* Access Roles List */

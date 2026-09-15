@@ -158,20 +158,18 @@ li[role="option"]:focus-visible {
 .header-container {
   max-width: 100%;
   margin: 0;
-  padding: 0 clamp(16px, 2.5vw, 40px);
+  padding: 0 clamp(20px, 3vw, 44px);
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  flex-wrap: nowrap;
-  overflow: hidden;
+  gap: 16px;
 }
 
 /* Language Selector (Left: 🌐 EN ⌵) */
 .lang-selector-wrapper {
   position: relative;
-  flex: 0 0 auto;
+  flex: 1 1 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -259,18 +257,16 @@ li[role="option"]:focus-visible {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2px;
-  flex-wrap: nowrap;
+  gap: 4px;
 }
 
 .nav-link {
   display: inline-block;
-  padding: 7px 14px;
+  padding: 7px 18px;
   border-radius: var(--radius-pill);
   color: #5C5574;
-  font-size: 0.88rem;
+  font-size: 0.93rem;
   font-weight: 550;
-  white-space: nowrap;
   transition: var(--transition-smooth);
 }
 
@@ -289,11 +285,10 @@ li[role="option"]:focus-visible {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
+  gap: 10px;
+  flex: 1 1 0;
   justify-content: flex-end;
   min-width: 0;
-  flex-wrap: nowrap;
 }
 
 .btn {

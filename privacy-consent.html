@@ -66,8 +66,16 @@
 
       <!-- 4. Header Actions: Profile Popover & Logout -->
       <div class="header-actions">
+        <!-- Emergency SOS Button -->
+        <button class="btn btn-sos-header" id="headerSosBtn" title="Instant Emergency Alert (Section 15A Witness Protection)" style="background: #E53E3E; color: #FFFFFF; font-weight: 800; border-radius: 999px; padding: 6px 14px; font-size: 0.82rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> SOS Alert
+        </button>
 
-        <!-- User Profile Popover Trigger -->
+        <!-- Stealth Camouflage Mode Button -->
+        <button class="btn btn-stealth-header" id="headerStealthBtn" title="Quick Camouflage Switch (Esc key)" style="background: #EDE8FB; color: #2B1552; border-radius: 999px; padding: 6px 12px; font-size: 0.80rem; border: 1px solid #D4C4FC; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-eye-slash"></i> Stealth (Esc)
+        </button>
+        
         <!-- User Profile Popover Trigger -->
         <div class="user-profile-wrapper">
           <button 
@@ -416,7 +424,84 @@
       </div>
     </section>
 
+    <!-- 4. Access Boundaries & Privacy Controls (2 Columns) -->
+    <div class="two-panel-grid">
+      
+      <!-- Panel 1: Who May Access Information -->
+      <section class="panel-card" aria-labelledby="rolesHeading">
+        <div>
+          <div class="section-header-compact">
+            <h2 class="section-title-compact" id="rolesHeading">
+              <i class="fa-solid fa-users-viewfinder" aria-hidden="true"></i>
+              Who May Access Your Information?
+            </h2>
+            <p class="section-desc-compact">Strict Role-Based Access Control (RBAC) boundaries.</p>
+          </div>
 
+          <div class="access-roles-list">
+            <div class="access-role-item">
+              <div class="access-role-icon"><i class="fa-solid fa-user-check"></i></div>
+              <div class="access-role-info">
+                <div class="access-role-name">1. You</div>
+                <div class="access-role-scope">Full personal access to your submissions and case journey.</div>
+              </div>
+            </div>
+
+            <div class="access-role-item">
+              <div class="access-role-icon"><i class="fa-solid fa-user-doctor"></i></div>
+              <div class="access-role-info">
+                <div class="access-role-name">2. Assigned Counsellor</div>
+                <div class="access-role-scope">Information needed for assigned psychological reviews.</div>
+              </div>
+            </div>
+
+            <div class="access-role-item">
+              <div class="access-role-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+              <div class="access-role-info">
+                <div class="access-role-name">3. Case / Support Officer</div>
+                <div class="access-role-scope">Approved case milestones and relief coordination.</div>
+              </div>
+            </div>
+
+            <div class="access-role-item">
+              <div class="access-role-icon"><i class="fa-solid fa-landmark"></i></div>
+              <div class="access-role-info">
+                <div class="access-role-name">4. District &amp; State Admins</div>
+                <div class="access-role-scope">Aggregated statistical insights (no individual notes).</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="role-boundary-subnote">
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+          <span>Internal staff notes and model vectors are strictly isolated from the victim portal.</span>
+        </div>
+      </section>
+
+      <!-- Panel 2: Current Privacy Controls -->
+      <section class="panel-card" aria-labelledby="controlsHeading">
+        <div>
+          <div class="section-header-compact">
+            <h2 class="section-title-compact" id="controlsHeading">
+              <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+              Current Privacy Controls
+            </h2>
+            <p class="section-desc-compact">Verified platform capability status.</p>
+          </div>
+
+          <div class="controls-grid" id="privacyControlsGrid">
+            <!-- Populated dynamically by js/privacy.js -->
+          </div>
+        </div>
+
+        <div style="font-size: 0.80rem; color: #5C5574; padding-top: 8px; border-top: 1px solid #F0EBFB; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-circle-check" style="color: #15803D;"></i>
+          <span>Self-service deletion/withdrawal requires official case-cell verification.</span>
+        </div>
+      </section>
+
+    </div>
 
     <!-- 5. Consent Record, Preferences & Support (2 Columns) -->
     <div class="two-panel-grid">
@@ -599,6 +684,64 @@
     </div>
   </footer>
 
+  <!-- =======================================================
+       CAMOUFLAGE / STEALTH MODE OVERLAY (Disguised UI)
+       ======================================================= -->
+  <div class="camouflage-overlay" id="homeCamouflageOverlay" style="display: none; position: fixed; inset: 0; background: #FFFFFF; z-index: 99999; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; overflow-y: auto;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="font-size: 1.1rem; color: #4B5563; font-weight: 600;">Daily Utility &amp; Calculator</h2>
+      <p style="font-size: 0.8rem; color: #9CA3AF;">Standard desktop utility</p>
+    </div>
+    <div style="max-width: 360px; margin: 40px auto; background: #F3F4F6; border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div id="homeCalcDisplay" style="background: #111827; color: #10B981; font-family: monospace; font-size: 2rem; padding: 16px; border-radius: 12px; text-align: right; margin-bottom: 16px; min-height: 60px;">0</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('C')">C</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+/-')">&plusmn;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('%')">%</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('/')">&divide;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('7')">7</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('8')">8</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('9')">9</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('*')">&times;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('4')">4</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('5')">5</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('6')">6</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('-')">&minus;</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('1')">1</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('2')">2</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('3')">3</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('+')">+</button>
+        <button style="grid-column: span 2; padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('0')">0</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #D1D5DB; background: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('.')">.</button>
+        <button style="padding: 14px; border-radius: 8px; border: 1px solid #10B981; background: #10B981; color: #FFF; font-size: 1.1rem; font-weight: bold; cursor: pointer;" onclick="calcDigit('=')">=</button>
+      </div>
+      <div id="homeStealthExit" style="margin-top: 20px; color: #9CA3AF; font-size: 0.75rem; text-align: center; cursor: pointer;">
+        Press ESC or click here to restore support portal
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       EMERGENCY SOS CONFIRMATION MODAL
+       ======================================================= -->
+  <div class="modal-backdrop" id="homeSosModal" style="display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #FFFFFF; border-radius: 20px; max-width: 480px; width: 100%; padding: 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); text-align: center;">
+      <div id="homeSosCount" style="width: 80px; height: 80px; border-radius: 50%; background: #FEE2E2; color: #DC2626; border: 3px solid #EF4444; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; margin: 0 auto 16px;">5</div>
+      <h3 style="color: #991B1B; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800;">Emergency SOS Panic Trigger</h3>
+      <p style="color: #4B5563; font-size: 0.88rem; line-height: 1.45; margin-bottom: 20px;">
+        Broadcasting emergency priority alert under <strong>Section 15A Witness Protection</strong> to the District SP/DSP Control Room and your designated Protection Officer.
+      </p>
+
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-hero-primary" id="homeSosConfirmBtn" style="background: #DC2626; border-color: #DC2626; padding: 10px 22px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Trigger Now
+        </button>
+        <button class="btn btn-hero-secondary" id="homeSosCancelBtn" style="padding: 10px 22px;">
+          Cancel (I am safe)
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="js/auth-guard.js"></script>
