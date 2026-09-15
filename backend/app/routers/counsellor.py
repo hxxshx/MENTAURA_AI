@@ -11,7 +11,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from sqlalchemy.orm import Session
 
 from backend.app.database import get_db
@@ -613,6 +613,30 @@ def record_counsellor_review_action(
     )
     db.add(audit_rec)
     db.commit()
+
+    # 4. If escalated or prioritized, dispatch real-time alerts to District Authorities
+    if payload.action_type in ("prioritize", "escalate") or payload.status in ("escalated", "referred"):
+        from backend.app.routers.notifications import create_in_app_notification
+        district_users = db.query(User).filter(
+            User.verified_role.in_(["district_authority", "district_admin", "case_officer"]),
+            func.lower(User.account_status) == "active"
+        ).all()
+        masked_target = mask_case_number(payload.target_id)
+        for du in district_users:
+            create_in_app_notification(
+                db=db,
+                user_id=du.id,
+                notif_type="case_escalated",
+                title="Counsellor Escalation Received",
+                message=f"Counsellor {official.full_name} has escalated {payload.target_type.replace('_', ' ').title()} ({masked_target}) to District Command for verification and protection orders.",
+                metadata_dict={
+                    "target_type": payload.target_type,
+                    "target_id": payload.target_id,
+                    "counsellor": official.full_name,
+                    "notes": clean_notes or "Clinical priority escalation"
+                }
+            )
+        db.commit()
 
     return {
         "success": True,

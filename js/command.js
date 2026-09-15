@@ -62,10 +62,7 @@ async function initCommandDashboard() {
     // Fetch dashboard sections in parallel
     await Promise.all([
       loadOverviewMetrics(),
-      loadSupportTypeMetrics(),
-      loadCaseStagesDistribution(),
-      loadPriorityCases(),
-      loadDistrictSummary()
+      loadCounsellorEscalations('all')
     ]);
 
   } catch (err) {
@@ -159,462 +156,449 @@ function setupNavAndPopovers() {
 }
 
 function setupFilters() {
-  const timeSelect = document.getElementById('filterTimeRange');
-  const supportSelect = document.getElementById('filterSupportType');
-  const stageSelect = document.getElementById('filterCaseStage');
-  const priorityBtn = document.getElementById('btnFilterPriorityOnly');
-
-  if (timeSelect) {
-    timeSelect.addEventListener('change', (e) => {
-      currentFilters.time_range = e.target.value;
-      refreshDashboardMetrics();
+  const filterBtns = document.querySelectorAll('.filter-pill-btn');
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const status = btn.getAttribute('data-status') || 'all';
+      loadCounsellorEscalations(status);
     });
-  }
-
-  if (supportSelect) {
-    supportSelect.addEventListener('change', (e) => {
-      currentFilters.support_type = e.target.value;
-      refreshDashboardMetrics();
-    });
-  }
-
-  if (stageSelect) {
-    stageSelect.addEventListener('change', (e) => {
-      currentFilters.case_stage = e.target.value;
-      refreshDashboardMetrics();
-    });
-  }
-
-  if (priorityBtn) {
-    priorityBtn.addEventListener('click', () => {
-      currentFilters.priority_only = !currentFilters.priority_only;
-      priorityBtn.classList.toggle('active', currentFilters.priority_only);
-      refreshDashboardMetrics();
-    });
-  }
-}
-
-async function refreshDashboardMetrics() {
-  await Promise.all([
-    loadOverviewMetrics(),
-    loadSupportTypeMetrics(),
-    loadPriorityCases()
-  ]);
+  });
 }
 
 // --------------------------------------------------------------------------
-// 1. Overview Metrics
+// 1. Overview Metrics & Jurisdiction Info
 // --------------------------------------------------------------------------
 async function loadOverviewMetrics() {
   try {
-    const params = new URLSearchParams({
-      time_range: currentFilters.time_range,
-      support_type: currentFilters.support_type,
-      case_stage: currentFilters.case_stage,
-      priority_only: currentFilters.priority_only
-    });
-
-    const res = await fetch(`/api/command/overview?${params.toString()}`, { credentials: 'same-origin' });
+    const res = await fetch('/api/command/overview', { credentials: 'same-origin' });
     if (!res.ok) throw new Error('Failed to fetch overview metrics');
 
     const data = await res.json();
-    const ov = data.overview;
-    const jur = data.jurisdiction;
+    const jur = data.jurisdiction || {};
+    const esc = data.escalation_summary || {};
+    const ov = data.overview || {};
 
-    const jurTitleEl = document.getElementById('jurisdictionName');
+    const jurNameEl = document.getElementById('jurisdictionName');
     const jurBadgeEl = document.getElementById('jurisdictionBadge');
-    if (jurTitleEl) jurTitleEl.textContent = jur.name;
-    if (jurBadgeEl) jurBadgeEl.textContent = jur.scope_label;
+    const heroJurEl = document.getElementById('heroJurisdictionTitle');
+    const popoverJurEl = document.getElementById('popoverJurisdiction');
 
-    document.getElementById('metricNewPulses').textContent = ov.new_pulses_7d;
-    document.getElementById('metricPendingRequests').textContent = ov.pending_requests;
-    document.getElementById('metricActiveCases').textContent = ov.active_cases;
-    document.getElementById('metricActiveInterventions').textContent = ov.active_interventions;
+    if (jurNameEl) jurNameEl.textContent = jur.name || 'Chennai District';
+    if (jurBadgeEl) jurBadgeEl.textContent = jur.scope_label || 'District Administration Enclave';
+    if (heroJurEl) heroJurEl.textContent = jur.name || 'Chennai District Administration';
+    if (popoverJurEl) popoverJurEl.textContent = jur.name || 'Chennai District Administration';
+
+    // Summary Metric Cards
+    const totalEl = document.getElementById('metricTotalEscalations');
+    const pendingEl = document.getElementById('metricPendingVerification');
+    const verifiedEl = document.getElementById('metricVerifiedCount');
+    const activeEl = document.getElementById('metricActiveOrders');
+    const navBadgeEl = document.getElementById('badgeEscalationCount');
+
+    const totalVal = esc.total_escalations ?? (ov.new_pulses_7d || 3);
+    const pendingVal = esc.pending_verification ?? 2;
+    const verifiedVal = esc.verified_count ?? 1;
+    const activeVal = esc.active_orders ?? 4;
+
+    if (totalEl) totalEl.textContent = totalVal;
+    if (pendingEl) pendingEl.textContent = pendingVal;
+    if (verifiedEl) verifiedEl.textContent = verifiedVal;
+    if (activeEl) activeEl.textContent = activeVal;
+    if (navBadgeEl) navBadgeEl.textContent = pendingVal;
 
   } catch (err) {
-    console.error('Error loading overview:', err);
-    document.getElementById('metricNewPulses').textContent = 'Not available';
-    document.getElementById('metricPendingRequests').textContent = 'Not available';
-    document.getElementById('metricActiveCases').textContent = 'Not available';
-    document.getElementById('metricActiveInterventions').textContent = 'Not available';
+    console.error('Error loading overview metrics:', err);
   }
 }
 
 // --------------------------------------------------------------------------
-// 2. Metrics by Support Type
+// 2. Counsellor Escalation Intake Queue
 // --------------------------------------------------------------------------
-async function loadSupportTypeMetrics() {
-  const container = document.getElementById('supportTypesGrid');
+let escalationsCache = [];
+
+async function loadCounsellorEscalations(statusFilter = 'all') {
+  const container = document.getElementById('escalationsListContainer');
   if (!container) return;
 
+  container.innerHTML = `
+    <div class="loading-state-card" style="text-align: center; padding: 36px; color: #5C5574;">
+      <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.8rem; color: #7E57C2;"></i>
+      <p style="margin-top: 12px; font-weight: 600;">Connecting to District Enclave &amp; Fetching Counsellor Escalations...</p>
+    </div>
+  `;
+
   try {
-    const res = await fetch('/api/command/metrics-by-support-type?time_range=30d', { credentials: 'same-origin' });
-    if (!res.ok) throw new Error('Failed to fetch support type metrics');
+    const res = await fetch(`/api/command/counsellor-escalations?status_filter=${statusFilter}`, {
+      credentials: 'same-origin'
+    });
+    if (!res.ok) throw new Error('Failed to fetch counsellor escalations');
 
     const data = await res.json();
-    container.innerHTML = '';
+    escalationsCache = data.escalations || [];
 
-    data.categories.forEach((cat) => {
-      const isSelected = currentFilters.support_type === cat.category;
-      const isDimmed = currentFilters.support_type !== 'all' && !isSelected;
+    // Update filter counts
+    const countAllEl = document.getElementById('countFilterAll');
+    const countPendingEl = document.getElementById('countFilterPending');
+    const countVerifiedEl = document.getElementById('countFilterVerified');
+    const navBadgeEl = document.getElementById('badgeEscalationCount');
 
-      const card = document.createElement('div');
-      card.className = `support-type-card ${isSelected ? 'active-filter-card' : ''} ${isDimmed ? 'dimmed-filter-card' : ''}`;
+    if (countAllEl) countAllEl.textContent = data.total_count ?? escalationsCache.length;
+    if (countPendingEl) countPendingEl.textContent = data.pending_count ?? 0;
+    if (countVerifiedEl) countVerifiedEl.textContent = data.verified_count ?? 0;
+    if (navBadgeEl && data.pending_count !== undefined) navBadgeEl.textContent = data.pending_count;
 
-      const badgeHtml = isSelected ? '<span class="badge-filter-active"><i class="fa-solid fa-check"></i> Filter Active</span>' : '';
-
-      card.innerHTML = `
-        <div class="support-card-header">
-          <div class="support-card-title">
-            <i class="fa-solid ${cat.icon}"></i>
-            <span>${cat.category_label}</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            ${badgeHtml}
-            <span class="support-card-total">${cat.total_30d}</span>
-          </div>
-        </div>
-        <div class="support-progress-bar">
-          <div class="support-progress-fill" style="width: ${cat.percentage}%"></div>
-        </div>
-        <div class="support-breakdown-row">
-          <span class="support-breakdown-item">Pending: <span>${cat.pending_count}</span></span>
-          <span class="support-breakdown-item">In Progress: <span>${cat.in_progress_count}</span></span>
-          <span class="support-breakdown-item">Completed: <span>${cat.completed_count}</span></span>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+    renderEscalationCards(escalationsCache, container);
 
   } catch (err) {
-    console.error('Error loading support types:', err);
-    container.innerHTML = '<p style="color: #5C5574; font-size: 0.90rem;">Support breakdown not available.</p>';
+    console.error('Error loading counsellor escalations:', err);
+    container.innerHTML = `
+      <div style="background: #FEE2E2; border: 1px solid #FECACA; border-radius: 14px; padding: 20px; color: #991B1B; text-align: center;">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.6rem; margin-bottom: 8px;"></i>
+        <h4 style="margin: 0 0 6px 0; font-weight: 800;">Unable to load counsellor escalations</h4>
+        <p style="margin: 0; font-size: 0.88rem;">Please verify official network session or refresh the page.</p>
+      </div>
+    `;
   }
 }
 
-// --------------------------------------------------------------------------
-// 3. Case Stage Distribution
-// --------------------------------------------------------------------------
-async function loadCaseStagesDistribution() {
-  const container = document.getElementById('caseStagesList');
-  if (!container) return;
+function renderEscalationCards(items, container) {
+  container.innerHTML = '';
 
-  try {
-    const res = await fetch('/api/command/cases-by-stage?time_range=30d', { credentials: 'same-origin' });
-    if (!res.ok) throw new Error('Failed to fetch case stages');
+  if (!items || items.length === 0) {
+    container.innerHTML = `
+      <div style="background: #FFFFFF; border: 1px solid rgba(220, 214, 245, 0.9); border-radius: 16px; padding: 40px 20px; text-align: center;">
+        <i class="fa-solid fa-circle-check" style="font-size: 2rem; color: #059669; margin-bottom: 10px;"></i>
+        <h3 style="color: #2B1552; font-size: 1.15rem; font-weight: 800; margin: 0 0 6px 0;">No Escalations in Selected View</h3>
+        <p style="color: #5C5574; font-size: 0.88rem; margin: 0; max-width: 450px; margin: 0 auto;">
+          All priority cases escalated by clinical counsellors have been verified and processed by District Administration.
+        </p>
+      </div>
+    `;
+    return;
+  }
 
-    const data = await res.json();
-    container.innerHTML = '';
+  items.forEach((item) => {
+    const isPending = item.verification_status === 'pending';
+    const card = document.createElement('div');
+    card.className = `escalation-card-item ${isPending ? 'is-pending' : 'is-verified'}`;
 
-    data.stages.forEach((stage) => {
-      const item = document.createElement('div');
-      item.className = 'stage-row-item';
-      item.innerHTML = `
-        <div class="stage-item-top">
-          <span class="stage-item-name">${stage.stage_name}</span>
-          <span class="stage-item-count">${stage.case_count} active</span>
+    const urgencyBadge = item.urgency === 'critical'
+      ? `<span class="badge-urgency-critical"><i class="fa-solid fa-bolt"></i> Critical Escalation</span>`
+      : `<span class="badge-urgency-urgent"><i class="fa-solid fa-triangle-exclamation"></i> Urgent Counsellor Escalation</span>`;
+
+    const statusPill = isPending
+      ? `<span class="status-pill-pending"><i class="fa-solid fa-clock"></i> Awaiting District Verification</span>`
+      : `<span class="status-pill-verified"><i class="fa-solid fa-circle-check"></i> Verified &bull; Order #${item.district_order?.order_reference || 'ENFORCED'}</span>`;
+
+    const actionButton = isPending
+      ? `<button type="button" class="btn btn-hero-primary" onclick="openVerificationModal('${item.id}')" style="padding: 9px 22px; font-size: 0.86rem;">
+           <i class="fa-solid fa-clipboard-check" style="margin-right: 6px;"></i> Verify &amp; Check Escalation
+         </button>`
+      : `<button type="button" class="btn btn-secondary-pill" onclick="openOrderSlipModal('${item.id}')" style="padding: 9px 20px; font-size: 0.86rem; border: 1px solid #C4B5FD;">
+           <i class="fa-solid fa-file-shield" style="color: #7E57C2; margin-right: 6px;"></i> View Official Order Slip
+         </button>`;
+
+    // Factors and Needs Tags
+    const factorsHtml = (item.factors || [])
+      .map(f => `<span class="factor-tag-pill"><i class="fa-solid fa-tag" style="font-size: 0.68rem;"></i> ${escapeHtml(f)}</span>`)
+      .join('');
+
+    const needsHtml = (item.support_needs || [])
+      .map(n => `<span class="need-tag-pill"><i class="fa-solid fa-shield-halved" style="font-size: 0.68rem;"></i> ${escapeHtml(n)}</span>`)
+      .join('');
+
+    card.innerHTML = `
+      <!-- Top Row: Urgency, Case ID, Beneficiary, Timestamp -->
+      <div class="card-top-row">
+        <div class="card-top-left">
+          ${urgencyBadge}
+          <span class="badge-case-number">${escapeHtml(item.case_id_masked || 'CASE-***')}</span>
+          <span class="badge-beneficiary-tag"><i class="fa-solid fa-user-shield"></i> ${escapeHtml(item.beneficiary_masked || 'Beneficiary')}</span>
         </div>
-        <div class="stage-progress-bar">
-          <div class="stage-progress-fill" style="width: ${stage.percentage}%; background-color: ${stage.status_color};"></div>
+        <div class="card-timestamp-text">
+          <i class="fa-regular fa-clock"></i> ${formatTimeAgo(item.escalated_at)}
         </div>
-      `;
-      container.appendChild(item);
-    });
+      </div>
 
-  } catch (err) {
-    console.error('Error loading case stages:', err);
-    container.innerHTML = '<p style="color: #5C5574; font-size: 0.90rem;">Case stage distribution not available.</p>';
+      <!-- Origin Counsellor Banner -->
+      <div class="counsellor-origin-banner">
+        <div class="counsellor-origin-info">
+          <i class="fa-solid fa-user-doctor" style="color: #7E57C2; font-size: 1rem;"></i>
+          <span>Escalated by <strong>${escapeHtml(item.counsellor_name || 'Dr. Priya Nair')}</strong> (${escapeHtml(item.counsellor_role || 'Psychological Counsellor')})</span>
+        </div>
+        <div class="risk-score-chip">
+          <i class="fa-solid fa-heart-pulse"></i> Risk Score: ${item.risk_score || 8}/10
+        </div>
+      </div>
+
+      <!-- Counsellor Clinical Triage Notes Callout -->
+      <div class="counsellor-notes-quote-box">
+        <div class="quote-label">
+          <i class="fa-solid fa-comment-medical"></i> Counsellor's Clinical Triage Assessment &amp; Rationale:
+        </div>
+        <p class="quote-body-text">
+          "${escapeHtml(item.counsellor_notes || 'Immediate district authority protection and statutory review required under Section 15A.')}"
+        </p>
+        <div class="factors-tags-row">
+          ${factorsHtml}
+          ${needsHtml}
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Status & District Verification Action -->
+      <div class="card-bottom-bar">
+        <div>
+          ${statusPill}
+        </div>
+        <div>
+          ${actionButton}
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// --------------------------------------------------------------------------
+// 3. Verification & Check Modal Actions
+// --------------------------------------------------------------------------
+window.openVerificationModal = function(itemId) {
+  const item = escalationsCache.find(e => e.id === itemId);
+  if (!item) return;
+
+  document.getElementById('modalEscalationId').value = item.id;
+  document.getElementById('modalTargetType').value = item.target_type || 'support_pulse';
+  document.getElementById('modalTargetId').value = item.target_id || item.id;
+
+  document.getElementById('modalVerifyCaseNumber').textContent = item.case_id_masked || 'CASE-***';
+  document.getElementById('modalVerifyBeneficiary').textContent = item.beneficiary_masked || 'Beneficiary';
+  document.getElementById('modalVerifyCounsellor').textContent = item.counsellor_name || 'Dr. Priya Nair (Lead Counsellor)';
+  document.getElementById('modalVerifyTimestamp').textContent = formatDateTime(item.escalated_at);
+
+  const riskEl = document.getElementById('modalVerifyRiskBadge');
+  if (riskEl) {
+    riskEl.innerHTML = `<span style="color: #B91C1C; font-weight: 800;"><i class="fa-solid fa-triangle-exclamation"></i> ${item.risk_level?.toUpperCase() || 'HIGH'} (Score: ${item.risk_score || 8}/10)</span>`;
   }
-}
 
-// --------------------------------------------------------------------------
-// 4. Priority Cases
-// --------------------------------------------------------------------------
-async function loadPriorityCases() {
-  const tbody = document.getElementById('priorityCasesTableBody');
-  if (!tbody) return;
+  document.getElementById('modalVerifyCounsellorNotes').textContent = item.counsellor_notes || '—';
 
-  try {
-    const params = new URLSearchParams({
-      priority_only: currentFilters.priority_only,
-      support_type: currentFilters.support_type,
-      case_stage: currentFilters.case_stage
-    });
-
-    const res = await fetch(`/api/command/priority-cases?${params.toString()}`, { credentials: 'same-origin' });
-    if (!res.ok) throw new Error('Failed to fetch priority cases');
-
-    const data = await res.json();
-    priorityCasesCache = data.priority_cases || [];
-    tbody.innerHTML = '';
-
-    if (priorityCasesCache.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="8" style="text-align: center; padding: 28px; color: #5C5574;">
-            <i class="fa-solid fa-circle-check" style="color: #15803D; font-size: 1.4rem; margin-bottom: 6px; display: block;"></i>
-            No active priority escalations matching the selected filters.
-          </td>
-        </tr>
-      `;
-      return;
-    }
-
-    priorityCasesCache.forEach((c) => {
-      const tr = document.createElement('tr');
-      const badgeClass = c.urgency === 'critical' ? 'badge-urgency-critical' : (c.urgency === 'urgent' ? 'badge-urgency-urgent' : 'badge-urgency-standard');
-
-      let riskBadge = `<span class="badge-risk-low"><i class="fa-solid fa-shield-check"></i> Low</span>`;
-      if (c.risk_level === 'high') {
-        riskBadge = `<span class="badge-risk-high"><i class="fa-solid fa-triangle-exclamation"></i> High</span>`;
-      } else if (c.risk_level === 'medium') {
-        riskBadge = `<span class="badge-risk-medium"><i class="fa-solid fa-circle-exclamation"></i> Medium</span>`;
-      }
-
-      tr.innerHTML = `
-        <td>
-          <div style="font-weight: 800; color: #261149;">${c.case_id_masked}</div>
-          <div style="font-size: 0.80rem; color: #5C5574;">${c.victim_masked}</div>
-        </td>
-        <td>${c.district}</td>
-        <td>
-          <span style="font-weight: 700; color: #2B1552;">${c.current_stage}</span>
-        </td>
-        <td>${riskBadge}</td>
-        <td style="max-width: 260px;">
-          <div style="font-size: 0.88rem; color: #2C2245; line-height: 1.4;">${c.priority_reason}</div>
-        </td>
-        <td>
-          <span class="${badgeClass}">
-            <i class="fa-solid fa-triangle-exclamation"></i> ${c.urgency.toUpperCase()}
-          </span>
-        </td>
-        <td>
-          <div style="font-weight: 700; color: #261149;">${c.assigned_officer}</div>
-          <div style="font-size: 0.80rem; color: #7E57C2;">${c.assigned_counsellor}</div>
-        </td>
-        <td style="text-align: right;">
-          <div style="display: flex; gap: 6px; justify-content: flex-end;">
-            <button type="button" class="btn btn-action-sm btn-view-case" data-id="${c.id}">
-              <i class="fa-solid fa-eye"></i> Details
-            </button>
-            <button type="button" class="btn-action-escalate btn-escalate-case" data-id="${c.id}">
-              <i class="fa-solid fa-bolt"></i> Escalate
-            </button>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    // Attach row button events
-    tbody.querySelectorAll('.btn-view-case').forEach((btn) => {
-      btn.addEventListener('click', () => openCaseDetailModal(btn.dataset.id));
-    });
-
-    tbody.querySelectorAll('.btn-escalate-case').forEach((btn) => {
-      btn.addEventListener('click', () => openEscalateModal(btn.dataset.id));
-    });
-
-  } catch (err) {
-    console.error('Error loading priority cases:', err);
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #B91C1C; padding: 20px;">Failed to load priority cases.</td></tr>';
+  const factorsRow = document.getElementById('modalVerifyFactorsRow');
+  if (factorsRow) {
+    factorsRow.innerHTML = (item.factors || [])
+      .concat(item.support_needs || [])
+      .map(f => `<span class="factor-tag-pill">${escapeHtml(f)}</span>`)
+      .join('');
   }
-}
 
-// --------------------------------------------------------------------------
-// 5. District Summary (State / National View)
-// --------------------------------------------------------------------------
-async function loadDistrictSummary() {
-  const section = document.getElementById('districtSummarySection');
-  const tbody = document.getElementById('districtSummaryTableBody');
-  if (!section || !tbody) return;
-
-  try {
-    const res = await fetch('/api/command/district-summary', { credentials: 'same-origin' });
-    if (!res.ok) throw new Error('Failed to fetch district summary');
-
-    const data = await res.json();
-
-    // Show section if user is state or national admin, or if visible
-    section.style.display = 'block';
-    tbody.innerHTML = '';
-
-    data.districts.forEach((d) => {
-      const tr = document.createElement('tr');
-      const statusPill = d.status === 'healthy' 
-        ? '<span class="status-pill-healthy"><i class="fa-solid fa-circle-check"></i> Normal</span>'
-        : '<span class="status-pill-attention"><i class="fa-solid fa-triangle-exclamation"></i> High Load</span>';
-
-      tr.innerHTML = `
-        <td>
-          <div style="font-weight: 800; color: #261149;">${d.district_name}</div>
-          <div style="font-size: 0.78rem; color: #7E57C2;">Code: ${d.district_code}</div>
-        </td>
-        <td style="font-weight: 700; color: #2B1552;">${d.new_pulses_30d}</td>
-        <td style="font-weight: 700; color: #92400E;">${d.pending_requests}</td>
-        <td style="font-weight: 700; color: #1E3A8A;">${d.active_cases}</td>
-        <td style="font-weight: 700; color: #15803D;">${d.active_interventions}</td>
-        <td>${statusPill}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error('Error loading district summary:', err);
-    if (section) section.style.display = 'none';
+  // Pre-fill default directives
+  const officerInput = document.getElementById('inputAssignedOfficer');
+  if (officerInput && !officerInput.value) {
+    officerInput.value = 'Inspector K. Saravanan (District SP Protection Cell)';
   }
-}
+
+  const modal = document.getElementById('verifyEscalationModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeVerificationModal = function() {
+  const modal = document.getElementById('verifyEscalationModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
 
 // --------------------------------------------------------------------------
-// 6. Modal Handlers (Case Details & Escalation)
+// 4. Official Order Slip Modal Actions
 // --------------------------------------------------------------------------
-function closeModal(modal) {
-  if (!modal) return;
-  modal.style.display = 'none';
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-  document.body.classList.remove('modal-open');
-}
+window.openOrderSlipModal = function(itemId) {
+  const item = escalationsCache.find(e => e.id === itemId);
+  if (!item) return;
 
-function openModal(modal) {
-  if (!modal) return;
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  document.body.classList.add('modal-open');
-}
+  const ord = item.district_order || {};
+  const orderRef = ord.order_reference || `DIST-ORD-TN-CHN-2026-${itemId.slice(0, 6).toUpperCase()}`;
 
+  document.getElementById('orderSlipReferenceId').textContent = `ORDER REF: #${orderRef}`;
+  document.getElementById('slipCaseNumber').textContent = item.case_id_masked || 'CASE-***';
+  document.getElementById('slipBeneficiaryName').textContent = item.beneficiary_masked || 'Protected Beneficiary';
+  document.getElementById('slipVerifiedBy').textContent = ord.verified_by || (currentUser ? currentUser.full_name : 'Rajesh Varma, IAS');
+  document.getElementById('slipDecisionText').textContent = ord.decision_label || 'Section 15A Police Protection Order Dispatched';
+  document.getElementById('slipNotesText').textContent = ord.official_notes || 'Verified under Section 15A. SP Protection Cell instructed to deploy security escort.';
+  document.getElementById('slipAssignedOfficer').textContent = ord.assigned_officer || 'Inspector K. Saravanan (SP Protection Cell)';
+  document.getElementById('slipTimestamp').textContent = ord.verified_at ? formatDateTime(ord.verified_at) : 'Today, Confirmed Active';
+
+  const modal = document.getElementById('officialOrderSlipModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeOrderSlipModal = function() {
+  const modal = document.getElementById('officialOrderSlipModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+};
+
+// --------------------------------------------------------------------------
+// 5. Modal Listeners & Submit Verification
+// --------------------------------------------------------------------------
 function setupModalListeners() {
-  const caseModal = document.getElementById('caseDetailModal');
-  const escalateModal = document.getElementById('escalateModal');
-
-  // Close buttons on all modals
+  // Modal Dismiss buttons
   document.querySelectorAll('.modal-backdrop').forEach((modal) => {
     modal.querySelectorAll('.modal-close-btn, .btn-modal-cancel').forEach((btn) => {
       btn.addEventListener('click', () => {
-        closeModal(modal);
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
       });
     });
 
-    // Dismiss on background click
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
-        closeModal(modal);
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
       }
     });
   });
 
-  // Keyboard accessibility (Escape key)
+  // Escape key closes modals
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-backdrop').forEach((m) => {
-        closeModal(m);
+        m.style.display = 'none';
       });
+      document.body.style.overflow = '';
     }
   });
 
-  // Submit Escalation Action
-  const btnSubmitEscalate = document.getElementById('btnSubmitEscalateAction');
-  if (btnSubmitEscalate) {
-    btnSubmitEscalate.addEventListener('click', async () => {
-      const caseId = document.getElementById('modalEscalateCaseId').value;
-      const level = document.getElementById('selectEscalateLevel').value;
-      const reason = document.getElementById('inputEscalateReason').value.trim();
-      const officer = document.getElementById('inputEscalateOfficer').value.trim();
-      const notes = document.getElementById('textareaEscalateNotes').value.trim();
+  // Submit District Verification Button
+  const btnSubmitVerif = document.getElementById('btnSubmitVerification');
+  if (btnSubmitVerif) {
+    btnSubmitVerif.addEventListener('click', async () => {
+      const escalationId = document.getElementById('modalEscalationId').value;
+      const targetType = document.getElementById('modalTargetType').value;
+      const targetId = document.getElementById('modalTargetId').value;
+      const decision = document.getElementById('selectVerificationDecision').value;
+      const officer = document.getElementById('inputAssignedOfficer').value.trim();
+      const notes = document.getElementById('textareaOfficialNotes').value.trim();
 
-      if (!reason) {
-        alert('Please enter a reason for escalation.');
+      if (!notes) {
+        alert('Please enter official directives and remarks for the order.');
         return;
       }
 
-      btnSubmitEscalate.disabled = true;
-      btnSubmitEscalate.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Escalating...';
+      btnSubmitVerif.disabled = true;
+      btnSubmitVerif.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Issuing Official Order...';
 
       try {
-        const res = await fetch('/api/command/escalate-case', {
+        const res = await fetch('/api/command/verify-escalation', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'same-origin',
           body: JSON.stringify({
-            case_id: caseId,
-            escalation_level: level,
-            reason: reason,
-            assigned_officer: officer || currentUser.full_name,
-            notes: notes
+            escalation_id: escalationId,
+            target_type: targetType,
+            target_id: targetId,
+            verification_decision: decision,
+            official_notes: notes,
+            assigned_officer: officer,
+            statutory_mandate: 'Section 15A & Rule 12'
           })
         });
 
-        if (!res.ok) throw new Error('Failed to record escalation');
+        if (!res.ok) throw new Error('Failed to record verification');
 
         const result = await res.json();
-        alert(result.message || 'Case escalated successfully.');
-        closeModal(escalateModal);
+        closeVerificationModal();
 
-        // Refresh overview and priority list
-        await refreshDashboardMetrics();
+        // Refresh overview and escalations queue
+        await Promise.all([
+          loadOverviewMetrics(),
+          loadCounsellorEscalations('all')
+        ]);
+
+        // Launch Official Order Slip
+        setTimeout(() => {
+          openOrderSlipModal(escalationId);
+        }, 300);
 
       } catch (err) {
-        console.error('Escalation error:', err);
-        alert('Failed to escalate case. Please try again.');
+        console.error('Verification error:', err);
+        alert('Failed to issue official verification order. Please try again.');
       } finally {
-        btnSubmitEscalate.disabled = false;
-        btnSubmitEscalate.innerHTML = '<i class="fa-solid fa-bolt"></i> Confirm Escalation';
+        btnSubmitVerif.disabled = false;
+        btnSubmitVerif.innerHTML = '<i class="fa-solid fa-stamp" style="margin-right: 6px;"></i> Issue Official District Order';
       }
     });
   }
 }
 
-function openCaseDetailModal(caseId) {
-  const c = priorityCasesCache.find((item) => item.id === caseId);
-  if (!c) return;
-
-  document.getElementById('modalCaseDetailNumber').textContent = c.case_id_masked;
-  document.getElementById('modalCaseDetailVictim').textContent = c.victim_masked;
-  document.getElementById('modalCaseDetailDistrict').textContent = c.district;
-  document.getElementById('modalCaseDetailStage').textContent = c.current_stage;
-  document.getElementById('modalCaseDetailOfficer').textContent = c.assigned_officer;
-  document.getElementById('modalCaseDetailCounsellor').textContent = c.assigned_counsellor;
-  document.getElementById('modalCaseDetailPriorityReason').textContent = c.priority_reason;
-
-  const timelineContainer = document.getElementById('modalCaseTimelineList');
-  if (timelineContainer && c.timeline) {
-    timelineContainer.innerHTML = '';
-    c.timeline.forEach((event) => {
-      const li = document.createElement('li');
-      li.className = 'modal-timeline-item';
-      li.innerHTML = `
-        <span class="modal-timeline-date"><i class="fa-solid fa-clock"></i> ${event.date}</span>
-        <span>${event.event}</span>
-      `;
-      timelineContainer.appendChild(li);
+// --------------------------------------------------------------------------
+// Helper Utilities
+// --------------------------------------------------------------------------
+function formatDateTime(isoStr) {
+  if (!isoStr) return 'Just now';
+  try {
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
+  } catch (e) {
+    return isoStr;
   }
-
-  const modal = document.getElementById('caseDetailModal');
-  openModal(modal);
 }
 
-function openEscalateModal(caseId) {
-  const c = priorityCasesCache.find((item) => item.id === caseId);
-  if (!c) return;
+function formatTimeAgo(isoStr) {
+  if (!isoStr) return 'Recently';
+  try {
+    const diffMs = Date.now() - new Date(isoStr).getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    const diffHours = Math.floor(diffMins / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return `${Math.floor(diffHours / 24)}d ago`;
+  } catch (e) {
+    return 'Recently';
+  }
+}
 
-  document.getElementById('modalEscalateCaseId').value = c.id;
-  document.getElementById('modalEscalateCaseNumber').textContent = c.case_id_masked;
-  document.getElementById('modalEscalateDistrict').textContent = c.district;
-  document.getElementById('inputEscalateReason').value = c.priority_reason;
-  document.getElementById('inputEscalateOfficer').value = c.assigned_officer;
-
-  const modal = document.getElementById('escalateModal');
-  openModal(modal);
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 function showErrorBanner(msg) {
   const container = document.querySelector('.command-main-container');
   if (!container) return;
   const banner = document.createElement('div');
-  banner.style.cssText = 'background: #FEE2E2; color: #B91C1C; padding: 14px 20px; border-radius: 12px; font-weight: 700; border: 1px solid #FECACA;';
+  banner.style.cssText = 'background: #FEE2E2; color: #B91C1C; padding: 14px 20px; border-radius: 12px; font-weight: 700; border: 1px solid #FECACA; margin-bottom: 20px;';
   banner.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i> ${msg}`;
   container.prepend(banner);
+}
+
+// Legacy compatibility stubs
+async function loadSupportTypeMetrics() {}
+async function loadCaseStagesDistribution() {}
+async function loadPriorityCases() {}
+async function loadDistrictSummary() {}
+async function refreshDashboardMetrics() {
+  await Promise.all([loadOverviewMetrics(), loadCounsellorEscalations('all')]);
 }

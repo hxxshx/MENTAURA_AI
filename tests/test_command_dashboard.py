@@ -335,3 +335,54 @@ def test_state_admin_demo_flow_sanity():
     db.close()
 
 
+def test_counsellor_escalations_intake_and_district_verification():
+    """
+    Ensures District Authority can retrieve counsellor escalations,
+    inspect clinical notes, and execute official verification order dispatch.
+    """
+    # 1. Get session cookie as District Authority
+    cookie = get_session_cookie("district@mentaura.example")
+
+    # 2. Retrieve Counsellor Escalations
+    res = client.get("/api/command/counsellor-escalations?status_filter=all", cookies={"mentaura_session": cookie})
+    assert res.status_code == 200
+    data = res.json()
+    assert "escalations" in data
+    assert len(data["escalations"]) >= 1
+    assert "total_count" in data
+    assert "pending_count" in data
+    assert "verified_count" in data
+
+    first_item = data["escalations"][0]
+    assert "counsellor_name" in first_item
+    assert "case_id_masked" in first_item
+    assert "beneficiary_masked" in first_item
+    assert "counsellor_notes" in first_item
+
+    # 3. Verify an escalation
+    verify_payload = {
+        "escalation_id": first_item["id"],
+        "target_type": first_item["target_type"],
+        "target_id": first_item["target_id"],
+        "verification_decision": "approve_protection_order",
+        "official_notes": "Official protection order issued under Section 15A. Escort deployed.",
+        "assigned_officer": "Inspector K. Saravanan (District SP Protection Cell)",
+        "statutory_mandate": "Section 15A & Rule 12"
+    }
+    verify_res = client.post("/api/command/verify-escalation", json=verify_payload, cookies={"mentaura_session": cookie})
+    assert verify_res.status_code == 200
+    v_data = verify_res.json()
+    assert v_data["success"] is True
+    assert v_data["verification_status"] == "verified"
+    assert "order_reference" in v_data
+    assert "DIST-ORD-" in v_data["order_reference"]
+    assert "verified_by" in v_data
+
+    # 4. Check overview returns escalation summary
+    ov_res = client.get("/api/command/overview", cookies={"mentaura_session": cookie})
+    assert ov_res.status_code == 200
+    ov_json = ov_res.json()
+    assert "escalation_summary" in ov_json
+    assert ov_json["escalation_summary"]["verified_count"] >= 1
+
+

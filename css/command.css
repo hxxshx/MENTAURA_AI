@@ -1514,3 +1514,743 @@ body.modal-open {
     right: -60px;
   }
 }
+
+/* ==========================================================================
+   MENTAURA — District Single-Tab Counsellor Escalation & Verification Theme
+   Exact Color Theme & Typography Match with Victim and Counsellor Portals
+   ========================================================================== */
+
+body.command-app-wrapper {
+  background-color: var(--bg-services, #F7F6FE) !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--color-text-main, #2C2245);
+}
+
+/* Brand Logo */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-purple-primary, #2B1552);
+  letter-spacing: -0.02em;
+}
+
+/* Nav Pill (1 Tab) */
+.site-header .nav-pill {
+  background: #EDE8FB;
+  padding: 4px;
+  border-radius: var(--radius-pill, 9999px);
+  display: inline-flex;
+  border: 1px solid rgba(220, 214, 245, 0.9);
+}
+
+.site-header .nav-pill .nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2px;
+}
+
+.site-header .nav-pill .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill, 9999px);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #5C5574);
+  transition: all 0.2s ease-in-out;
+}
+
+.site-header .nav-pill .nav-link:hover {
+  color: var(--color-purple-primary, #2B1552);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.site-header .nav-pill .nav-link.active {
+  background: #FFFFFF;
+  color: var(--color-purple-primary, #2B1552);
+  box-shadow: 0 2px 8px rgba(43, 21, 82, 0.08);
+}
+
+.header-nav-badge {
+  background: #7E57C2;
+  color: #FFFFFF;
+  border-radius: 9999px;
+  padding: 2px 7px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+/* Hero Banner */
+.command-hero-header {
+  background: var(--gradient-hero, linear-gradient(90deg, #D4C4FC 0%, #F9CAE1 50%, #C8E3FE 100%)) !important;
+  padding: 24px 20px 22px !important;
+  border-bottom: 1px solid rgba(230, 224, 248, 0.85);
+  text-align: center;
+}
+
+.command-hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.jurisdiction-top-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(220, 214, 245, 0.9);
+  color: #2B1552;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 6px rgba(43, 21, 82, 0.04);
+}
+
+.command-hero-title {
+  color: #2B1552 !important;
+  font-size: 1.85rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.command-hero-desc {
+  color: #3B2E58 !important;
+  font-size: 0.94rem !important;
+  line-height: 1.45;
+  margin: 0 auto 12px;
+  max-width: 780px;
+  font-weight: 500;
+}
+
+.command-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1px solid rgba(220, 214, 245, 0.9);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  color: #2B1552;
+  box-shadow: 0 2px 8px rgba(43, 21, 82, 0.04);
+}
+
+/* Main Container */
+.command-main-container {
+  max-width: 1280px;
+  margin: 20px auto 40px;
+  padding: 0 clamp(16px, 3vw, 36px);
+  width: 100%;
+}
+
+/* Summary Metrics Section */
+.command-summary-cards-section {
+  margin-bottom: 24px;
+}
+
+.command-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 992px) {
+  .command-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .command-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metric-counter-item {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(230, 224, 248, 0.85);
+  box-shadow: 0 4px 16px rgba(45, 20, 85, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease-in-out;
+}
+
+.metric-counter-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45, 20, 85, 0.08);
+  border-color: #C4B5FD;
+}
+
+.metric-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.metric-item-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.metric-item-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #5C5574;
+}
+
+.metric-item-value {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: #2B1552;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.metric-item-subtext {
+  font-size: 0.76rem;
+  color: #7E7799;
+  font-weight: 500;
+}
+
+/* Priority Panel Card */
+.priority-panel-card {
+  background: #FFFFFF;
+  border-radius: 18px;
+  padding: 24px 28px;
+  border: 1px solid rgba(230, 224, 248, 0.85);
+  box-shadow: 0 4px 16px rgba(45, 20, 85, 0.04);
+}
+
+.panel-header-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1ECFC;
+}
+
+.panel-title-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #261149;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-desc-text {
+  font-size: 0.85rem;
+  color: #5C5574;
+  margin: 0;
+  max-width: 680px;
+  line-height: 1.45;
+}
+
+/* Filter Pills */
+.queue-filter-pills {
+  display: inline-flex;
+  gap: 6px;
+  background: #F7F6FE;
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid #EDE8FB;
+}
+
+.filter-pill-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #5C5574;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.filter-pill-btn:hover {
+  color: #2B1552;
+}
+
+.filter-pill-btn.active {
+  background: #FFFFFF;
+  color: #2B1552;
+  box-shadow: 0 2px 6px rgba(43, 21, 82, 0.08);
+}
+
+.pill-count {
+  background: #EDE8FB;
+  color: #2B1552;
+  border-radius: 9999px;
+  padding: 1px 7px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.pill-count-warning {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.pill-count-success {
+  background: #D1FAE5;
+  color: #047857;
+}
+
+/* Escalation Card Styles */
+.escalation-card-item {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1px solid rgba(220, 214, 245, 0.9);
+  box-shadow: 0 3px 12px rgba(43, 21, 82, 0.03);
+  margin-bottom: 16px;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+
+.escalation-card-item:hover {
+  box-shadow: 0 8px 24px rgba(45, 20, 85, 0.07);
+  border-color: #BBA9EE;
+}
+
+.escalation-card-item.is-pending {
+  border-left: 4px solid #F59E0B;
+}
+
+.escalation-card-item.is-verified {
+  border-left: 4px solid #059669;
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.card-top-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge-urgency-critical {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-urgency-urgent {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-case-number {
+  background: #EDE8FB;
+  color: #2B1552;
+  border: 1px solid #DDD6FE;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.80rem;
+  font-weight: 800;
+}
+
+.badge-beneficiary-tag {
+  background: #F8F6FE;
+  color: #4B3F68;
+  border: 1px solid #E9E4F8;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+}
+
+.card-timestamp-text {
+  font-size: 0.78rem;
+  color: #7E7799;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Origin Counsellor Banner */
+.counsellor-origin-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAF8FE;
+  border-radius: 10px;
+  padding: 8px 14px;
+  border: 1px solid #F1ECFC;
+}
+
+.counsellor-origin-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #2B1552;
+}
+
+.risk-score-chip {
+  background: #FFFFFF;
+  border: 1px solid #EDE8FB;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #B91C1C;
+}
+
+/* Counsellor Notes Callout Quote Box */
+.counsellor-notes-quote-box {
+  background: #FDFCFF;
+  border-left: 3px solid #7E57C2;
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  border-top: 1px solid #F1ECFC;
+  border-bottom: 1px solid #F1ECFC;
+  border-right: 1px solid #F1ECFC;
+}
+
+.quote-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7E57C2;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quote-body-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #2C2245;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* Factors and Needs Tags */
+.factors-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.factor-tag-pill {
+  background: #EDE8FB;
+  color: #2B1552;
+  padding: 2px 9px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.need-tag-pill {
+  background: #E0E7FF;
+  color: #3730A3;
+  padding: 2px 9px;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+/* Action & Status Bar */
+.card-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #F1ECFC;
+}
+
+.status-pill-pending {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-pill-verified {
+  background: #D1FAE5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  font-size: 0.80rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Verification Modal Enhancements */
+.modal-card-wide {
+  max-width: 760px !important;
+}
+
+.counsellor-notes-callout {
+  background: #F9F8FE;
+  border: 1px solid #EDE8FB;
+  border-left: 3px solid #7E57C2;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.callout-body-text {
+  margin: 0 0 10px 0;
+  font-size: 0.94rem;
+  color: #2C2245;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.callout-factors-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.verification-checklist-card {
+  background: #FFFFFF;
+  border: 1px solid #DDD6FE;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(43, 21, 82, 0.03);
+}
+
+.checklist-title {
+  margin: 0 0 12px 0;
+  font-size: 0.90rem;
+  font-weight: 800;
+  color: #2B1552;
+}
+
+.checklist-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #3B2E58;
+  cursor: pointer;
+}
+
+.checklist-checkbox-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #7E57C2;
+  cursor: pointer;
+}
+
+.modal-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 640px) {
+  .modal-form-row-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Order Slip Modal (Aligned with OSC Slip in Counsellor) */
+.modal-slip-card {
+  max-width: 650px !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border: 2px solid #7E57C2 !important;
+  box-shadow: 0 20px 50px rgba(126, 87, 194, 0.25) !important;
+  padding: 0 !important;
+}
+
+.order-slip-header {
+  background: linear-gradient(135deg, #2B1552 0%, #4B278A 100%);
+  color: #FFFFFF;
+  padding: 20px 24px;
+  text-align: center;
+  border-bottom: 3px solid #F59E0B;
+}
+
+.order-slip-body {
+  padding: 22px 24px;
+  background: #FAFAFE;
+}
+
+.order-slip-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.order-slip-item {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 1px solid #EDE8FB;
+}
+
+.slip-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #7E7799;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.slip-value {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #2B1552;
+}
+
+.slip-sub {
+  font-size: 0.78rem;
+  color: #7E57C2;
+  font-weight: 600;
+  display: block;
+  margin-top: 2px;
+}
+
+.order-slip-directive-box {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #EDE8FB;
+  margin-bottom: 16px;
+}
+
+.slip-decision-text {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #059669;
+  margin-bottom: 4px;
+}
+
+.slip-notes-text {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #4B3F68;
+  line-height: 1.45;
+}
+
+.order-slip-seal-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #EDE8FB;
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 1px solid #DDD6FE;
+}
+
+.order-seal-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2B1552;
+}
+
+.order-barcode-badge {
+  background: #FFFFFF;
+  border: 1px solid #C4B5FD;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #7E57C2;
+}
+
+.order-slip-footer {
+  padding: 16px 24px;
+  background: #FFFFFF;
+  border-top: 1px solid #EDE8FB;
+  display: flex;
+  justify-content: space-between;
+}
