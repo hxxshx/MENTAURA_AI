@@ -325,7 +325,7 @@ def register_user(
     db: Session, 
     req: SignupRequest, 
     ip_address: Optional[str] = None
-) -> Tuple[User, str, str]:
+) -> Tuple[User, Optional[str], bool, str]:
     """
     Register a new user:
     1. Checks uniqueness of email.
@@ -335,8 +335,8 @@ def register_user(
     5. Sets account_status ('active' for victim/witness/affected_family; 'pending_verification' for officials).
     6. Creates explicit consent record.
     7. Generates 6-digit OTP, stores SHA-256 hash in email_otps.
-    8. Dispatches OTP verification email via Gmail SMTP.
-    Returns (user, plain_otp, redirect_url).
+    8. Dispatches OTP verification email via HTTPS API / Gmail SMTP.
+    Returns (user, plain_otp, email_sent, redirect_url).
     """
     clean_email = req.email.strip().lower() if req.email else None
     
@@ -434,12 +434,13 @@ def register_user(
         db.add(v_req)
 
     plain_otp = None
+    email_sent = False
     if clean_email:
         # Generate 6-digit OTP & store SHA-256 in email_otps (hashes delivery email without storing plain text)
         _, plain_otp = create_email_otp(db, user.id, delivery_email=clean_email if is_anon else None)
 
-        # Dispatch email via Gmail SMTP (with safe fallback) to the delivery email
-        send_otp_email(
+        # Dispatch email via HTTPS API or Gmail SMTP
+        email_sent = send_otp_email(
             to_email=clean_email, 
             otp_code=plain_otp, 
             user_name="Valued Individual" if is_anon else user.full_name
@@ -449,4 +450,4 @@ def register_user(
     db.refresh(user)
 
     redirect_url = get_redirect_route_for_user(user)
-    return user, plain_otp, redirect_url
+    return user, plain_otp, email_sent, redirect_url

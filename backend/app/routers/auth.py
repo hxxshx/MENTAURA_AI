@@ -115,7 +115,7 @@ def signup(
     ip_addr = get_client_ip(request)
 
     try:
-        user, plain_otp, _ = register_user(db, req, ip_address=ip_addr)
+        user, plain_otp, email_sent, _ = register_user(db, req, ip_address=ip_addr)
     except ValueError as e:
         error_msg = str(e)
         if "CONFLICT_EMAIL" in error_msg or "already exists" in error_msg.lower():
@@ -137,13 +137,14 @@ def signup(
         db=db,
         action="signup_initiated",
         user_id=user.id,
-        details=f"role={user.role}, status={user.account_status}, anonymous_mode={'enabled' if user.is_anonymous else 'disabled'}, otp_dispatched={bool(plain_otp)}",
+        details=f"role={user.role}, status={user.account_status}, anonymous_mode={'enabled' if user.is_anonymous else 'disabled'}, otp_dispatched={bool(plain_otp)}, email_sent={email_sent}",
         ip_address=ip_addr
     )
 
     jwt_token = None
     redirect_url = None
     out_user = None
+    dev_otp = None
 
     if user.account_status == "active":
         # Instant active session for pure anonymous mode
@@ -171,7 +172,12 @@ def signup(
         out_user = UserOut.model_validate(user)
         message = f"Anonymous account created successfully. Your Anonymous ID is {user.anonymous_id}."
     else:
-        message = "Verification code sent to your delivery email. Please enter the OTP to activate your account."
+        if email_sent:
+            message = "Verification code sent to your delivery email. Please enter the OTP to activate your account."
+            dev_otp = None
+        else:
+            message = f"Verification code generated. Your 6-digit verification code is: {plain_otp}"
+            dev_otp = plain_otp
 
     return SignupResponse(
         user_id=user.id,
@@ -183,7 +189,7 @@ def signup(
         redirect_url=redirect_url,
         token=jwt_token,
         user=out_user,
-        dev_otp=None
+        dev_otp=dev_otp
     )
 
 
@@ -318,17 +324,23 @@ def resend_otp(
         return {"message": "This email address is already verified. Please log in."}
 
     _, plain_otp = create_email_otp(db, user.id)
-    send_otp_email(to_email=user.email, otp_code=plain_otp, user_name=user.full_name)
+    sent = send_otp_email(to_email=user.email, otp_code=plain_otp, user_name=user.full_name)
 
     log_audit_event(
         db=db,
         action="otp_resend",
         user_id=user.id,
-        details="New OTP code generated and dispatched",
+        details=f"New OTP code generated and dispatched (email_sent={sent})",
         ip_address=ip_addr
     )
 
-    return {"message": "A new verification code has been sent to your email."}
+    if sent:
+        return {"message": "A new verification code has been sent to your email.", "dev_otp": None}
+    else:
+        return {
+            "message": f"A new verification code has been generated: {plain_otp}",
+            "dev_otp": plain_otp
+        }
 
 
 # --------------------------------------------------------------------------

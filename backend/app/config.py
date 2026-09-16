@@ -45,9 +45,14 @@ class Settings(BaseSettings):
     CURRENT_CONSENT_VERSION: str = "1.0"
     CURRENT_NOTICE_VERSION: str = "1.0"
 
-    # Gmail SMTP & Email OTP
+    # Email OTP & Transactional Email Settings (SMTP & HTTPS APIs)
     GMAIL_ADDRESS: str = os.getenv("GMAIL_ADDRESS", "")
     GMAIL_APP_PASSWORD: str = os.getenv("GMAIL_APP_PASSWORD", "")
+    SMTP_HOST: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_TIMEOUT: int = int(os.getenv("SMTP_TIMEOUT", "3"))
+    RESEND_API_KEY: Optional[str] = os.getenv("RESEND_API_KEY", "")
+    BREVO_API_KEY: Optional[str] = os.getenv("BREVO_API_KEY", "")
     OTP_EXPIRE_MINUTES: int = 10
 
     # JWT Authentication

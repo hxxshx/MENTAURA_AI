@@ -726,10 +726,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (otpSection) otpSection.style.display = 'block';
         if (otpCodeInput) {
-          otpCodeInput.value = '';
+          otpCodeInput.value = data.dev_otp || '';
           otpCodeInput.focus();
         }
-        hideAlert(otpAlert);
+
+        if (data.dev_otp) {
+          showAlert(
+            otpAlert,
+            `<i class="fa-solid fa-key"></i> Verification Code: <strong style="font-size:16px;letter-spacing:2px;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:4px;">${data.dev_otp}</strong><br><small style="opacity:0.9;">Cloud hosting firewall blocks SMTP delivery. The verification code has been automatically filled for you.</small>`,
+            'info'
+          );
+        } else {
+          hideAlert(otpAlert);
+        }
 
         submitBtn.disabled = false;
         submitBtn.textContent = 'Create Support Account';
@@ -849,7 +858,18 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ email: pendingSignupEmail }),
         });
         const data = await res.json();
-        showAlert(otpAlert, data.message || 'A new verification code has been sent to your email.', 'info');
+        if (data.dev_otp && otpCodeInput) {
+          otpCodeInput.value = data.dev_otp;
+        }
+        if (data.dev_otp) {
+          showAlert(
+            otpAlert,
+            `<i class="fa-solid fa-key"></i> New Verification Code: <strong style="font-size:16px;letter-spacing:2px;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:4px;">${data.dev_otp}</strong><br><small style="opacity:0.9;">Code has been automatically pre-filled.</small>`,
+            'info'
+          );
+        } else {
+          showAlert(otpAlert, data.message || 'A new verification code has been sent to your email.', 'info');
+        }
       } catch (err) {
         showAlert(otpAlert, 'Could not resend verification code right now.');
       } finally {
