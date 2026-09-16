@@ -172,12 +172,8 @@ def signup(
         out_user = UserOut.model_validate(user)
         message = f"Anonymous account created successfully. Your Anonymous ID is {user.anonymous_id}."
     else:
-        if email_sent:
-            message = "Verification code sent to your delivery email. Please enter the OTP to activate your account."
-            dev_otp = None
-        else:
-            message = f"Verification code generated. Your 6-digit verification code is: {plain_otp}"
-            dev_otp = plain_otp
+        message = "Verification code sent to your delivery email. Please enter the OTP to activate your account."
+        dev_otp = None
 
     return SignupResponse(
         user_id=user.id,
@@ -334,13 +330,7 @@ def resend_otp(
         ip_address=ip_addr
     )
 
-    if sent:
-        return {"message": "A new verification code has been sent to your email.", "dev_otp": None}
-    else:
-        return {
-            "message": f"A new verification code has been generated: {plain_otp}",
-            "dev_otp": plain_otp
-        }
+    return {"message": "A new verification code has been sent to your email."}
 
 
 # --------------------------------------------------------------------------
